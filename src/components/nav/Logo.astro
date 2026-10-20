@@ -1,0 +1,13 @@
+---
+/**
+ * Logo — terminal-style brand mark: `>_` prompt, wordmark, blinking cursor.
+ * Cursor blink is disabled under prefers-reduced-motion (a11y.css).
+ */
+import { site } from '../../config/site';
+---
+
+<a href="/" class="logo" aria-label={`${site.brand} home`}>
+  <span class="logo-prompt" aria-hidden="true">&gt;_</span>
+  <span>{site.brand}</span>
+  <span class="logo-cursor" aria-hidden="true"></span>
+</a>

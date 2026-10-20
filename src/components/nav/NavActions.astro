@@ -1,0 +1,31 @@
+---
+/**
+ * NavActions — right-hand cluster: search trigger, theme toggle,
+ * primary CTA (desktop) and the hamburger (mobile).
+ * The search trigger is CLICK-ONLY — the behavior script in
+ * Header.astro never opens panel-search on hover.
+ */
+import IconSearch from '../ui/icons/IconSearch.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import Hamburger from './Hamburger.astro';
+import Button from '../ui/Button.astro';
+import { site } from '../../config/site';
+---
+
+<div class="nav-actions">
+  <button
+    class="icon-btn search-toggle"
+    data-target="panel-search"
+    aria-expanded="false"
+    aria-controls="panel-search"
+    aria-label="Open search"
+  >
+    <IconSearch />
+  </button>
+
+  <ThemeToggle />
+
+  <Button href={site.cta.href} variant="primary" class="nav-cta">{site.cta.label}</Button>
+
+  <Hamburger />
+</div>

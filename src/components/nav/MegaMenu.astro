@@ -1,0 +1,25 @@
+---
+/**
+ * MegaMenu — the flyout container hosting every panel.
+ *
+ * Starts inert + aria-hidden; the behavior script in Header.astro flips
+ * exposure and animates `height` to the active panel's scrollHeight
+ * (kept truthful by a ResizeObserver). All panels are rendered
+ * data-driven from src/data/navigation.ts.
+ */
+import MegaPanel from './MegaPanel.astro';
+import SearchPanel from './SearchPanel.astro';
+import { navPanels } from '../../data/navigation';
+---
+
+<div
+  class="mega-menu-container"
+  id="megaMenuContainer"
+  role="region"
+  aria-label="Navigation menu"
+  aria-hidden="true"
+  inert
+>
+  {navPanels.map(({ id, cols, columns }) => <MegaPanel {id} {cols} {columns} />)}
+  <SearchPanel />
+</div>

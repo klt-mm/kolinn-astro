@@ -1,0 +1,77 @@
+---
+/**
+ * Blog index — lists both collections: news (newest first) and
+ * guides (ordered by frontmatter `order`). Drafts are excluded.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import PostCard from '../../components/PostCard.astro';
+
+const [news, guides] = await Promise.all([
+  getCollection('news', ({ data }) => !data.draft),
+  getCollection('guides', ({ data }) => !data.draft),
+]);
+
+news.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+guides.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Blog — KOLINN_NAV"
+  description="Release notes, system announcements and hands-on guides from the KOLINN Design System team. Demo content."
+>
+  <main id="main" tabindex="-1">
+    <PageHeader
+      command="$ kolinn log --stream"
+      title="Blog"
+      copy="Release notes, system announcements and hands-on guides. All content on this starter is generic demo data."
+    />
+
+    <section class="page-section" id="news" aria-labelledby="news-title">
+      <div class="container">
+        <h2 id="news-title" class="section-head">
+          <span class="section-index">01</span> News
+        </h2>
+        <div class="post-grid">
+          {
+            news.map((post) => (
+              <PostCard
+                href={`/blog/news/${post.id}`}
+                kind="news"
+                meta={post.data.category}
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                body={post.body}
+              />
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="guides" aria-labelledby="guides-title">
+      <div class="container">
+        <h2 id="guides-title" class="section-head">
+          <span class="section-index">02</span> Guides
+        </h2>
+        <div class="post-grid">
+          {
+            guides.map((post) => (
+              <PostCard
+                href={`/blog/guides/${post.id}`}
+                kind="guide"
+                meta={post.data.level}
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                body={post.body}
+              />
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

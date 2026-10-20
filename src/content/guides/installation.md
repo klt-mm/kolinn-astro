@@ -1,0 +1,61 @@
+---
+title: "Installation guide"
+description: "Stand up the KOLINN_NAV Astro starter from scratch: prerequisites, install, dev server, and production build — plus how the design tokens are wired in."
+pubDate: 2026-10-01
+level: beginner
+order: 1
+tags: [setup, astro, tooling]
+---
+
+This guide takes you from an empty directory to a running KOLINN_NAV site.
+
+## Prerequisites
+
+- **Node.js** `^18.20.8 || ^20.3.0 || >=22.0.0`
+- **npm** 9.6.5+ (pnpm and yarn work too)
+
+## 1 · Get the project
+
+```bash
+# from the starter root
+npm install
+```
+
+That's it — the behavior layer has **zero runtime dependencies**. The only
+packages are Astro itself and the two Fira font sources.
+
+## 2 · Run the dev server
+
+```bash
+npm run dev
+# → http://localhost:4321
+```
+
+Hot reload covers templates, styles and the per-component behavior scripts.
+
+## 3 · Production build
+
+```bash
+npm run build     # → dist/
+npm run preview   # serve the built site locally
+```
+
+The build inlines the small behavior modules, bundles one token-driven
+stylesheet, and self-hosts the Fira woff2 files — no third-party requests.
+
+## Where the system lives
+
+| Path                    | Role                                  |
+| ----------------------- | ------------------------------------- |
+| `src/styles/tokens/`    | primitives → semantic roles → themes  |
+| `src/styles/components/`| one stylesheet per system component   |
+| `src/data/navigation.ts`| every menu link, in one typed file    |
+| `src/content/`          | markdown for the news + guides blogs  |
+
+## Verify the install
+
+Open any page and press the theme toggle: it should cycle
+`auto → light → dark` with the monitor/sun/moon glyphs swapping. Then open a
+mega menu panel and press <kbd>Esc</kbd> — focus must return to the trigger.
+
+Next up: build your first page in the [quick start tutorial](/blog/guides/quick-start).

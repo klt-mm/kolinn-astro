@@ -1,0 +1,123 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — COMPONENT / PANEL CONTENT + STAGGER
+   Panel grids, columns, and the shared staggered reveal choreography
+   (used by both the desktop mega panels and the mobile accordion).
+   (Original style.css §9 — staggered animations, §10 — panel content.)
+   ===================================================================== */
+
+/* -- Staggered animations -- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mega-panel.is-active li,
+.mobile-accordion-inner.is-animating li {
+    animation: fadeInUp var(--kds-transition-mega) var(--kds-transition-timing) backwards;
+}
+
+.mega-panel.is-active li:nth-child(1),
+.mobile-accordion-inner.is-animating li:nth-child(1) {
+    animation-delay: calc(var(--kds-stagger-base) * 1);
+}
+
+.mega-panel.is-active li:nth-child(2),
+.mobile-accordion-inner.is-animating li:nth-child(2) {
+    animation-delay: calc(var(--kds-stagger-base) * 2);
+}
+
+.mega-panel.is-active li:nth-child(3),
+.mobile-accordion-inner.is-animating li:nth-child(3) {
+    animation-delay: calc(var(--kds-stagger-base) * 3);
+}
+
+.mega-panel.is-active li:nth-child(4),
+.mobile-accordion-inner.is-animating li:nth-child(4) {
+    animation-delay: calc(var(--kds-stagger-base) * 4);
+}
+
+.mega-panel.is-active li:nth-child(5),
+.mobile-accordion-inner.is-animating li:nth-child(5) {
+    animation-delay: calc(var(--kds-stagger-base) * 5);
+}
+
+.mega-panel.is-active li:nth-child(6),
+.mobile-accordion-inner.is-animating li:nth-child(6) {
+    animation-delay: calc(var(--kds-stagger-base) * 6);
+}
+
+.mega-panel.is-active li:nth-child(7),
+.mobile-accordion-inner.is-animating li:nth-child(7) {
+    animation-delay: calc(var(--kds-stagger-base) * 7);
+}
+
+.mega-panel.is-active li:nth-child(8),
+.mobile-accordion-inner.is-animating li:nth-child(8) {
+    animation-delay: calc(var(--kds-stagger-base) * 8);
+}
+
+/* -- Panel content -- */
+.panel-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kds-space-3);
+}
+
+.cols-2 {
+    --kds-panel-cols: 2;
+}
+
+.cols-3 {
+    --kds-panel-cols: 3;
+}
+
+@media (min-width: 1024px) {
+    .panel-grid {
+        grid-template-columns: repeat(var(--kds-panel-cols, 3), minmax(0, 1fr));
+        gap: var(--kds-space-4);
+    }
+}
+
+.panel-column h3 {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-caption-12);
+    line-height: var(--kds-lh-caption-12);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--kds-accent-subtitle);
+    margin-bottom: var(--kds-space-2);
+}
+
+.panel-column ul {
+    list-style: none;
+}
+
+.panel-column li {
+    margin-bottom: var(--kds-space-1);
+}
+
+.panel-column a {
+    font-family: var(--kds-font-sans);
+    font-size: var(--kds-small-14);
+    line-height: var(--kds-lh-small-14);
+    font-weight: 500;
+    color: var(--kds-text-body);
+    text-decoration: none;
+    display: inline-block;
+    transition: color var(--kds-transition-fast) var(--kds-transition-timing);
+}
+
+.panel-column a:hover {
+    color: var(--kds-action-primary);
+}
+
+.panel-column a:active {
+    color: var(--kds-action-hover);
+}

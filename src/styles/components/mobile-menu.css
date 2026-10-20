@@ -1,0 +1,144 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — COMPONENT / MOBILE MENU
+   Full-height sheet, terminal search field, accordion navigation.
+   (Original style.css §11 — mobile menu accordion.)
+   ===================================================================== */
+
+.mobile-menu {
+    position: fixed;
+    top: var(--kds-nav-height);
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--kds-nav-height));
+    height: calc(100dvh - var(--kds-nav-height));
+    background: var(--kds-surface-canvas);
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s var(--kds-transition-timing),
+                visibility 0.3s,
+                transform 0.3s var(--kds-transition-timing);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--kds-border-default) transparent;
+}
+
+.mobile-menu::-webkit-scrollbar {
+    width: 10px;
+}
+
+.mobile-menu::-webkit-scrollbar-thumb {
+    background: var(--kds-border-default);
+    border-radius: 8px;
+    border: 2px solid var(--kds-surface-canvas);
+}
+
+.mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.mobile-menu-content {
+    padding-block: var(--kds-space-3);
+}
+
+.mobile-search-field {
+    margin-bottom: var(--kds-space-4);
+    background: var(--kds-surface-raised);
+}
+
+.mobile-accordion {
+    border-bottom: 1px solid var(--kds-border-default);
+}
+
+.mobile-accordion-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--kds-space-2) 0;
+    background: none;
+    border: none;
+    color: var(--kds-text-primary);
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-title-20);
+    line-height: var(--kds-lh-title-20);
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: color var(--kds-transition-base);
+    min-height: 48px;
+}
+
+.mobile-accordion-header:hover {
+    color: var(--kds-action-primary);
+}
+
+.mobile-accordion-header .chevron {
+    width: 20px;
+    height: 20px;
+    color: var(--kds-text-muted);
+    transition: transform 0.3s var(--kds-transition-timing),
+                color 0.3s;
+}
+
+.mobile-accordion-header[aria-expanded="true"] .chevron {
+    transform: rotate(180deg);
+    color: var(--kds-action-primary);
+}
+
+.mobile-accordion-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: grid-template-rows 0.35s var(--kds-transition-timing),
+                visibility 0s linear 0.35s;
+}
+
+.mobile-accordion-header[aria-expanded="true"] + .mobile-accordion-content {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition: grid-template-rows 0.35s var(--kds-transition-timing),
+                visibility 0s;
+}
+
+.mobile-accordion-inner {
+    overflow: hidden;
+}
+
+.mobile-accordion-inner ul {
+    list-style: none;
+    padding-bottom: var(--kds-space-2);
+}
+
+.mobile-accordion-inner li {
+    margin-bottom: var(--kds-space-1);
+}
+
+.mobile-accordion-inner a {
+    font-family: var(--kds-font-sans);
+    font-size: var(--kds-body-16);
+    line-height: var(--kds-lh-body-16);
+    font-weight: 400;
+    color: var(--kds-text-muted);
+    text-decoration: none;
+    display: block;
+    padding: var(--kds-space-half) 0;
+    transition: color var(--kds-transition-base);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+.mobile-accordion-inner a:hover {
+    color: var(--kds-action-primary);
+}
+
+.mobile-cta {
+    width: 100%;
+    margin-top: var(--kds-space-4);
+    padding: var(--kds-space-2);
+}

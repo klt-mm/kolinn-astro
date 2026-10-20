@@ -1,0 +1,22 @@
+# KOLINN_NAV
+> A terminal-inspired, high-performance design system and navigation framework built with Astro.
+
+## Core System
+- [Architecture](/docs/ARCHITECTURE.md): Technical overview of the SSG approach and component hierarchy.
+- [Design Tokens](/docs/DESIGN_TOKENS.md): Detailed specification of the Nord-based token system (Primitives, Semantic, Themes).
+- [Accessibility](/docs/ACCESSIBILITY.md): a11y implementation details including motion comfort and keyboard navigation.
+- [Performance](/docs/PERFORMANCE.md): Optimization strategies for LCP, CLS, and FID.
+
+## Documentation & Guides
+- [Installation Guide](/blog/guides/installation): Step-by-step setup for the framework.
+- [Quick Start](/blog/guides/quick-start): Rapid deployment tutorial.
+- [Theming & Tokens](/blog/guides/theming-and-tokens): How to extend and customize the visual language.
+
+## Showcase
+- [Projects](/projects): Engineering case studies demonstrating the system in production.
+- [Blog](/blog): Release notes and system announcements.
+
+## Contact & Legal
+- [Contact](/contact): Transmission channels for operations and press.
+- [Privacy Policy](/legal/privacy-policy): Data handling and privacy standards.
+- [Terms of Service](/legal/terms-of-service): Usage agreements.

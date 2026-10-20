@@ -1,0 +1,18 @@
+# Security Headers for KOLINN_NAV
+# Applied to all routes
+
+/*
+  Strict-Transport-Security: Forces HTTPS for 1 year.
+  X-Frame-Options: Prevents clickjacking.
+  X-Content-Type-Options: Prevents MIME sniffing.
+  Referrer-Policy: Controls how much referrer info is sent.
+  Permissions-Policy: Disables unused browser features for security.
+*/
+
+/
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://images.unsplash.com; font-src 'self' data:; connect-src 'self';

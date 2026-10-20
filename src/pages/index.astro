@@ -1,0 +1,98 @@
+---
+/**
+ * Home — KOLINN_NAV demo page.
+ * Mirrors the original index.html main content: hero + featured grid.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import FeaturedSection from '../components/sections/FeaturedSection.astro';
+import { getCollection } from 'astro:content';
+import Button from '../components/ui/Button.astro';
+
+const latestProjects = (await getCollection('projects')).slice(0, 3);
+---
+
+<BaseLayout>
+  <main id="main" tabindex="-1">
+    <Hero />
+    
+    <section class="page-section" id="projects-preview">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-head">Featured Engineering</h2>
+          <p class="section-copy">Recent implementations focusing on performance and design scalability.</p>
+        </div>
+        <div class="project-preview-grid">
+          {latestProjects.map(project => (
+            <div class="project-preview-card">
+              <h3>{project.data.title}</h3>
+              <p>{project.data.description}</p>
+              <Button href={`/projects/${project.id}`} variant="primary">View Case Study</Button>
+            </div>
+          ))}
+        </div>
+        <div class="section-footer">
+          <Button href="/projects" variant="primary">Browse All Projects</Button>
+        </div>
+      </div>
+    </section>
+
+    <FeaturedSection />
+  </main>
+</BaseLayout>
+
+<style>
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--kds-space-6);
+  }
+
+  .section-copy {
+    color: var(--kds-text-muted);
+    font-size: var(--kds-body-16);
+    max-width: 40rem;
+    margin: var(--kds-space-2) auto 0;
+  }
+
+  .project-preview-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--kds-space-4);
+    margin-bottom: var(--kds-space-8);
+  }
+
+  @media (min-width: 768px) {
+    .project-preview-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .project-preview-card {
+    background: var(--kds-surface-raised);
+    border: 1px solid var(--kds-border-default);
+    border-radius: var(--kds-radius-md);
+    padding: var(--kds-space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-space-3);
+  }
+
+  .project-preview-card h3 {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-title-20);
+    color: var(--kds-text-primary);
+    margin: 0;
+  }
+
+  .project-preview-card p {
+    font-size: var(--kds-small-14);
+    line-height: var(--kds-lh-small-14);
+    color: var(--kds-text-muted);
+    flex: 1;
+  }
+
+  .section-footer {
+    display: flex;
+    justify-content: center;
+  }
+</style>

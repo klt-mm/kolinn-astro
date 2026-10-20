@@ -1,0 +1,34 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — TOKENS / SEMANTIC LAYER
+   Role mappings. Components reference ONLY these roles; themes swap the
+   primitives underneath. Co-equal dark & light: nothing here is
+   theme-specific except the translucent chrome values, which are
+   overridden in themes.css.
+   ===================================================================== */
+
+:root {
+    /* Semantic layer */
+    --kds-surface-canvas: var(--kds-polar-0);
+    --kds-surface-raised: var(--kds-polar-1);
+    --kds-surface-hover: var(--kds-polar-2);
+    --kds-border-default: var(--kds-polar-3);
+    --kds-text-primary: var(--kds-snow-2);
+    --kds-text-body: var(--kds-snow-1);
+    --kds-text-muted: var(--kds-snow-0);
+    --kds-accent-subtitle: var(--kds-frost-0);
+    --kds-action-primary: var(--kds-frost-1);
+    --kds-action-hover: var(--kds-frost-2);
+    --kds-action-active: var(--kds-frost-3);
+    --kds-focus-ring: var(--kds-frost-2);
+    --kds-on-action: #eceff4;
+    --kds-status-error: var(--kds-aurora-red);
+    --kds-status-warning: var(--kds-aurora-yellow);
+    --kds-status-success: var(--kds-aurora-green);
+    --kds-status-special: var(--kds-aurora-purple);
+
+    /* Translucent chrome */
+    --kds-nav-bg: rgba(236, 239, 244, 0.72);
+    --kds-dropdown-bg: rgba(229, 233, 240, 0.85);
+    --kds-curtain-bg: rgba(236, 239, 244, 0.45);
+    --kds-dropdown-shadow: 0 20px 40px rgba(46, 52, 64, 0.14);
+}

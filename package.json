@@ -1,0 +1,28 @@
+{
+  "name": "kolinn-nav-astro",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "KOLINN_NAV — terminal-inspired mega menu, migrated to a component-based Astro starter on the KOLINN Design System (Nord tokens, Fira typefaces, 8px rhythm).",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/fira-code": "^5.3.0",
+    "@fontsource/fira-sans": "^5.3.0",
+    "astro": "^5.18.2"
+  },
+  "engines": {
+    "node": "^18.20.8 || ^20.3.0 || >=22.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.11",
+    "typescript": "^5.9.3"
+  }
+}

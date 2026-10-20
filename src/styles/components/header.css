@@ -1,0 +1,107 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — COMPONENT / HEADER
+   Structural header: nav shell, logo, desktop nav links.
+   (Original style.css §5 — navbar.)
+   ===================================================================== */
+
+.global-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--kds-nav-height);
+    background: var(--kds-nav-bg);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--kds-border-default);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    transition: background var(--kds-transition-mega) var(--kds-transition-timing);
+}
+
+.nav-content {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--kds-space-1);
+}
+
+.desktop-nav {
+    display: flex;
+    gap: var(--kds-space-half);
+    list-style: none;
+    height: 100%;
+}
+
+.nav-item {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-small-14);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--kds-text-primary);
+    text-decoration: none;
+    padding-block: var(--kds-space-1);
+    border-radius: var(--kds-radius-sm);
+}
+
+.logo-prompt {
+    color: var(--kds-action-primary);
+    font-weight: 600;
+}
+
+.logo-cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 1.1em;
+    background: var(--kds-accent-subtitle);
+    translate: 0 0.12em;
+    animation: cursor-blink 1.2s steps(1) infinite;
+}
+
+@keyframes cursor-blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.nav-link {
+    background: none;
+    border: none;
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-small-14);
+    line-height: var(--kds-lh-small-14);
+    font-weight: 500;
+    color: var(--kds-text-body);
+    padding: 0 var(--kds-space-1);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    outline-offset: -4px;
+    transition: color var(--kds-transition-base) var(--kds-transition-timing);
+}
+
+.nav-link:hover {
+    color: var(--kds-text-primary);
+}
+
+.nav-link:active {
+    color: var(--kds-action-hover);
+}
+
+.nav-link:focus-visible,
+.nav-link.is-active {
+    color: var(--kds-action-primary);
+}

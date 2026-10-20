@@ -1,0 +1,52 @@
+---
+/**
+ * ThemeToggle — cycles auto → light → dark → auto.
+ * Icon visibility is pure CSS driven by [data-theme] on <html>
+ * (see nav-actions.css). The pre-paint boot script lives in
+ * BaseLayout.astro; cycling + persistence live below.
+ */
+import IconMonitor from '../ui/icons/IconMonitor.astro';
+import IconSun from '../ui/icons/IconSun.astro';
+import IconMoon from '../ui/icons/IconMoon.astro';
+---
+
+<button class="icon-btn" id="themeToggle" aria-label="Switch to light theme">
+  <IconMonitor class="icon-auto" />
+  <IconSun class="icon-sun" />
+  <IconMoon class="icon-moon" />
+</button>
+
+<script>
+  /* KOLINN_NAV behavior — theme management (script.js §1).
+     data-theme is already set pre-paint by the inline boot script in
+     BaseLayout; this module owns the cycle, ARIA label and persistence. */
+  const THEME_CYCLE: Record<string, string> = { auto: 'light', light: 'dark', dark: 'auto' };
+  const THEME_LABELS: Record<string, string> = {
+    auto: 'Switch to light theme',
+    light: 'Switch to dark theme',
+    dark: 'Use system theme',
+  };
+
+  const themeToggle = document.getElementById('themeToggle');
+
+  if (themeToggle) {
+    const applyTheme = (theme: string) => {
+      document.documentElement.setAttribute('data-theme', theme);
+      themeToggle.setAttribute('aria-label', THEME_LABELS[theme] || THEME_LABELS.auto);
+    };
+
+    const bootTheme = document.documentElement.getAttribute('data-theme') as string | null;
+    applyTheme(['dark', 'light', 'auto'].includes(bootTheme as string) ? (bootTheme as string) : 'auto');
+
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') as string;
+      const next = THEME_CYCLE[current] || 'light';
+      applyTheme(next);
+      try {
+        localStorage.setItem('theme', next);
+      } catch {
+        /* storage unavailable */
+      }
+    });
+  }
+</script>

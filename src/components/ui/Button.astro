@@ -1,0 +1,32 @@
+---
+/**
+ * Button — KOLINN Design System primitive (`.btn`).
+ * Renders an <a> when `href` is given, otherwise a <button>.
+ * Contextual classes (e.g. `nav-cta`, `mobile-cta`) are passed via
+ * the `class` prop and merged after the system classes.
+ */
+interface Props {
+  /** Link target — switches the root element to <a>. */
+  href?: string;
+  /** Visual variant. Only `primary` exists in KDS v1.0.0. */
+  variant?: 'primary';
+  /** Button type when rendering a <button>. */
+  type?: 'button' | 'submit' | 'reset';
+  /** Extra classes merged onto the root element. */
+  class?: string;
+}
+
+const { href, variant = 'primary', type = 'button', class: className } = Astro.props;
+---
+
+{
+  href ? (
+    <a href={href} class:list={['btn', `btn-${variant}`, className]}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class:list={['btn', `btn-${variant}`, className]}>
+      <slot />
+    </button>
+  )
+}

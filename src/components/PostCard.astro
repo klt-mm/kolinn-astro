@@ -1,0 +1,38 @@
+---
+/**
+ * PostCard — blog listing card: kind chip (news/guide colored),
+ * date, mono title link, teaser and a reading-time footer.
+ * Same raised-surface + hover-lift language as FeaturedCard.
+ */
+import { formatDate, readingTime } from '../utils/posts';
+
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  pubDate: Date;
+  /** Drives the chip color: news → frost, guide → aurora green. */
+  kind: 'news' | 'guide';
+  /** Chip label — category for news, level for guides. */
+  meta?: string;
+  /** Raw markdown source, used for the reading-time estimate. */
+  body?: string;
+}
+
+const { href, title, description, pubDate, kind, meta, body } = Astro.props;
+---
+
+<article class="post-card">
+  <p class="post-card-top">
+    <span class:list={['post-kind', `post-kind--${kind}`]}>{meta ?? kind}</span>
+    <time class="post-date" datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+  </p>
+  <h3 class="post-card-title">
+    <a href={href} class="post-card-link">{title}</a>
+  </h3>
+  <p class="post-card-desc">{description}</p>
+  <p class="post-card-foot">
+    <span>{readingTime(body)}</span>
+    <span class="post-card-go" aria-hidden="true">&gt;_</span>
+  </p>
+</article>

@@ -1,0 +1,50 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — GLOBAL ENTRY
+   Single import for BaseLayout. The @import order mirrors the original
+   monolithic style.css section order (1 → 15) so the cascade resolves
+   exactly as before:
+
+     §1  tokens   → tokens/primitives + tokens/semantic + tokens/themes
+     §2  base     → base.css (+ sr-only / skip-link in utilities.css)
+     §3  shimmer  → utilities.css
+     §4  buttons  → components/button.css
+     §5  navbar   → components/header.css
+     §6  actions  → components/nav-actions.css
+     §7  mega     → components/mega-menu.css
+     §8  search   → components/search.css
+     §9+§10 panel → components/panel.css
+     §11 mobile   → components/mobile-menu.css
+     §12 hero/badge/featured → components/{badge,hero,featured}.css
+     §13 footer   → components/footer.css
+     (extension)  → components/{page,post,form}.css — interior pages,
+                    blog templates and the demo contact form; additive
+                    selectors only, so they slot in before the system
+                    contracts below.
+     §14 media    → responsive.css
+     §15 a11y     → a11y.css (must stay last)
+   ===================================================================== */
+
+@import "./tokens/primitives.css";
+@import "./tokens/semantic.css";
+@import "./tokens/themes.css";
+
+@import "./base.css";
+@import "./utilities.css";
+
+@import "./components/button.css";
+@import "./components/header.css";
+@import "./components/nav-actions.css";
+@import "./components/mega-menu.css";
+@import "./components/search.css";
+@import "./components/panel.css";
+@import "./components/mobile-menu.css";
+@import "./components/badge.css";
+@import "./components/hero.css";
+@import "./components/featured.css";
+@import "./components/footer.css";
+@import "./components/page.css";
+@import "./components/post.css";
+@import "./components/form.css";
+
+@import "./responsive.css";
+@import "./a11y.css";

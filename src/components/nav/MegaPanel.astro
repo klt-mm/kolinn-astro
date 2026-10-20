@@ -1,0 +1,39 @@
+---
+/**
+ * MegaPanel — one flyout panel: a container-width grid of link columns.
+ * `cols` drives the ≥1024px grid via the --kds-panel-cols custom property
+ * (panel.css); below that, panels fall back to two columns.
+ */
+import type { NavColumn } from '../../data/navigation';
+
+interface Props {
+  /** Panel id — matches a trigger's data-target / aria-controls. */
+  id: string;
+  /** Grid span at ≥1024px. */
+  cols?: 2 | 3;
+  columns: NavColumn[];
+}
+
+const { id, cols = 3, columns } = Astro.props;
+---
+
+<div class="mega-panel" {id} role="menu">
+  <div class="container">
+    <div class:list={['panel-grid', `cols-${cols}`]}>
+      {
+        columns.map((column) => (
+          <div class="panel-column">
+            <h3>{column.title}</h3>
+            <ul>
+              {column.links.map((link) => (
+                <li>
+                  <a href={link.href}>{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>

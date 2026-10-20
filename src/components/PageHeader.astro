@@ -1,0 +1,24 @@
+---
+/**
+ * PageHeader — terminal-style opener for interior pages: a fake
+ * command line, mono display title and a muted lede. Reuses the
+ * `.hero-command` type treatment from the home hero.
+ */
+interface Props {
+  /** Fake terminal line shown above the title, e.g. "$ kolinn whoami". */
+  command?: string;
+  title: string;
+  /** Optional lede paragraph. */
+  copy?: string;
+}
+
+const { command, title, copy } = Astro.props;
+---
+
+<section class="page-hero">
+  <div class="container">
+    {command && <p class="hero-command">{command} <span aria-hidden="true">█</span></p>}
+    <h1 class="page-title">{title}</h1>
+    {copy && <p class="page-copy">{copy}</p>}
+  </div>
+</section>

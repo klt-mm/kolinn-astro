@@ -1,0 +1,78 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — COMPONENT / PROJECTS
+   Project showcase pages.
+   ===================================================================== */
+
+.project-header {
+    margin-bottom: var(--kds-space-6);
+}
+
+.project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kds-space-3);
+    align-items: center;
+    margin-bottom: var(--kds-space-6);
+}
+
+.project-link {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-space-1);
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-small-14);
+    color: var(--kds-text-primary);
+    text-decoration: none;
+    padding: var(--kds-space-1) var(--kds-space-2);
+    background: var(--kds-surface-raised);
+    border: 1px solid var(--kds-border-default);
+    border-radius: var(--kds-radius-sm);
+    transition: all var(--kds-transition-base) var(--kds-transition-timing);
+}
+
+.project-link:hover {
+    border-color: var(--kds-action-primary);
+    color: var(--kds-action-primary);
+    transform: translateY(-1px);
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kds-space-2);
+    margin-bottom: var(--kds-space-6);
+}
+
+.tech-badge {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-caption-12);
+    background: var(--kds-surface-hover);
+    color: var(--kds-text-body);
+    padding: 2px 8px;
+    border-radius: var(--kds-radius-full);
+    border: 1px solid var(--kds-border-default);
+}
+
+.project-body {
+    line-height: var(--kds-lh-body-16);
+    color: var(--kds-text-body);
+    font-size: var(--kds-body-16);
+}
+
+.project-body h2 {
+    font-size: var(--kds-heading-24);
+    color: var(--kds-text-primary);
+    margin: var(--kds-space-6) 0 var(--kds-space-3);
+}
+
+.project-body p {
+    margin-bottom: var(--kds-space-4);
+}
+
+.project-image {
+    width: 100%;
+    border-radius: var(--kds-radius-lg);
+    border: 1px solid var(--kds-border-default);
+    margin-bottom: var(--kds-space-6);
+    background: var(--kds-surface-raised);
+}

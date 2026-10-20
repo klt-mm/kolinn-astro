@@ -1,0 +1,103 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Button from '../../components/ui/Button.astro';
+import '../../styles/components/projects.css';
+
+const projects = await getCollection('projects');
+---
+
+<BaseLayout
+  title="Projects — KOLINN_NAV"
+  description="A showcase of high-performance engineering and design system implementations."
+>
+  <main id="main" tabindex="-1">
+    <PageHeader
+      command="$ kolinn list --projects"
+      title="Projects"
+      copy="Exploring the intersection of performance, accessibility, and design engineering."
+    />
+
+    <section class="page-section">
+      <div class="container">
+        <div class="project-grid">
+          {projects.map(project => (
+            <article class="project-card">
+              <div class="project-card-header">
+                <h3>{project.data.title}</h3>
+                <div class="project-card-tech">
+                  {project.data.techStack.map(tech => (
+                    <span class="tech-badge">{tech}</span>
+                  ))}
+                </div>
+              </div>
+              <p>{project.data.description}</p>
+              <Button href={`/projects/${project.id}`} variant="primary">View Project</Button>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--kds-space-4);
+  }
+
+  @media (min-width: 768px) {
+    .project-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .project-card {
+    background: var(--kds-surface-raised);
+    border: 1px solid var(--kds-border-default);
+    border-radius: var(--kds-radius-md);
+    padding: var(--kds-space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-space-3);
+    transition: transform var(--kds-transition-base) var(--kds-transition-timing),
+                border-color var(--kds-transition-base) var(--kds-transition-timing);
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--kds-action-primary);
+  }
+
+  .project-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--kds-space-2);
+  }
+
+  .project-card-header h3 {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-title-20);
+    color: var(--kds-text-primary);
+    margin: 0;
+  }
+
+  .project-card-tech {
+    display: flex;
+    gap: var(--kds-space-1);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .project-card p {
+    font-size: var(--kds-small-14);
+    line-height: var(--kds-lh-small-14);
+    color: var(--kds-text-muted);
+    margin-bottom: var(--kds-space-3);
+    flex: 1;
+  }
+</style>

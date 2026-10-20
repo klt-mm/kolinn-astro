@@ -1,0 +1,85 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — TOKENS / PRIMITIVES
+   Raw, theme-agnostic values. Nord Light is the default palette; the
+   dark + auto themes in themes.css redefine these same primitive names,
+   so the semantic layer never changes.
+   ===================================================================== */
+
+:root {
+    color-scheme: light dark;
+
+    /* Primitives — Nord Light */
+    --kds-polar-0: #eceff4;
+    --kds-polar-1: #e5e9f0;
+    --kds-polar-2: #d8dee9;
+    --kds-polar-3: #c5cbd3;
+    --kds-snow-0: #4c566a;
+    --kds-snow-1: #3b4252;
+    --kds-snow-2: #2e3440;
+    --kds-frost-0: #3f7a78;
+    --kds-frost-1: #1f6f8b;
+    --kds-frost-2: #2c5178;
+    --kds-frost-3: #2e436e;
+    --kds-aurora-red: #a2333d;
+    --kds-aurora-orange: #a04d2b;
+    --kds-aurora-yellow: #8f6e00;
+    --kds-aurora-green: #4f7e44;
+    --kds-aurora-purple: #7a4d8a;
+
+    /* Typography */
+    --kds-font-mono: "Fira Code Variable", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --kds-font-sans: "Fira Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    /* Type scale */
+    --kds-caption-12: 0.75rem;
+    --kds-lh-caption-12: 1.0625rem;
+    --kds-small-14: 0.875rem;
+    --kds-lh-small-14: 1.3125rem;
+    --kds-body-16: 1rem;
+    --kds-lh-body-16: 1.5625rem;
+    --kds-title-20: 1.25rem;
+    --kds-lh-title-20: 1.625rem;
+    --kds-heading-24: 1.5rem;
+    --kds-lh-heading-24: 1.875rem;
+    --kds-heading-32: 2rem;
+    --kds-lh-heading-32: 2.375rem;
+    --kds-heading-48: 3rem;
+    --kds-lh-heading-48: 3.3125rem;
+    --kds-display-64: 4rem;
+    --kds-lh-display-64: 4.1875rem;
+
+    /* Spacing — 8px rhythm */
+    --kds-space-half: 4px;
+    --kds-space-1: 8px;
+    --kds-space-2: 16px;
+    --kds-space-3: 24px;
+    --kds-space-4: 32px;
+    --kds-space-6: 48px;
+    --kds-space-8: 64px;
+    --kds-space-10: 80px;
+
+    /* Layout */
+    --kds-container-max: 90rem;
+    --kds-gutter: clamp(8px, 2.5vw, 32px);
+    --kds-nav-height: 48px;
+
+    /* Radii */
+    --kds-radius-sm: 6px;
+    --kds-radius-md: 10px;
+    --kds-radius-lg: 14px;
+    --kds-radius-full: 9999px;
+
+    /* Motion */
+    --kds-transition-fast: 0.15s;
+    --kds-transition-base: 0.25s;
+    --kds-transition-slow: 0.38s;
+    --kds-transition-mega: 0.4s;
+    --kds-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+    --kds-stagger-base: 0.04s;
+
+    /* Shadows */
+    --kds-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --kds-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --kds-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --kds-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+}

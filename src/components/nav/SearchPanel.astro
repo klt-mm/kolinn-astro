@@ -1,0 +1,31 @@
+---
+/**
+ * SearchPanel — the click-only flyout: terminal command bar, helper
+ * hint and static quick links. role="search" landmark, same as the
+ * original. Escape dismissal is handled by the Header behavior script.
+ */
+import SearchField from '../ui/SearchField.astro';
+import { searchSuggestions } from '../../data/navigation';
+---
+
+<div class="mega-panel" id="panel-search" role="search" aria-label="Site search">
+  <div class="container">
+    <div class="search-container">
+      <SearchField id="desktopSearchInput" />
+      <p class="search-helper">type to search · esc to dismiss</p>
+
+      <div class="search-suggestions">
+        <h3>{searchSuggestions.title}</h3>
+        <ul>
+          {
+            searchSuggestions.links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

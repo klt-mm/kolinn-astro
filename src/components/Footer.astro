@@ -1,0 +1,37 @@
+---
+/**
+ * Footer — system footer (role="contentinfo"): brand mark, nav echo
+ * and the console manifest strip (version · updated · channel).
+ */
+import { footerLinks } from '../data/navigation';
+import { site } from '../config/site';
+---
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="footer-brand-link" aria-label={`${site.brand} home`}>
+        <span aria-hidden="true">&gt;_</span>
+        <span>{site.brand}</span>
+      </a>
+    </div>
+    <nav aria-label="Footer navigation">
+      <ul class="footer-links">
+        {
+          footerLinks.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="footer-meta">
+      <span>console {site.version}</span>
+      <span aria-hidden="true">·</span>
+      <span>updated {site.updated}</span>
+      <span aria-hidden="true">·</span>
+      <span>{site.channel}</span>
+    </div>
+  </div>
+</footer>

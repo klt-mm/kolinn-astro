@@ -1,0 +1,28 @@
+---
+/**
+ * DesktopNav — trigger row for the mega menu.
+ * Triggers are honest buttons: aria-expanded/aria-controls are kept in
+ * sync with panel state by the mega-menu behavior script in Header.astro.
+ */
+import { navPanels } from '../../data/navigation';
+---
+
+<nav aria-label="Main navigation">
+  <ul class="desktop-nav">
+    {
+      navPanels.map((panel) => (
+        <li class="nav-item">
+          <button
+            class="nav-link"
+            data-target={panel.id}
+            aria-expanded="false"
+            aria-controls={panel.id}
+            aria-haspopup="true"
+          >
+            {panel.label}
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

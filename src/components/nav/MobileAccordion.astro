@@ -1,0 +1,38 @@
+---
+/**
+ * MobileAccordion — single disclosure row in the mobile sheet.
+ * Open/close is CSS-driven off [aria-expanded] using the
+ * grid-template-rows 0fr→1fr technique (mobile-menu.css); the
+ * sheet script (MobileMenu.astro) keeps it single-open and replays
+ * the staggered list reveal via .is-animating.
+ */
+import IconChevron from '../ui/icons/IconChevron.astro';
+import type { NavLink } from '../../data/navigation';
+
+interface Props {
+  label: string;
+  links: NavLink[];
+}
+
+const { label, links } = Astro.props;
+---
+
+<div class="mobile-accordion">
+  <button class="mobile-accordion-header" aria-expanded="false">
+    <span>{label}</span>
+    <IconChevron class="chevron" />
+  </button>
+  <div class="mobile-accordion-content">
+    <div class="mobile-accordion-inner">
+      <ul>
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</div>

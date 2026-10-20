@@ -1,0 +1,101 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — COMPONENT / SEARCH
+   Terminal-style command bar ($ prompt), helper text, suggestions.
+   (Original style.css §8 — search command bar.)
+   ===================================================================== */
+
+.search-container {
+    max-width: 40rem;
+}
+
+.search-field {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-space-1);
+    background: var(--kds-surface-canvas);
+    border: 1px solid var(--kds-border-default);
+    border-radius: var(--kds-radius-md);
+    padding: var(--kds-space-half) var(--kds-space-2);
+    transition: border-color var(--kds-transition-base) var(--kds-transition-timing),
+                box-shadow var(--kds-transition-base) var(--kds-transition-timing);
+}
+
+.search-field:focus-within {
+    border-color: var(--kds-focus-ring);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--kds-focus-ring) 22%, transparent);
+}
+
+.search-field[data-invalid="true"] {
+    border-color: var(--kds-status-error);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--kds-status-error) 18%, transparent);
+}
+
+.search-prompt {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-body-16);
+    font-weight: 600;
+    color: var(--kds-action-primary);
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: var(--kds-space-1) 0;
+    font-family: var(--kds-font-mono);
+    color: var(--kds-text-primary);
+    font-size: 1rem;
+    font-size: max(1rem, 16px);
+}
+
+.search-input::placeholder {
+    color: var(--kds-text-muted);
+}
+
+.search-helper {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-caption-12);
+    line-height: var(--kds-lh-caption-12);
+    letter-spacing: 0.04em;
+    color: var(--kds-text-muted);
+    margin-top: var(--kds-space-1);
+}
+
+.search-suggestions {
+    margin-top: var(--kds-space-3);
+}
+
+.search-suggestions h3 {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-caption-12);
+    line-height: var(--kds-lh-caption-12);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--kds-accent-subtitle);
+    margin-bottom: var(--kds-space-2);
+}
+
+.search-suggestions ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kds-space-1) var(--kds-space-3);
+}
+
+.search-suggestions a {
+    font-family: var(--kds-font-sans);
+    font-size: var(--kds-small-14);
+    font-weight: 500;
+    color: var(--kds-text-body);
+    text-decoration: none;
+    transition: color var(--kds-transition-fast) var(--kds-transition-timing);
+}
+
+.search-suggestions a:hover {
+    color: var(--kds-action-primary);
+}

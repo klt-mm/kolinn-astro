@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="System Headers — KOLINN_NAV" description="Technical specification of HTTP response headers.">
+  <main id="main" class="container">
+    <header style="margin-bottom: var(--kds-space-6);">
+      <h1 style="font-family: var(--kds-font-mono); font-size: var(--kds-heading-32); color: var(--kds-text-primary);">HTTP Header Specification</h1>
+      <p style="color: var(--kds-text-muted);">Technical manifest of the response headers delivered by the Cloudflare Edge.</p>
+    </header>
+
+    <div class="header-manifest">
+      <div class="header-entry">
+        <span class="header-name">Strict-Transport-Security</span>
+        <code class="header-value">max-age=31536000; includeSubDomains; preload</code>
+        <p class="header-desc">Ensures all communication is encrypted via HTTPS for one year.</p>
+      </div>
+
+      <div class="header-entry">
+        <span class="header-name">X-Frame-Options</span>
+        <code class="header-value">DENY</code>
+        <p class="header-desc">Prevents the site from being embedded in iframes to stop clickjacking attacks.</p>
+      </div>
+
+      <div class="header-entry">
+        <span class="header-name">X-Content-Type-Options</span>
+        <code class="header-value">nosniff</code>
+        <p class="header-desc">Forces the browser to adhere to the MIME types sent in the Content-Type header.</p>
+      </div>
+
+      <div class="header-entry">
+        <span class="header-name">Referrer-Policy</span>
+        <code class="header-value">strict-origin-when-cross-origin</code>
+        <p class="header-desc">Sends full URL on same-origin requests, only origin on cross-origin HTTPS requests.</p>
+      </div>
+
+      <div class="header-entry">
+        <span class="header-name">Permissions-Policy</span>
+        <code class="header-value">camera=(), microphone=(), geolocation=(), interest-cohort=()</code>
+        <p class="header-desc">Explicitly disables access to sensitive hardware and FLoC tracking.</p>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .header-manifest {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-space-4);
+  }
+
+  .header-entry {
+    background: var(--kds-surface-raised);
+    border: 1px solid var(--kds-border-default);
+    border-radius: var(--kds-radius-md);
+    padding: var(--kds-space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-space-1);
+  }
+
+  .header-name {
+    font-family: var(--kds-font-mono);
+    font-weight: 600;
+    font-size: var(--kds-small-14);
+    color: var(--kds-action-primary);
+  }
+
+  .header-value {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-caption-12);
+    background: var(--kds-surface-hover);
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: var(--kds-text-primary);
+    word-break: break-all;
+  }
+
+  .header-desc {
+    font-size: var(--kds-small-14);
+    color: var(--kds-text-muted);
+    margin: 0;
+  }
+</style>

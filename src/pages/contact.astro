@@ -1,0 +1,72 @@
+---
+/**
+ * Contact — demo transmission form + direct channels.
+ * Form behavior is simulated client-side (see ContactForm.astro);
+ * nothing is sent anywhere.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Badge from '../components/ui/Badge.astro';
+import { site } from '../config/site';
+---
+
+<BaseLayout
+  title="Contact — KOLINN_NAV"
+  description="Transmit a message to the KOLINN team. Demo form — nothing leaves your browser."
+>
+  <main id="main" tabindex="-1">
+    <PageHeader
+      command="$ kolinn hail --ops"
+      title="Contact"
+      copy="Questions, feedback, speaking requests — transmit a message below. This is a demo form: nothing leaves your browser."
+    />
+
+    <section class="page-section" aria-labelledby="contact-form-title">
+      <div class="container">
+        <h2 id="contact-form-title" class="sr-only">Contact form</h2>
+        <div class="contact-grid">
+          <ContactForm />
+
+          <aside class="contact-aside" aria-label="Direct channels">
+            <div class="contact-card">
+              <h2>Operations</h2>
+              <a href="mailto:ops@kolinn.demo">ops@kolinn.demo</a>
+              <p>General questions and demo feedback.</p>
+            </div>
+            <div class="contact-card">
+              <h2>Press</h2>
+              <a href="mailto:press@kolinn.demo">press@kolinn.demo</a>
+              <p>Media kits and interview requests.</p>
+            </div>
+            <div class="contact-card">
+              <h2>System status</h2>
+              <Badge pulsing>All systems nominal</Badge>
+              <p>console {site.version} · updated {site.updated} · {site.channel}</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  const initContactSpotlight = () => {
+    const cards = document.querySelectorAll('.contact-card');
+    
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+  };
+
+  initContactSpotlight();
+  document.addEventListener('astro:after-swap', initContactSpotlight);
+</script>

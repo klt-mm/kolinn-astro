@@ -1,0 +1,208 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — COMPONENT / FORMS + CONTACT
+   Field styling mirrors the search command bar: canvas surface,
+   default border, focus-ring halo, and the same error treatment as
+   .search-field[data-invalid="true"].
+   ===================================================================== */
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--kds-space-4);
+    align-items: start;
+}
+
+@media (min-width: 1024px) {
+    .contact-grid {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+        gap: var(--kds-space-6);
+    }
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-space-3);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-space-half);
+}
+
+.field-label {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-caption-12);
+    line-height: var(--kds-lh-caption-12);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--kds-accent-subtitle);
+}
+
+.field-control {
+    width: 100%;
+    background: var(--kds-surface-canvas);
+    border: 1px solid var(--kds-border-default);
+    border-radius: var(--kds-radius-md);
+    padding: 12px var(--kds-space-2);
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-small-14);
+    line-height: var(--kds-lh-small-14);
+    color: var(--kds-text-primary);
+    transition: border-color var(--kds-transition-base) var(--kds-transition-timing),
+                box-shadow var(--kds-transition-base) var(--kds-transition-timing);
+}
+
+.field-control::placeholder {
+    color: var(--kds-text-muted);
+}
+
+.field-control:focus-visible {
+    outline: none;
+    border-color: var(--kds-focus-ring);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--kds-focus-ring) 22%, transparent);
+}
+
+textarea.field-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.field[data-invalid="true"] .field-control {
+    border-color: var(--kds-status-error);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--kds-status-error) 18%, transparent);
+}
+
+.field-error {
+    display: none;
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-caption-12);
+    line-height: var(--kds-lh-caption-12);
+    letter-spacing: 0.04em;
+    color: var(--kds-status-error);
+}
+
+.field[data-invalid="true"] .field-error {
+    display: block;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-space-2);
+    flex-wrap: wrap;
+}
+
+.form-submit {
+    padding: 12px var(--kds-space-3);
+}
+
+.form-hint {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-caption-12);
+    line-height: var(--kds-lh-caption-12);
+    letter-spacing: 0.04em;
+    color: var(--kds-text-muted);
+}
+
+.form-status {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-small-14);
+    line-height: var(--kds-lh-small-14);
+    color: var(--kds-status-success);
+    min-height: var(--kds-lh-small-14);
+}
+
+.form-status[data-error="true"] {
+    color: var(--kds-status-error);
+}
+
+/* -- Contact aside cards -- */
+.contact-aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-space-2);
+}
+
+.contact-card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-space-1);
+    background: var(--kds-surface-raised);
+    border: 1px solid var(--kds-border-default);
+    border-radius: var(--kds-radius-md);
+    padding: var(--kds-space-3);
+    transition: border-color var(--kds-transition-base) var(--kds-transition-timing),
+                transform var(--kds-transition-base) var(--kds-transition-timing),
+                box-shadow var(--kds-transition-base) var(--kds-transition-timing);
+}
+
+.contact-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity var(--kds-transition-base) var(--kds-transition-timing);
+    background: radial-gradient(
+        600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+        color-mix(in srgb, var(--kds-action-primary) 15%, transparent),
+        transparent 40%
+    );
+}
+
+.contact-card:hover::before {
+    opacity: 1;
+}
+
+.contact-card:hover {
+    border-color: var(--kds-action-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px color-mix(in srgb, var(--kds-text-primary) 8%, transparent);
+}
+
+.contact-card h2 {
+    position: relative;
+    z-index: 1;
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-caption-12);
+    line-height: var(--kds-lh-caption-12);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--kds-accent-subtitle);
+}
+
+.contact-card p {
+    position: relative;
+    z-index: 1;
+    font-size: var(--kds-small-14);
+    line-height: var(--kds-lh-small-14);
+    color: var(--kds-text-muted);
+}
+
+.contact-card a {
+    position: relative;
+    z-index: 1;
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-small-14);
+    color: var(--kds-action-primary);
+    text-decoration: none;
+    width: fit-content;
+    transition: color var(--kds-transition-fast) var(--kds-transition-timing);
+}
+
+.contact-card a:hover {
+    color: var(--kds-action-hover);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.contact-card .badge {
+    margin-block: var(--kds-space-half);
+}

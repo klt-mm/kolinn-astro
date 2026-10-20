@@ -1,0 +1,66 @@
+---
+/**
+ * Guide post template — /blog/guides/:slug
+ * One static page per non-draft entry in the `guides` collection.
+ * Same anatomy as the news template, with the level chip instead of
+ * a category and a `docs` command line.
+ */
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { formatDate, readingTime } from '../../../utils/posts';
+
+interface Props {
+  post: CollectionEntry<'guides'>;
+}
+
+export async function getStaticPaths() {
+  const posts = await getCollection('guides', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={`${post.data.title} — KOLINN_NAV`} description={post.data.description}>
+  <main id="main" tabindex="-1">
+    <article class="post-page">
+      <div class="container">
+        <a class="back-link" href="/blog">← all posts</a>
+
+        <header class="post-head">
+          <p class="post-command">$ kolinn docs --read {post.id} <span aria-hidden="true">█</span></p>
+          <h1 class="post-title">{post.data.title}</h1>
+          <p class="post-meta">
+            <span class="post-kind post-kind--guide">guide · {post.data.level}</span>
+            <span aria-hidden="true">·</span>
+            <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+            <span aria-hidden="true">·</span>
+            <span>{readingTime(post.body)}</span>
+          </p>
+          {
+            post.data.tags.length > 0 && (
+              <ul class="post-tags" aria-label="Tags">
+                {post.data.tags.map((tag) => (
+                  <li class="tag">#{tag}</li>
+                ))}
+              </ul>
+            )
+          }
+        </header>
+
+        <hr class="post-rule" />
+
+        <div class="prose">
+          <Content />
+        </div>
+
+        <a class="back-link post-back-bottom" href="/blog">← back to blog</a>
+      </div>
+    </article>
+  </main>
+</BaseLayout>

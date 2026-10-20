@@ -1,0 +1,61 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — TOKENS / THEMES
+   Dark + auto overrides. Each theme redefines the Nord primitives and
+   the translucent chrome; the semantic layer resolves automatically.
+   `auto` follows prefers-color-scheme unless [data-theme="light"] or
+   [data-theme="dark"] is pinned on <html>.
+   ===================================================================== */
+
+/* Dark theme */
+[data-theme="dark"] {
+    color-scheme: dark;
+    --kds-polar-0: #2e3440;
+    --kds-polar-1: #3b4252;
+    --kds-polar-2: #434c5e;
+    --kds-polar-3: #4c566a;
+    --kds-snow-0: #d8dee9;
+    --kds-snow-1: #e5e9f0;
+    --kds-snow-2: #eceff4;
+    --kds-frost-0: #8fbcbb;
+    --kds-frost-1: #88c0d0;
+    --kds-frost-2: #81a1c1;
+    --kds-frost-3: #5e81ac;
+    --kds-aurora-red: #bf616a;
+    --kds-aurora-orange: #d08770;
+    --kds-aurora-yellow: #ebcb8b;
+    --kds-aurora-green: #a3be8c;
+    --kds-aurora-purple: #b48ead;
+    --kds-on-action: #2e3440;
+    --kds-nav-bg: rgba(46, 52, 64, 0.72);
+    --kds-dropdown-bg: rgba(59, 66, 82, 0.85);
+    --kds-curtain-bg: rgba(46, 52, 64, 0.55);
+    --kds-dropdown-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Auto theme */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --kds-polar-0: #2e3440;
+        --kds-polar-1: #3b4252;
+        --kds-polar-2: #434c5e;
+        --kds-polar-3: #4c566a;
+        --kds-snow-0: #d8dee9;
+        --kds-snow-1: #e5e9f0;
+        --kds-snow-2: #eceff4;
+        --kds-frost-0: #8fbcbb;
+        --kds-frost-1: #88c0d0;
+        --kds-frost-2: #81a1c1;
+        --kds-frost-3: #5e81ac;
+        --kds-aurora-red: #bf616a;
+        --kds-aurora-orange: #d08770;
+        --kds-aurora-yellow: #ebcb8b;
+        --kds-aurora-green: #a3be8c;
+        --kds-aurora-purple: #b48ead;
+        --kds-on-action: #2e3440;
+        --kds-nav-bg: rgba(46, 52, 64, 0.72);
+        --kds-dropdown-bg: rgba(59, 66, 82, 0.85);
+        --kds-curtain-bg: rgba(46, 52, 64, 0.55);
+        --kds-dropdown-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+}

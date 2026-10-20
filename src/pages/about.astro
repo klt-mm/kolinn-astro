@@ -1,0 +1,85 @@
+---
+/**
+ * About — whoami: principles, system manifest, changelog timeline.
+ * Demo data lives in src/data/about.ts.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import FeaturedCard from '../components/sections/FeaturedCard.astro';
+import Button from '../components/ui/Button.astro';
+import { principles, manifest, timeline } from '../data/about';
+---
+
+<BaseLayout
+  title="About — KOLINN_NAV"
+  description="KOLINN is a design-systems crew building calm, terminal-inspired interfaces. KOLINN_NAV is the reference shell: token-first, dependency-free, accessible by construction."
+>
+  <main id="main" tabindex="-1">
+    <PageHeader
+      command="$ kolinn whoami"
+      title="About KOLINN"
+      copy="A design-systems crew building calm, terminal-inspired interfaces. KOLINN_NAV is our reference shell: token-first, dependency-free, and accessible by construction. Everything on this site is demo content."
+    />
+
+    <section class="page-section" id="principles" aria-labelledby="principles-title">
+      <div class="container">
+        <h2 id="principles-title" class="section-head">
+          <span class="section-index">01</span> Core principles
+        </h2>
+        <div class="featured-grid">
+          {
+            principles.map((p) => (
+              <FeaturedCard index={p.index} title={p.title}>{p.body}</FeaturedCard>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="manifest" aria-labelledby="manifest-title">
+      <div class="container">
+        <h2 id="manifest-title" class="section-head">
+          <span class="section-index">02</span> System manifest
+        </h2>
+        <dl class="manifest">
+          {
+            manifest.map((entry) => (
+              <div class="manifest-row">
+                <dt>{entry.key}</dt>
+                <dd>{entry.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+
+    <section class="page-section" id="changelog" aria-labelledby="changelog-title">
+      <div class="container">
+        <h2 id="changelog-title" class="section-head">
+          <span class="section-index">03</span> Changelog
+        </h2>
+        <ul class="timeline">
+          {
+            timeline.map((entry) => (
+              <li>
+                <time datetime={entry.date}>{entry.date}</time>
+                <a href={entry.href}>{entry.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="page-section" aria-label="Call to action">
+      <div class="container cta-row">
+        <p class="cta-copy">See the system in the wild →</p>
+        <div class="cta-actions">
+          <Button href="/blog" variant="primary">Read the blog</Button>
+          <Button href="/contact" variant="primary">Contact us</Button>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

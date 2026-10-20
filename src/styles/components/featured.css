@@ -1,0 +1,118 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — COMPONENT / FEATURED
+   Three-up content discovery cards.
+   (Original style.css §12 — featured portion.)
+   ===================================================================== */
+
+.featured-section {
+    padding-block: clamp(var(--kds-space-8), 10vw, var(--kds-space-10));
+    background: var(--kds-surface-canvas);
+}
+
+.featured-header {
+    font-size: clamp(var(--kds-heading-24), 4vw, var(--kds-heading-32));
+    line-height: var(--kds-lh-heading-32);
+    font-weight: 650;
+    text-align: center;
+    margin-bottom: var(--kds-space-6);
+    letter-spacing: -0.01em;
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--kds-space-2);
+}
+
+@media (min-width: 640px) {
+    .featured-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--kds-space-3);
+    }
+}
+
+@media (min-width: 1024px) {
+    .featured-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--kds-space-4);
+    }
+}
+
+.featured-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--kds-surface-raised);
+    padding: var(--kds-space-3);
+    border-radius: var(--kds-radius-md);
+    border: 1px solid var(--kds-border-default);
+    transition: border-color var(--kds-transition-base) var(--kds-transition-timing),
+                transform var(--kds-transition-base) var(--kds-transition-timing),
+                box-shadow var(--kds-transition-base) var(--kds-transition-timing);
+}
+
+.featured-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity var(--kds-transition-base) var(--kds-transition-timing);
+    background: radial-gradient(
+        600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+        color-mix(in srgb, var(--kds-action-primary) 15%, transparent),
+        transparent 40%
+    );
+}
+
+.featured-card:hover::before {
+    opacity: 1;
+}
+
+.featured-card:hover {
+    border-color: var(--kds-action-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px color-mix(in srgb, var(--kds-text-primary) 8%, transparent);
+}
+
+.featured-card:active {
+    transform: translateY(0) scale(0.995);
+}
+
+.featured-card h3 {
+    font-size: var(--kds-title-20);
+    line-height: var(--kds-lh-title-20);
+    font-weight: 600;
+    margin-bottom: var(--kds-space-2);
+    color: var(--kds-text-primary);
+    display: flex;
+    align-items: baseline;
+    gap: var(--kds-space-1);
+}
+
+.card-index {
+    font-size: var(--kds-caption-12);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--kds-accent-subtitle);
+}
+
+.featured-card p {
+    font-size: var(--kds-small-14);
+    line-height: var(--kds-lh-small-14);
+    color: var(--kds-text-muted);
+}
+
+.card-content {
+    position: relative;
+    z-index: 1;
+}
+
+.featured-card code {
+    background: var(--kds-surface-hover);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-caption-12);
+    color: var(--kds-action-primary);
+}

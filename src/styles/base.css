@@ -1,0 +1,48 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — BASE
+   Reset, document defaults, layout container, focus ring.
+   (Original style.css §2 — reset & base.)
+   ===================================================================== */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 100%;
+}
+
+body {
+    font-family: var(--kds-font-sans);
+    font-size: var(--kds-body-16);
+    line-height: var(--kds-lh-body-16);
+    background-color: var(--kds-surface-canvas);
+    color: var(--kds-text-body);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color var(--kds-transition-mega) var(--kds-transition-timing),
+                color var(--kds-transition-mega) var(--kds-transition-timing);
+}
+
+h1, h2, h3 {
+    font-family: var(--kds-font-mono);
+    color: var(--kds-text-primary);
+}
+
+.container {
+    width: 100%;
+    max-width: var(--kds-container-max);
+    margin-inline: auto;
+    padding-inline: var(--kds-gutter);
+}
+
+:focus-visible {
+    outline: 2px solid var(--kds-focus-ring);
+    outline-offset: 2px;
+}
+
+#main:focus {
+    outline: none;
+}

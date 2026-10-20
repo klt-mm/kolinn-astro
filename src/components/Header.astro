@@ -1,0 +1,217 @@
+---
+/**
+ * Header — structural nav shell (role="banner").
+ *
+ * Composes the logo, desktop triggers, action cluster, mega-menu
+ * flyout and the frosted curtain. Owns the desktop behavior script:
+ * hover-intent opening (80ms), click/keyboard activation, height-
+ * measured flyout via ResizeObserver, curtain, and every dismissal
+ * path (outside click, focusout grace, scroll, Escape with focus
+ * restoration). Search is click-only — never opens on hover.
+ */
+import Logo from './nav/Logo.astro';
+import DesktopNav from './nav/DesktopNav.astro';
+import NavActions from './nav/NavActions.astro';
+import MegaMenu from './nav/MegaMenu.astro';
+import MenuCurtain from './nav/MenuCurtain.astro';
+---
+
+<header class="global-nav" id="globalNav" role="banner">
+  <div class="container nav-content">
+    <Logo />
+    <DesktopNav />
+    <NavActions />
+  </div>
+
+  <MegaMenu />
+</header>
+
+<!-- Frosted curtain for desktop mega menu -->
+<MenuCurtain />
+
+<script>
+  /* =========================================================
+     KOLINN_NAV behavior — desktop mega menu
+     (script.js §2 + desktop half of §5).
+     Zero dependencies. Visual state is class-driven; this script
+     only toggles classes/ARIA attributes and performs a single
+     layout read per interaction.
+     ========================================================= */
+  const globalNav = document.getElementById('globalNav');
+  const megaContainer = document.getElementById('megaMenuContainer');
+  const menuCurtain = document.getElementById('menuCurtain');
+
+  if (globalNav && megaContainer) {
+    // --- ELEMENTS ---
+    const panels = Array.from(document.querySelectorAll<HTMLElement>('.mega-panel'));
+    const triggers = Array.from(globalNav.querySelectorAll<HTMLElement>('[data-target]'));
+
+    // --- MEDIA QUERIES ---
+    const desktopMQ = window.matchMedia('(min-width: 769px)');
+    const hoverMQ = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+    // --- STATE ---
+    let activePanel: HTMLElement | null = null;
+    let closeTimeout: number | undefined;
+    let hoverIntentTimeout: number | undefined;
+
+    const HOVER_OPEN_DELAY = 80;
+    const CLOSE_GRACE = 200;
+
+    /* ---------- 2. DESKTOP MEGA MENU ---------- */
+    let panelResizeObserver: ResizeObserver | null = null;
+    if ('ResizeObserver' in window) {
+      panelResizeObserver = new ResizeObserver(() => {
+        if (activePanel && globalNav.classList.contains('is-open')) {
+          megaContainer.style.height = `${activePanel.scrollHeight}px`;
+        }
+      });
+    }
+
+    const setFlyoutExposure = (isOpen: boolean) => {
+      megaContainer.inert = !isOpen;
+      megaContainer.setAttribute('aria-hidden', String(!isOpen));
+      globalNav.classList.toggle('is-open', isOpen);
+      if (menuCurtain) menuCurtain.classList.toggle('is-visible', isOpen);
+    };
+
+    const observePanel = (panel: HTMLElement) => {
+      if (!panelResizeObserver) return;
+      panelResizeObserver.disconnect();
+      panelResizeObserver.observe(panel);
+    };
+
+    function openPanel(targetId: string) {
+      const panel = document.getElementById(targetId);
+      if (!panel) return;
+
+      clearTimeout(closeTimeout);
+      if (activePanel === panel) return;
+
+      activePanel = panel;
+
+      panels.forEach((p) => p.classList.toggle('is-active', p === panel));
+      triggers.forEach((trigger) => {
+        const isSource = trigger.dataset.target === targetId;
+        trigger.setAttribute('aria-expanded', String(isSource));
+        trigger.classList.toggle('is-active', isSource);
+      });
+
+      setFlyoutExposure(true);
+      megaContainer!.style.height = `${panel.scrollHeight}px`;
+      observePanel(panel);
+    }
+
+    function closeMenu() {
+      if (!activePanel) return;
+
+      clearTimeout(closeTimeout);
+      clearTimeout(hoverIntentTimeout);
+      activePanel = null;
+
+      setFlyoutExposure(false);
+      megaContainer!.style.height = '0px';
+
+      if (panelResizeObserver) {
+        panelResizeObserver.disconnect();
+      }
+
+      panels.forEach((p) => p.classList.remove('is-active'));
+      triggers.forEach((trigger) => {
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.classList.remove('is-active');
+      });
+    }
+
+    // --- Trigger events ---
+    triggers.forEach((trigger) => {
+      const isSearchTrigger = trigger.dataset.target === 'panel-search';
+
+      // Mouse: hover intent with a small open delay
+      // SEARCH IS CLICK-ONLY: never open on hover
+      trigger.addEventListener('mouseenter', () => {
+        if (!desktopMQ.matches) return;
+        if (isSearchTrigger) return;
+        clearTimeout(hoverIntentTimeout);
+        hoverIntentTimeout = window.setTimeout(
+          () => openPanel(trigger.dataset.target as string),
+          HOVER_OPEN_DELAY
+        );
+      });
+      trigger.addEventListener('mouseleave', () => clearTimeout(hoverIntentTimeout));
+
+      // Click / Enter / Space: deterministic activation
+      trigger.addEventListener('click', () => {
+        if (!desktopMQ.matches) return;
+        clearTimeout(hoverIntentTimeout);
+        const targetId = trigger.dataset.target as string;
+        const isAlreadyOpen = activePanel && activePanel.id === targetId;
+
+        if (isAlreadyOpen && !hoverMQ.matches) {
+          closeMenu();
+          return;
+        }
+
+        if (isSearchTrigger && isAlreadyOpen) {
+          closeMenu();
+          return;
+        }
+
+        openPanel(targetId);
+        // FIX: Removed auto-focus. User must manually click into search input.
+      });
+    });
+
+    megaContainer.addEventListener('mouseenter', () => clearTimeout(closeTimeout));
+    if (menuCurtain) menuCurtain.addEventListener('click', () => closeMenu());
+
+    globalNav.addEventListener('mouseleave', () => {
+      if (!desktopMQ.matches) return;
+      clearTimeout(closeTimeout);
+      closeTimeout = window.setTimeout(closeMenu, CLOSE_GRACE);
+    });
+
+    globalNav.addEventListener('focusin', (event) => {
+      if (!desktopMQ.matches) return;
+      const trigger = (event.target as HTMLElement).closest<HTMLElement>('[data-target]');
+      if (trigger) {
+        const isSearchTrigger = trigger.dataset.target === 'panel-search';
+        if ((event.target as HTMLElement).matches(':focus-visible') && !isSearchTrigger) {
+          openPanel(trigger.dataset.target as string);
+        }
+        return;
+      }
+      if (!megaContainer.contains(event.target as Node)) closeMenu();
+    });
+
+    globalNav.addEventListener('focusout', (event) => {
+      if (!desktopMQ.matches) return;
+      if (!globalNav.contains(event.relatedTarget as Node | null)) {
+        clearTimeout(closeTimeout);
+        closeTimeout = window.setTimeout(closeMenu, CLOSE_GRACE);
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!desktopMQ.matches || !activePanel) return;
+      if (!globalNav.contains(event.target as Node)) closeMenu();
+    });
+
+    window.addEventListener('scroll', () => {
+      if (desktopMQ.matches && activePanel) closeMenu();
+    }, { passive: true });
+
+    /* ---------- 5. GLOBAL BEHAVIOR (desktop half) ---------- */
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+
+      if (activePanel && desktopMQ.matches) {
+        const sourceTrigger = globalNav.querySelector<HTMLElement>(`[data-target="${activePanel.id}"]`);
+        closeMenu();
+        if (sourceTrigger) sourceTrigger.focus();
+      }
+    });
+
+    desktopMQ.addEventListener('change', () => closeMenu());
+  }
+</script>

@@ -1,0 +1,123 @@
+---
+/**
+ * ContactForm — demo transmission form styled as a terminal exchange.
+ * Client-side validation reuses the design system's invalid-state
+ * language (error border + halo, same as `.search-field[data-invalid]`).
+ * Submission is simulated — nothing leaves the browser.
+ */
+import Button from './ui/Button.astro';
+---
+
+<form class="contact-form" id="contactForm" novalidate>
+  <div class="field">
+    <label class="field-label" for="cf-name">name</label>
+    <input
+      class="field-control"
+      id="cf-name"
+      name="name"
+      type="text"
+      required
+      autocomplete="name"
+      placeholder="ada lovelace"
+      aria-describedby="cf-name-error"
+    />
+    <p class="field-error" id="cf-name-error">required — who is transmitting?</p>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="cf-email">email</label>
+    <input
+      class="field-control"
+      id="cf-email"
+      name="email"
+      type="email"
+      required
+      autocomplete="email"
+      placeholder="ada@example.com"
+      aria-describedby="cf-email-error"
+    />
+    <p class="field-error" id="cf-email-error">required — a valid reply address</p>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="cf-topic">topic</label>
+    <select class="field-control" id="cf-topic" name="topic">
+      <option>General</option>
+      <option>Support</option>
+      <option>Press</option>
+      <option>Design system</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="cf-message">message</label>
+    <textarea
+      class="field-control"
+      id="cf-message"
+      name="message"
+      rows="5"
+      required
+      placeholder="type your message"
+      aria-describedby="cf-message-error"
+    ></textarea>
+    <p class="field-error" id="cf-message-error">required — the buffer is empty</p>
+  </div>
+
+  <div class="form-actions">
+    <Button type="submit" variant="primary" class="form-submit">transmit →</Button>
+    <p class="form-hint">demo only — nothing leaves your browser</p>
+  </div>
+
+  <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  /* KOLINN_NAV behavior — demo contact form.
+     Class/attribute-driven invalid states (mirrors the design system's
+     .search-field[data-invalid] pattern); success is announced through
+     an aria-live status line. No network, ever. */
+  const form = document.getElementById('contactForm') as HTMLFormElement | null;
+  const statusLine = document.getElementById('formStatus');
+
+  if (form && statusLine) {
+    const requiredFields = Array.from(
+      form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('.field-control[required]')
+    );
+
+    const validateField = (control: HTMLInputElement | HTMLTextAreaElement): boolean => {
+      const field = control.closest('.field');
+      let ok = control.value.trim() !== '';
+      if (ok && control.type === 'email') {
+        ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(control.value.trim());
+      }
+      if (field) {
+        if (ok) field.removeAttribute('data-invalid');
+        else field.setAttribute('data-invalid', 'true');
+      }
+      control.setAttribute('aria-invalid', String(!ok));
+      return ok;
+    };
+
+    requiredFields.forEach((control) => {
+      control.addEventListener('input', () => {
+        if (control.closest('.field')?.hasAttribute('data-invalid')) validateField(control);
+      });
+    });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const invalid = requiredFields.filter((control) => !validateField(control));
+
+      if (invalid.length > 0) {
+        statusLine.textContent = `$ error: ${invalid.length} field(s) need attention`;
+        statusLine.setAttribute('data-error', 'true');
+        invalid[0].focus();
+        return;
+      }
+
+      statusLine.removeAttribute('data-error');
+      statusLine.textContent = '$ message queued · demo only — nothing was sent ✔';
+      form.reset();
+    });
+  }
+</script>

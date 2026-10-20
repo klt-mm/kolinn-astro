@@ -1,0 +1,19 @@
+---
+/**
+ * Badge — KOLINN Design System status pill (`.badge`).
+ * `pulsing` adds the live-status dot (`.badge-dot`) with its
+ * status-pulse animation; motion is disabled under
+ * prefers-reduced-motion via a11y.css.
+ */
+interface Props {
+  /** Render the pulsing status dot before the label. */
+  pulsing?: boolean;
+}
+
+const { pulsing = false } = Astro.props;
+---
+
+<div class="badge">
+  {pulsing && <span class="badge-dot" aria-hidden="true"></span>}
+  <span><slot /></span>
+</div>

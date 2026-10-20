@@ -1,0 +1,39 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — COMPONENT / BADGE
+   Status pill with pulsing dot.
+   (Original style.css §12 — badge portion.)
+   ===================================================================== */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kds-space-1);
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-caption-12);
+    line-height: var(--kds-lh-caption-12);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--kds-text-muted);
+    background: var(--kds-surface-raised);
+    border: 1px solid var(--kds-border-default);
+    border-radius: var(--kds-radius-full);
+    padding: 6px 14px;
+    width: fit-content;
+}
+
+.badge-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--kds-status-success);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--kds-status-success) 22%, transparent);
+    animation: status-pulse 2.4s var(--kds-transition-timing) infinite;
+}
+
+@keyframes status-pulse {
+    50% {
+        box-shadow: 0 0 0 6px color-mix(in srgb, var(--kds-status-success) 8%, transparent);
+    }
+}

@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Security Posture — KOLINN_NAV" description="Detailed security implementation and threat model.">
+  <main id="main" class="container">
+    <header style="margin-bottom: var(--kds-space-6);">
+      <h1 style="font-family: var(--kds-font-mono); font-size: var(--kds-heading-32); color: var(--kds-text-primary);">Security Posture</h1>
+      <p style="color: var(--kds-text-muted);">Technical overview of the security layers protecting the KOLINN infrastructure.</p>
+    </header>
+
+    <div class="security-grid">
+      <section class="security-block">
+        <h2>Edge Protection</h2>
+        <p>Deployed on Cloudflare's global network, providing automatic DDoS protection and Web Application Firewall (WAF) filtering.</p>
+        <ul class="security-list">
+          <li>L3/L4 DDoS mitigation</li>
+          <li>Automatic SSL/TLS termination</li>
+          <li>Edge-side request filtering</li>
+        </ul>
+      </section>
+
+      <section class="security-block">
+        <h2>Content Integrity</h2>
+        <p>Strict Content Security Policy (CSP) prevents Cross-Site Scripting (XSS) by restricting where scripts and styles can be loaded from.</p>
+        <ul class="security-list">
+          <li>No inline scripts permitted (excluding theme boot)</li>
+          <li>Strict domain allow-list for images and fonts</li>
+          <li>No-sniff MIME types enforced</li>
+        </ul>
+      </section>
+
+      <section class="security-block">
+        <h2>Client-Side Security</h2>
+        <p>Minimal JavaScript footprint reduces the attack surface. All user input is treated as untrusted and sanitized.</p>
+        <ul class="security-list">
+          <li>Zero third-party JS dependencies</li>
+          <li>Strict frame-denial (X-Frame-Options)</li>
+          <li>Secure cookie handling for theme state</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .security-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--kds-space-6);
+  }
+
+  @media (min-width: 768px) {
+    .security-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .security-block {
+    background: var(--kds-surface-raised);
+    border: 1px solid var(--kds-border-default);
+    border-radius: var(--kds-radius-md);
+    padding: var(--kds-space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-space-3);
+  }
+
+  .security-block h2 {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-title-20);
+    color: var(--kds-text-primary);
+    margin: 0;
+  }
+
+  .security-block p {
+    font-size: var(--kds-small-14);
+    line-height: var(--kds-lh-small-14);
+    color: var(--kds-text-muted);
+    margin: 0;
+  }
+
+  .security-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-space-1);
+  }
+
+  .security-list li {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-caption-12);
+    color: var(--kds-accent-subtitle);
+    display: flex;
+    align-items: center;
+    gap: var(--kds-space-1);
+  }
+
+  .security-list li::before {
+    content: "✓";
+    color: var(--kds-status-success);
+    font-weight: bold;
+  }
+</style>

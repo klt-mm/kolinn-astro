@@ -1,0 +1,101 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — COMPONENT / NAV ACTIONS
+   Icon buttons, theme toggle icons, hamburger, nav CTA.
+   (Original style.css §6 — nav actions.)
+   ===================================================================== */
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--kds-space-1);
+}
+
+.nav-cta {
+    white-space: nowrap;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: var(--kds-text-body);
+    cursor: pointer;
+    padding: var(--kds-space-1);
+    border-radius: var(--kds-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--kds-transition-base) var(--kds-transition-timing),
+                color var(--kds-transition-base) var(--kds-transition-timing);
+}
+
+.icon-btn:hover {
+    background: var(--kds-surface-hover);
+    color: var(--kds-text-primary);
+}
+
+.icon-btn:active {
+    background: var(--kds-border-default);
+}
+
+.icon-btn.is-active {
+    background: var(--kds-surface-hover);
+    color: var(--kds-action-primary);
+}
+
+.icon-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.icon-auto,
+.icon-sun,
+.icon-moon {
+    display: none;
+}
+
+[data-theme="auto"] .icon-auto,
+[data-theme="light"] .icon-sun,
+[data-theme="dark"] .icon-moon {
+    display: block;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 10001;
+}
+
+.hamburger-line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--kds-text-body);
+    border-radius: 2px;
+    transition: transform 0.3s var(--kds-transition-timing),
+                opacity 0.3s var(--kds-transition-timing),
+                background-color 0.3s;
+    transform-origin: center;
+}
+
+.hamburger:hover .hamburger-line {
+    background-color: var(--kds-text-primary);
+}
+
+.hamburger[aria-expanded="true"] .hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger[aria-expanded="true"] .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger[aria-expanded="true"] .hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}

@@ -1,0 +1,35 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — ACCESSIBILITY (MOTION COMFORT)
+   Imported LAST so `prefers-reduced-motion` overrides every component
+   animation defined above it.
+   (Original style.css §15.)
+   ===================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        animation-delay: 0s !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0s !important;
+        scroll-behavior: auto !important;
+    }
+
+    .shimmer-text {
+        animation: none;
+        background: none;
+        -webkit-text-fill-color: var(--kds-text-primary);
+        color: var(--kds-text-primary);
+    }
+
+    .logo-cursor {
+        animation: none;
+        opacity: 1;
+    }
+
+    .badge-dot {
+        animation: none;
+    }
+}

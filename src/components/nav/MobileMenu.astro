@@ -1,0 +1,142 @@
+---
+/**
+ * MobileMenu — full-height navigation sheet (< 769px).
+ *
+ * inert + aria-hidden at rest. Opening sets inert on the background
+ * layer (main, curtain, footer), locks body scroll with scrollbar-width
+ * compensation, and the hamburger morphs to an ✕ via aria-expanded.
+ * Accordions are single-open; any link click dismisses the sheet and
+ * restores focus to the hamburger.
+ */
+import SearchField from '../ui/SearchField.astro';
+import MobileAccordion from './MobileAccordion.astro';
+import Button from '../ui/Button.astro';
+import { mobileSections } from '../../data/navigation';
+import { site } from '../../config/site';
+---
+
+<div
+  class="mobile-menu"
+  id="mobileMenu"
+  aria-hidden="true"
+  inert
+  role="dialog"
+  aria-modal="true"
+  aria-label="Mobile navigation"
+>
+  <div class="mobile-menu-content" id="mobileMenuContent">
+    <div class="container">
+      <SearchField id="mobileSearchInput" class="mobile-search-field" />
+
+      <nav aria-label="Mobile navigation">
+        {
+          mobileSections.map((section) => (
+            <MobileAccordion label={section.label} links={section.links} />
+          ))
+        }
+      </nav>
+
+      <Button href={site.cta.href} variant="primary" class="mobile-cta">{site.cta.label}</Button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* =========================================================
+     KOLINN_NAV behavior — mobile sheet + accordions
+     (script.js §3 accordion, §4 open/close, §5 mobile half).
+     Class-driven state; inert-based focus containment.
+     ========================================================= */
+  const mobileToggle = document.getElementById('mobileMenuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileContent = document.getElementById('mobileMenuContent');
+  const mainEl = document.getElementById('main');
+  const menuCurtain = document.getElementById('menuCurtain');
+  const siteFooter = document.querySelector<HTMLElement>('.site-footer');
+
+  const desktopMQ = window.matchMedia('(min-width: 769px)');
+
+  let isMobileMenuOpen = false;
+
+  if (mobileToggle && mobileMenu && mobileContent) {
+    /* ---------- 3. MOBILE ACCORDION MENU ---------- */
+    const mobileAccordionHeaders = Array.from(
+      document.querySelectorAll<HTMLElement>('.mobile-accordion-header')
+    );
+    mobileAccordionHeaders.forEach((header) => {
+      header.addEventListener('click', () => {
+        const willOpen = header.getAttribute('aria-expanded') !== 'true';
+        const inner = header.nextElementSibling?.querySelector<HTMLElement>('.mobile-accordion-inner') ?? null;
+
+        mobileContent
+          .querySelectorAll<HTMLElement>('.mobile-accordion-header[aria-expanded="true"]')
+          .forEach((openHeader) => {
+            if (openHeader === header) return;
+            openHeader.setAttribute('aria-expanded', 'false');
+            const openInner = openHeader.nextElementSibling?.querySelector<HTMLElement>('.mobile-accordion-inner');
+            if (openInner) openInner.classList.remove('is-animating');
+          });
+
+        header.setAttribute('aria-expanded', String(willOpen));
+
+        if (inner) {
+          inner.classList.remove('is-animating');
+          if (willOpen) {
+            void inner.offsetHeight;
+            inner.classList.add('is-animating');
+          }
+        }
+      });
+    });
+
+    /* ---------- 4. MOBILE MENU OPEN/CLOSE ---------- */
+    function setMobileMenu(open: boolean) {
+      isMobileMenuOpen = open;
+      mobileToggle!.setAttribute('aria-expanded', String(open));
+      mobileToggle!.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      mobileMenu!.classList.toggle('is-open', open);
+      mobileMenu!.inert = !open;
+      mobileMenu!.setAttribute('aria-hidden', String(!open));
+
+      const backgroundLayer = [mainEl, menuCurtain, siteFooter].filter(
+        (el): el is HTMLElement => el !== null
+      );
+      backgroundLayer.forEach((el) => {
+        el.inert = open;
+      });
+
+      if (open) {
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
+        document.body.style.overflow = 'hidden';
+        // FIX: Removed auto-focus on mobile search input
+      } else {
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+      }
+    }
+
+    mobileToggle.addEventListener('click', () => setMobileMenu(!isMobileMenuOpen));
+
+    mobileContent.addEventListener('click', (event) => {
+      const link = (event.target as HTMLElement).closest('a[href]');
+      if (!link) return;
+      setMobileMenu(false);
+      mobileToggle.focus();
+    });
+
+    /* ---------- 5. GLOBAL BEHAVIOR (mobile half) ---------- */
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+
+      if (isMobileMenuOpen) {
+        setMobileMenu(false);
+        mobileToggle.focus();
+      }
+    });
+
+    desktopMQ.addEventListener('change', () => {
+      if (isMobileMenuOpen) setMobileMenu(false);
+    });
+  }
+</script>

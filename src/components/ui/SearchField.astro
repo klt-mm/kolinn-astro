@@ -1,0 +1,29 @@
+---
+/**
+ * SearchField — terminal-style command bar (`---
+/**
+ prompt + input).
+ * Shared by the desktop search panel and the mobile sheet; pass
+ * `class="mobile-search-field"` to raise it on the mobile surface.
+ */
+interface Props {
+  /** Input id — wired to aria/labels by consumers and behavior scripts. */
+  id: string;
+  /** Extra classes merged onto the field wrapper. */
+  class?: string;
+}
+
+const { id, class: className } = Astro.props;
+---
+
+<div class:list={['search-field', className]}>
+  <span class="search-prompt" aria-hidden="true">$</span>
+  <input
+    type="search"
+    {id}
+    class="search-input"
+    placeholder="type to search"
+    aria-label="Search documentation"
+    autocomplete="off"
+  />
+</div>

@@ -1,0 +1,35 @@
+/* =====================================================================
+   KOLINN Design System v1.0.0 — COMPONENT / BUTTON
+   (Original style.css §4 — buttons.)
+   ===================================================================== */
+
+.btn {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-small-14);
+    font-weight: 600;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--kds-radius-sm);
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color var(--kds-transition-base) var(--kds-transition-timing),
+                border-color var(--kds-transition-base) var(--kds-transition-timing),
+                color var(--kds-transition-base) var(--kds-transition-timing);
+}
+
+.btn-primary {
+    background-color: var(--kds-action-primary);
+    color: var(--kds-on-action);
+    padding: 11px var(--kds-space-2);
+}
+
+.btn-primary:hover {
+    background-color: var(--kds-action-hover);
+}
+
+.btn-primary:active {
+    background-color: var(--kds-action-active);
+}

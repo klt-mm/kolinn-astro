@@ -1,0 +1,90 @@
+---
+/**
+ * BaseLayout — document shell for every page.
+ *
+ * Responsibilities:
+ *  1. Design system: imports the global token/base/component cascade
+ *     (src/styles/global.css) and the Fira typefaces once, here.
+ *  2. Theme boot: an inline pre-paint script resolves the persisted
+ *     theme (localStorage) or falls back to `auto`, so there is no
+ *     flash of the wrong theme. <html> ships data-theme="auto" as the
+ *     no-JS default, matching the original document.
+ *  3. Chrome: skip link, live region, Header (+ curtain), page slot,
+ *     MobileMenu, Footer — in the original DOM order.
+ */
+import '../styles/global.css';
+import '@fontsource-variable/fira-code';
+import '@fontsource/fira-sans/400.css';
+import '@fontsource/fira-sans/500.css';
+import '@fontsource/fira-sans/600.css';
+
+import SkipLink from '../components/SkipLink.astro';
+import Header from '../components/Header.astro';
+import MobileMenu from '../components/nav/MobileMenu.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../config/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = site.title, description = site.description } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- SEO / Canonical -->
+    <link rel="canonical" href={Astro.url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:site_name" content={site.brand} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <script is:inline>
+      /* KOLINN_NAV — theme boot (pre-paint, no flash).
+         Reads the persisted choice written by ThemeToggle.astro;
+         validates it and falls back to the original default: auto. */
+      (() => {
+        let theme = 'auto';
+        try {
+          const stored = localStorage.getItem('theme');
+          if (stored === 'dark' || stored === 'light' || stored === 'auto') theme = stored;
+        } catch {
+          /* storage unavailable */
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- Skip link for keyboard users -->
+    <SkipLink />
+
+    <!-- Live region for screen reader announcements -->
+    <div id="nav-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- HEADER / NAVIGATION (+ frosted curtain) -->
+    <Header />
+
+    <!-- MAIN CONTENT -->
+    <slot />
+
+    <!-- MOBILE MENU -->
+    <MobileMenu />
+
+    <!-- FOOTER -->
+    <Footer />
+  </body>
+</html>

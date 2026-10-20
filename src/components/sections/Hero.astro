@@ -1,0 +1,29 @@
+---
+/**
+ * Hero — terminal-style opener: fake command line, status badge,
+ * shimmering display title, system summary, divider and credit.
+ * `.shimmer-text` is a global utility (utilities.css) and calms down
+ * under prefers-reduced-motion (a11y.css).
+ */
+import Badge from '../ui/Badge.astro';
+import { site } from '../../config/site';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container">
+    <p class="hero-command">$ kolinn init --nav <span aria-hidden="true">█</span></p>
+    <Badge pulsing>System ready · {site.version}</Badge>
+    <h1 id="hero-title">
+      <span class="shimmer-text">{site.name}</span>
+    </h1>
+    <p class="hero-copy">
+      A terminal-inspired framework built on the KOLINN Design System:
+      Nord primitives, Fira typefaces, an 8px rhythm, and a suite of
+      high-performance project implementations.
+    </p>
+    <div class="divider" aria-hidden="true">---</div>
+    <p class="credit">
+      by <a href={site.author.url} class="shimmer-text">{site.author.name}</a>
+    </p>
+  </div>
+</section>
