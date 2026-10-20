@@ -53,10 +53,10 @@ import { site } from '../config/site';
 
 <script>
   const initContactSpotlight = () => {
-    const cards = document.querySelectorAll('.contact-card');
+    const cards = document.querySelectorAll<HTMLElement>('.contact-card');
     
     cards.forEach(card => {
-      card.addEventListener('mousemove', (e) => {
+      card.addEventListener('mousemove', (e: MouseEvent) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
