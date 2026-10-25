@@ -1,25 +1,18 @@
 ---
-/**
- * Contact — demo transmission form + direct channels.
- * Form behavior is simulated client-side (see ContactForm.astro);
- * nothing is sent anywhere.
- */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import ContactForm from '../components/ContactForm.astro';
-import Badge from '../components/ui/Badge.astro';
-import { site } from '../config/site';
 ---
 
 <BaseLayout
-  title="Contact — KOLINN_NAV"
-  description="Transmit a message to the KOLINN team. Demo form — nothing leaves your browser."
+  title="Contact — KOLINN"
+  description="Reach out to Kolinn for professional inquiries, collaboration, or feedback."
 >
   <main id="main" tabindex="-1">
     <PageHeader
       command="$ kolinn hail --ops"
       title="Contact"
-      copy="Questions, feedback, speaking requests — transmit a message below. This is a demo form: nothing leaves your browser."
+      copy="Questions, feedback, or collaboration requests — transmit a message below or reach out via my professional channels."
     />
 
     <section class="page-section" aria-labelledby="contact-form-title">
@@ -30,19 +23,31 @@ import { site } from '../config/site';
 
           <aside class="contact-aside" aria-label="Direct channels">
             <div class="contact-card">
-              <h2>Operations</h2>
-              <a href="mailto:ops@kolinn.demo">ops@kolinn.demo</a>
-              <p>General questions and demo feedback.</p>
+              <h2 class="contact-card-head">Email</h2>
+              <a href="mailto:kyawlinthant.mm@gmail.com" class="contact-card-link">kyawlinthant.mm@gmail.com</a>
+              <p>Professional inquiries and collaboration.</p>
             </div>
             <div class="contact-card">
-              <h2>Press</h2>
-              <a href="mailto:press@kolinn.demo">press@kolinn.demo</a>
-              <p>Media kits and interview requests.</p>
+              <h2 class="contact-card-head">Socials</h2>
+              <div class="contact-socials">
+                <a href="https://github.com/klt-mm/" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-link">
+                  <span>GitHub</span>
+                </a>
+                <a href="https://codepen.io/klt-mm/" target="_blank" rel="noopener noreferrer" aria-label="CodePen" class="social-link">
+                  <span>CodePen</span>
+                </a>
+                <a href="https://hackerrank.com/profile/kyawlinthant_mm/" target="_blank" rel="noopener noreferrer" aria-label="HackerRank" class="social-link">
+                  <span>HackerRank</span>
+                </a>
+              </div>
+              <p>Open source and coding challenges.</p>
             </div>
             <div class="contact-card">
-              <h2>System status</h2>
-              <Badge pulsing>All systems nominal</Badge>
-              <p>console {site.version} · updated {site.updated} · {site.channel}</p>
+              <h2 class="contact-card-head">Working Hours</h2>
+              <div class="working-hours">
+                <time datetime="09:00">09:00</time> <span>→</span> <time datetime="19:00">19:00</time>
+              </div>
+              <p>Daily availability for transmission.</p>
             </div>
           </aside>
         </div>

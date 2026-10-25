@@ -10,12 +10,17 @@ const { title } = Astro.props;
   <main id="main" class="legal-container">
     <header class="legal-header">
       <h1>{title}</h1>
-      <p class="last-updated">Last updated: October 2023</p>
+      <p class="last-updated">Last updated: October 2026</p>
     </header>
     <div class="legal-content">
       <slot />
     </div>
   </main>
+  <footer class="legal-footer">
+    <div class="container">
+      <a href="/" class="back-link">&larr; Back to home</a>
+    </div>
+  </footer>
 </BaseLayout>
 
 <style>
@@ -58,7 +63,7 @@ const { title } = Astro.props;
     font-size: var(--kds-heading-24);
     line-height: var(--kds-lh-heading-24);
     color: var(--kds-text-primary);
-    margin: var(--kds-space-10) 0 var(--kds-space-3);
+    margin: var(--kds-space-8) 0 var(--kds-space-3);
     padding-left: var(--kds-space-3);
     border-left: 3px solid var(--kds-action-primary);
   }
@@ -72,7 +77,25 @@ const { title } = Astro.props;
     padding-left: var(--kds-space-4);
   }
 
-  .legal-content li {
-    margin-bottom: var(--kds-space-2);
+  .legal-content h2:first-child {
+    margin-top: 0;
+  }
+
+  .legal-footer {
+    padding: var(--kds-space-8) 0;
+    border-top: 1px solid var(--kds-border-default);
+    margin-top: var(--kds-space-8);
+  }
+
+  .back-link {
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-small-14);
+    color: var(--kds-text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--kds-action-primary);
   }
 </style>

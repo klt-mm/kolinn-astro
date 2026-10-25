@@ -18,7 +18,7 @@ import Button from './ui/Button.astro';
       type="text"
       required
       autocomplete="name"
-      placeholder="ada lovelace"
+      placeholder="Full Name"
       aria-describedby="cf-name-error"
     />
     <p class="field-error" id="cf-name-error">required — who is transmitting?</p>
@@ -33,7 +33,7 @@ import Button from './ui/Button.astro';
       type="email"
       required
       autocomplete="email"
-      placeholder="ada@example.com"
+      placeholder="email@address.com"
       aria-describedby="cf-email-error"
     />
     <p class="field-error" id="cf-email-error">required — a valid reply address</p>
@@ -43,9 +43,9 @@ import Button from './ui/Button.astro';
     <label class="field-label" for="cf-topic">topic</label>
     <select class="field-control" id="cf-topic" name="topic">
       <option>General</option>
+      <option>Collaboration</option>
       <option>Support</option>
-      <option>Press</option>
-      <option>Design system</option>
+      <option>Project Inquiry</option>
     </select>
   </div>
 
@@ -57,7 +57,7 @@ import Button from './ui/Button.astro';
       name="message"
       rows="5"
       required
-      placeholder="type your message"
+      placeholder="How can I help you?"
       aria-describedby="cf-message-error"
     ></textarea>
     <p class="field-error" id="cf-message-error">required — the buffer is empty</p>

@@ -13,31 +13,32 @@ export interface Principle {
 export const principles: Principle[] = [
   {
     index: '01',
-    title: 'Terminal at heart',
+    title: 'Scalable & Robust',
     body:
-      'Prompts, cursors and command lines are not decoration — they are the interface grammar. ' +
-      'Every surface should read like a well-kept console: explicit, stateful, honest.',
+      'Specializing in building robust, scalable applications and web solutions. ' +
+      'With over 5 years of experience, the focus is on driving technical implementations ' +
+      'and maintaining high code quality standards.',
   },
   {
     index: '02',
-    title: 'Rich, not noisy',
+    title: 'Full-Stack Capability',
     body:
-      'Motion and chrome exist to explain state, never to fill silence. One layout read per ' +
-      'interaction, animations on transform and opacity only, and stagger measured in 40ms.',
+      'From advanced Python scripting and backend logic to frontend component-based ' +
+      'development with React, delivering end-to-end digital solutions that scale.',
   },
   {
     index: '03',
-    title: 'Legibility first',
+    title: 'CS Fundamentals',
     body:
-      'Nord pairs re-tested for AA in both themes, Fira Code for machine voice, Fira Sans for ' +
-      'prose, and an 8px rhythm that keeps density calm at every breakpoint.',
+      'Strong foundation in core computer science principles, algorithmic proficiency, ' +
+      'and data structures optimization for high-performance software design.',
   },
   {
     index: '04',
-    title: 'Responsive by default',
+    title: 'Data-Driven Design',
     body:
-      'The desktop flyout and the mobile sheet are the same system at different widths — ' +
-      'identical tokens, identical content, breakpoint-aware behavior.',
+      'Expertise in database querying, design, and management using SQL to ensure ' +
+      'data integrity and efficient retrieval across complex services.',
   },
 ];
 
@@ -47,15 +48,15 @@ export interface ManifestEntry {
 }
 
 export const manifest: ManifestEntry[] = [
-  { key: 'version', value: 'v1.0.0 · stable' },
-  { key: 'palette', value: 'Nord — dark + light, auto-ready' },
-  { key: 'typefaces', value: 'Fira Code Variable (mono) · Fira Sans (prose)' },
-  { key: 'rhythm', value: '8px grid, 4px half-steps' },
-  { key: 'container', value: 'max 90rem · gutter clamp(8px, 2.5vw, 32px)' },
-  { key: 'tokens', value: '81 custom properties across 3 layers' },
-  { key: 'motion', value: '150–400ms · cubic-bezier(0.4, 0, 0.2, 1)' },
-  { key: 'a11y', value: 'AA contrast · inert containment · full keyboard paths' },
-  { key: 'dependencies', value: '0 runtime (Astro + Fira font sources at build time)' },
+  { key: 'role', value: 'Software Engineer' },
+  { key: 'location', value: 'Myanmar' },
+  { key: 'experience', value: '5+ years' },
+  { key: 'expertise', value: 'Python (5★), SQL, React, C++, Problem Solving' },
+  { key: 'certifications', value: 'SE Role, SQL Adv, JS Int, REST Int' },
+  { key: 'verification', value: 'https://hackerrank.com/profile/kyawlinthant_mm/' },
+  { key: 'philosophy', value: 'End-to-end delivery · High code quality · Scalability' },
+  { key: 'specialization', value: 'Backend logic · Automation · System Design' },
+  { key: 'status', value: 'Available for professional opportunities' },
 ];
 
 export interface TimelineEntry {
@@ -81,3 +82,4 @@ export const timeline: TimelineEntry[] = [
     href: '/blog/news/inspector-commands-preview',
   },
 ];
+

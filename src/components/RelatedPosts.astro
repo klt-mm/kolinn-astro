@@ -1,0 +1,51 @@
+---
+/**
+ * RelatedPosts — a reusable 3-card grid for discovery.
+ * Used at the bottom of posts and the about page.
+ */
+import PostCard from './PostCard.astro';
+
+interface Props {
+  posts: Array<{
+    href: string;
+    title: string;
+    description: string;
+    pubDate: Date;
+    kind: 'news' | 'guide';
+    meta?: string;
+    body?: string;
+  }>;
+  title?: string;
+}
+
+const { posts, title = "Related posts" } = Astro.props;
+---
+
+<section class="related-posts" aria-labelledby="related-posts-title">
+  <div class="container">
+    {title && (
+      <h2 id="related-posts-title" class="section-head">
+        <span class="section-index">04</span> {title}
+      </h2>
+    )}
+    <div class="featured-grid">
+      {posts.slice(0, 3).map((post) => (
+        <PostCard 
+          href={post.href} 
+          title={post.title} 
+          description={post.description} 
+          pubDate={post.pubDate} 
+          kind={post.kind} 
+          meta={post.meta} 
+          body={post.body} 
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .related-posts {
+    padding-bottom: var(--kds-space-10);
+  }
+</style>

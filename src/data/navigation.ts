@@ -233,12 +233,20 @@ export const mobileSections: MobileSection[] = [
 
 /* ---------------- Footer ---------------- */
 
-export const footerLinks: NavLink[] = [
-  link('Home', '/'),
-  link('About', '/about'),
-  link('Blog', '/blog'),
-  link('Contact', '/contact'),
-  link('Terms of Use', '/legal/terms-of-use'),
-  link('Terms of Service', '/legal/terms-of-service'),
-  link('Privacy Policy', '/legal/privacy-policy'),
+export const footerLinks: NavColumn[] = [
+  {
+    title: 'Quick links',
+    links: [
+      link('Blog', '/blog'),
+      link('Projects', '/projects'),
+      link('Documentations', '/blog/guides'),
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [
+      link('Terms', '/legal/terms-of-service'),
+      link('Privacy', '/legal/privacy-policy'),
+    ],
+  },
 ];

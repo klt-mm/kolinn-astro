@@ -1,7 +1,7 @@
 ---
 /**
  * Footer — system footer (role="contentinfo"): brand mark, nav echo
- * and the console manifest strip (version · updated · channel).
+ * and a professional copyright line.
  */
 import { footerLinks } from '../data/navigation';
 import { site } from '../config/site';
@@ -16,22 +16,27 @@ import { site } from '../config/site';
       </a>
     </div>
     <nav aria-label="Footer navigation">
-      <ul class="footer-links">
+      <div class="footer-nav-grid">
         {
-          footerLinks.map((link) => (
-            <li>
-              <a href={link.href}>{link.label}</a>
-            </li>
+          footerLinks.map((col) => (
+            <div class="footer-nav-col">
+              <h3 class="footer-nav-title">{col.title}</h3>
+              <ul class="footer-links">
+                {
+                  col.links.map((link) => (
+                    <li>
+                      <a href={link.href}>{link.label}</a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
           ))
         }
-      </ul>
+      </div>
     </nav>
-    <div class="footer-meta">
-      <span>console {site.version}</span>
-      <span aria-hidden="true">·</span>
-      <span>updated {site.updated}</span>
-      <span aria-hidden="true">·</span>
-      <span>{site.channel}</span>
+    <div class="footer-copyright">
+      <p>&copy; {new Date().getFullYear()} {site.brand}. All rights reserved.</p>
     </div>
   </div>
 </footer>
