@@ -3,8 +3,8 @@
    defined, every @keyframes name is present, and declaration counts
    are in the same ballpark.
    Usage: node verify/css-diff.js <original.css> <dist-dir/_astro> */
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const strip = (css) => css.replace(/\/\*[\s\S]*?\*\//g, '');
 // normalize for minifier rewrites: quote-stripping in attr selectors, ::pseudo → :pseudo
@@ -30,7 +30,8 @@ function parseRules(css) {
       const header = norm(buf);
       buf = '';
       if (/^@keyframes\s+([\w-]+)/.test(header)) {
-        keyframes.add(RegExp.$1);
+        const match = header.match(/^@keyframes\s+([\w-]+)/);
+        keyframes.add(match[1]);
         stack.push('keyframes');
       } else if (header.startsWith('@')) {
         stack.push('at');

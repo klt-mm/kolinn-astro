@@ -11,11 +11,11 @@ architecture and every interaction preserved.
 ## Quick start
 
 ```bash
-npm install
-npm run dev        # → http://localhost:4321
-npm run build      # → dist/ (static)
-npm run preview    # serve the production build
-npm run check      # astro check — type checking (0 errors)
+pnpm install
+pnpm run dev        # → http://localhost:4321
+pnpm run build      # → dist/ (static)
+pnpm run preview    # serve the production build
+pnpm run check      # astro check — type checking (0 errors)
 ```
 
 Requires Node `^18.20.8 || ^20.3.0 || >=22.0.0` (Astro 5). Astro 6/7 need
@@ -110,7 +110,7 @@ and keeps the original semantics:
 | §5 Escape / breakpoint handling   | split across Header + MobileMenu (mutually exclusive states) |
 | — (new) demo contact form         | `ContactForm.astro`                 |
 
-Scripts are written in TypeScript (type-checked by `npm run check`, types
+Scripts are written in TypeScript (type-checked by `pnpm run check`, types
 stripped at build). DOM contracts — ids, `data-target`, ARIA wiring, `inert`
 at rest — are unchanged from the monolith.
 

@@ -2,8 +2,8 @@
    Serializes both bodies to normalized outline lines and diffs them.
    Skips script/style/link (the build moves those to <head>).
    Usage: NODE_PATH=/tmp/verify/node_modules node verify/dom-diff.js <original.html> <built.html> */
-const { JSDOM } = require('jsdom');
-const fs = require('fs');
+import { JSDOM } from 'jsdom';
+import fs from 'fs';
 
 const SKIP = new Set(['SCRIPT', 'STYLE', 'LINK', 'TEMPLATE']);
 const BOOL_ATTRS = new Set(['inert', 'hidden', 'disabled']);

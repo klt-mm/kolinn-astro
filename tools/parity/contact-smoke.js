@@ -1,6 +1,6 @@
 /* Contact form smoke test: validation + demo submit (jsdom). */
-const { JSDOM } = require('jsdom');
-const fs = require('fs');
+import { JSDOM } from 'jsdom';
+import fs from 'fs';
 
 const dom = new JSDOM(fs.readFileSync(process.argv[2], 'utf8'), {
   url: 'http://localhost/',

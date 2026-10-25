@@ -3,8 +3,8 @@
    executes the bundled module scripts (as classic scripts — they have
    no imports), then simulates the original script.js interactions.
    Usage: NODE_PATH=/tmp/verify/node_modules node verify/smoke.js <dist/index.html> */
-const { JSDOM } = require('jsdom');
-const fs = require('fs');
+import { JSDOM } from 'jsdom';
+import fs from 'fs';
 
 const html = fs.readFileSync(process.argv[2], 'utf8');
 const dom = new JSDOM(html, { url: 'http://localhost/', runScripts: 'dangerously' });
