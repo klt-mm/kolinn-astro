@@ -23,6 +23,56 @@
     scrollbar-color: var(--kds-border-default) transparent;
 }
 
+.mobile-menu-fallback {
+    position: fixed;
+    top: var(--kds-nav-height);
+    left: 0;
+    z-index: 9998;
+    display: block;
+    width: 100%;
+    height: calc(100vh - var(--kds-nav-height));
+    height: calc(100dvh - var(--kds-nav-height));
+    overflow-y: auto;
+    padding-block: var(--kds-space-3);
+    background: var(--kds-dropdown-bg);
+}
+
+@media (min-width: 769px) {
+    .mobile-menu-fallback > .container {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--kds-space-4);
+    }
+}
+
+.mobile-menu-fallback-section {
+    padding-block: var(--kds-space-2);
+    border-bottom: 1px solid var(--kds-border-default);
+}
+
+.mobile-menu-fallback-section > p {
+    margin-bottom: var(--kds-space-1);
+    color: var(--kds-accent-subtitle);
+    font-family: var(--kds-font-mono);
+    font-weight: 600;
+}
+
+.mobile-menu-fallback-section ul {
+    list-style: none;
+}
+
+.mobile-menu-fallback-section a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--kds-text-muted);
+    text-decoration: none;
+}
+
+.mobile-menu-fallback-section a:focus-visible {
+    color: var(--kds-action-primary);
+}
+
 .mobile-menu::-webkit-scrollbar {
     width: 10px;
 }

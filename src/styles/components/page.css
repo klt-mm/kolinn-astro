@@ -34,7 +34,7 @@
 }
 
 .page-section {
-    padding-block: var(--kds-space-8);
+    padding-block: clamp(var(--kds-space-6), 7vw, var(--kds-space-8));
     background: var(--kds-surface-canvas);
 }
 
@@ -107,7 +107,7 @@
 
 @media (min-width: 640px) {
     .manifest-row {
-        grid-template-columns: minmax(140px, 0.4fr) 1fr;
+        grid-template-columns: minmax(min(140px, 35%), 0.4fr) minmax(0, 1fr);
         gap: var(--kds-space-3);
     }
 }
@@ -123,10 +123,12 @@
 }
 
 .manifest dd {
+    min-width: 0;
     font-family: var(--kds-font-mono);
     font-size: var(--kds-small-14);
     line-height: var(--kds-lh-small-14);
     color: var(--kds-text-body);
+    overflow-wrap: anywhere;
 }
 
 /* -- Timeline (about page) -- */

@@ -31,6 +31,25 @@ import { site } from '../../config/site';
   </div>
 </div>
 
+<noscript>
+  <nav class="mobile-menu-fallback" aria-label="Site navigation">
+    <div class="container">
+      {
+        mobileSections.map((section) => (
+          <section class="mobile-menu-fallback-section">
+            <p>{section.label}</p>
+            <ul>
+              {section.links.map((link) => (
+                <li><a href={link.href}>{link.label}</a></li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </nav>
+</noscript>
+
 <script>
   /* =========================================================
      KOLINN_NAV behavior — mobile sheet + accordions
@@ -57,18 +76,28 @@ import { site } from '../../config/site';
     mobileAccordionHeaders.forEach((header) => {
       header.addEventListener('click', () => {
         const willOpen = header.getAttribute('aria-expanded') !== 'true';
-        const inner = header.nextElementSibling?.querySelector<HTMLElement>('.mobile-accordion-inner') ?? null;
+        const panel = header.nextElementSibling as HTMLElement | null;
+        const inner = panel?.querySelector<HTMLElement>('.mobile-accordion-inner') ?? null;
 
         mobileContent
           .querySelectorAll<HTMLElement>('.mobile-accordion-header[aria-expanded="true"]')
           .forEach((openHeader) => {
             if (openHeader === header) return;
             openHeader.setAttribute('aria-expanded', 'false');
+            const openPanel = openHeader.nextElementSibling as HTMLElement | null;
+            if (openPanel) {
+              openPanel.inert = true;
+              openPanel.setAttribute('aria-hidden', 'true');
+            }
             const openInner = openHeader.nextElementSibling?.querySelector<HTMLElement>('.mobile-accordion-inner');
             if (openInner) openInner.classList.remove('is-animating');
           });
 
         header.setAttribute('aria-expanded', String(willOpen));
+        if (panel) {
+          panel.inert = !willOpen;
+          panel.setAttribute('aria-hidden', String(!willOpen));
+        }
 
         if (inner) {
           inner.classList.remove('is-animating');
@@ -197,16 +226,14 @@ import { site } from '../../config/site';
       );
       const first = focusable[0] ?? mobileToggle;
       const last = focusable[focusable.length - 1] ?? mobileToggle;
+      const activeIndex = focusable.indexOf(document.activeElement as HTMLElement);
 
-      if (event.shiftKey && document.activeElement === first) {
+      if (event.shiftKey && (document.activeElement === first || activeIndex === -1)) {
         event.preventDefault();
         last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
+      } else if (!event.shiftKey && (document.activeElement === last || activeIndex === -1)) {
         event.preventDefault();
         first.focus();
-      } else if (!focusable.length && document.activeElement !== mobileToggle) {
-        event.preventDefault();
-        mobileToggle.focus();
       }
     });
 

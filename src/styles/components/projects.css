@@ -3,8 +3,70 @@
    Project showcase pages.
    ===================================================================== */
 
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: var(--kds-space-3);
+}
+
+.project-card {
+    min-width: 0;
+}
+
+.project-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: var(--kds-space-2);
+}
+
+.project-card-header h3 {
+    color: var(--kds-text-primary);
+    font: 600 var(--kds-title-20)/var(--kds-lh-title-20) var(--kds-font-mono);
+}
+
+.project-card-tech {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--kds-space-1);
+}
+
+.project-card p {
+    flex: 1;
+    color: var(--kds-text-muted);
+}
+
+.project-detail {
+    max-width: 72rem;
+    margin-top: var(--kds-nav-height);
+    padding-block: var(--kds-space-6) var(--kds-space-8);
+}
+
+.project-post {
+    max-width: 68ch;
+    margin-inline: auto;
+}
+
 .project-header {
     margin-bottom: var(--kds-space-6);
+}
+
+.project-title {
+    margin-bottom: var(--kds-space-2);
+    color: var(--kds-text-primary);
+    font-size: clamp(1.75rem, 4.5vw, var(--kds-heading-48));
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.project-description {
+    margin-bottom: var(--kds-space-6);
+    color: var(--kds-text-muted);
+    font-size: var(--kds-title-20);
+    line-height: var(--kds-lh-title-20);
 }
 
 .project-meta {
@@ -71,10 +133,21 @@
 
 .project-image {
     width: 100%;
+    height: auto;
     aspect-ratio: 16 / 9;
     object-fit: cover;
     border-radius: var(--kds-radius-lg);
     border: 1px solid var(--kds-border-default);
     margin-bottom: var(--kds-space-6);
     background: var(--kds-surface-raised);
+}
+
+@media (max-width: 640px) {
+    .project-card-header {
+        flex-direction: column;
+    }
+
+    .project-card-tech {
+        justify-content: flex-start;
+    }
 }

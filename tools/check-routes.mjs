@@ -38,9 +38,45 @@ for (const page of pages) {
     failures.push(`${path.relative(dist, page)} (expected one focusable main landmark)`);
   }
 
+  const headings = [...html.matchAll(/<h1\b/gi)];
+  if (!isRedirect && headings.length !== 1) {
+    failures.push(`${path.relative(dist, page)} (expected one primary heading)`);
+  }
+
   const ids = [...html.matchAll(/\sid=(["'])(.*?)\1/g)].map((match) => match[2]);
   if (new Set(ids).size !== ids.length) {
     failures.push(`${path.relative(dist, page)} (duplicate id attribute)`);
+  }
+
+  for (const [, , attributes] of html.matchAll(/\baria-controls=(["'])(.*?)\1/gi)) {
+    for (const id of attributes.split(/\s+/)) {
+      const escapedId = id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      if (!new RegExp(`\\bid=(["'])${escapedId}\\1`).test(html)) {
+        failures.push(`${path.relative(dist, page)} (aria-controls references missing #${id})`);
+      }
+    }
+  }
+
+  for (const [, attributes, body] of html.matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/gi)) {
+    const hasAriaName = /\baria-label=(["'])/.test(attributes) ||
+      /\baria-labelledby=(["'])/.test(attributes);
+    const visibleText = body
+      .replace(/<[^>]*\baria-hidden=(["'])true\1[^>]*>[\s\S]*?<\/[^>]+>/gi, '')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/&(?:nbsp|amp|lt|gt|quot|#39);/g, ' ')
+      .trim();
+    if (!hasAriaName && !visibleText) {
+      failures.push(`${path.relative(dist, page)} (button has no accessible name)`);
+    }
+
+    const controlledId = attributes.match(/\baria-controls=(["'])(.*?)\1/)?.[2];
+    if (controlledId && attributes.includes('aria-expanded="false"')) {
+      const escapedId = controlledId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const target = html.match(new RegExp(`<[^>]+\\bid=(["'])${escapedId}\\1[^>]*>`))?.[0] ?? '';
+      if (!/\baria-hidden=(["'])true\1/.test(target) || !/\binert(?:\s|>|=)/.test(target)) {
+        failures.push(`${path.relative(dist, page)} (collapsed control target #${controlledId} must be inert and hidden)`);
+      }
+    }
   }
 
   for (const [, attributes] of html.matchAll(/<img\b([^>]*)>/gi)) {
@@ -50,7 +86,7 @@ for (const page of pages) {
     }
   }
 
-  for (const [, attributes] of html.matchAll(/<input\b([^>]*)>/gi)) {
+  for (const [, attributes] of html.matchAll(/<(?:input|select|textarea)\b([^>]*)>/gi)) {
     const hasAriaLabel = /\baria-label=(["'])/.test(attributes) ||
       /\baria-labelledby=(["'])/.test(attributes);
     const id = attributes.match(/\bid=(["'])(.*?)\1/)?.[2];
@@ -107,6 +143,20 @@ const requiredRoutes = [
   '/search',
   '/search-index.json',
 ];
+
+const contactPage = outputPath('/info/contact');
+if (contactPage) {
+  const contactHtml = fs.readFileSync(contactPage, 'utf8');
+  if (!/<button\b(?=[^>]*\bclass="[^"]*\bform-submit\b)(?=[^>]*\bdisabled(?:\s|=|>))[^>]*>/.test(contactHtml) ||
+    !/<noscript>[\s\S]*?requires JavaScript[\s\S]*?<\/noscript>/.test(contactHtml)) {
+    failures.push('/info/contact (demo form must not submit without JavaScript)');
+  }
+}
+
+const homepageFile = outputPath('/');
+if (homepageFile && !fs.readFileSync(homepageFile, 'utf8').includes('mobile-menu-fallback')) {
+  failures.push('/ (mobile navigation fallback missing for no-JavaScript visitors)');
+}
 
 const sitemapFile = path.join(dist, 'sitemap-0.xml');
 if (!fs.existsSync(sitemapFile)) {

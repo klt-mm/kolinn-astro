@@ -9,6 +9,12 @@ import Button from './ui/Button.astro';
 ---
 
 <form class="contact-form" id="contactForm" novalidate>
+  <noscript>
+    <p class="form-noscript">
+      This demonstration form requires JavaScript and does not send messages.
+      Use the direct contact channels on this page instead.
+    </p>
+  </noscript>
   <div class="field">
     <label class="field-label" for="cf-name">name</label>
     <input
@@ -64,7 +70,7 @@ import Button from './ui/Button.astro';
   </div>
 
   <div class="form-actions">
-    <Button type="submit" variant="primary" class="form-submit">transmit →</Button>
+    <Button type="submit" variant="primary" class="form-submit" disabled>transmit →</Button>
     <p class="form-hint">demo only — nothing leaves your browser</p>
   </div>
 
@@ -78,8 +84,9 @@ import Button from './ui/Button.astro';
      an aria-live status line. No network, ever. */
   const form = document.getElementById('contactForm') as HTMLFormElement | null;
   const statusLine = document.getElementById('formStatus');
+  const submitButton = form?.querySelector<HTMLButtonElement>('.form-submit');
 
-  if (form && statusLine) {
+  if (form && statusLine && submitButton) {
     const requiredFields = Array.from(
       form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('.field-control[required]')
     );
@@ -119,5 +126,7 @@ import Button from './ui/Button.astro';
       statusLine.textContent = '$ message queued · demo only — nothing was sent ✔';
       form.reset();
     });
+
+    submitButton.disabled = false;
   }
 </script>

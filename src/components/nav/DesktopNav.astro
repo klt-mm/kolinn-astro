@@ -13,11 +13,11 @@ import { navPanels } from '../../data/navigation';
       navPanels.map((panel) => (
         <li class="nav-item">
           <button
+            type="button"
             class="nav-link"
             data-target={panel.id}
             aria-expanded="false"
             aria-controls={panel.id}
-            aria-haspopup="true"
           >
             {panel.label}
           </button>

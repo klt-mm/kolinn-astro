@@ -12,11 +12,13 @@ interface Props {
   variant?: 'primary';
   /** Button type when rendering a <button>. */
   type?: 'button' | 'submit' | 'reset';
+  /** Disabled state when rendering a <button>. */
+  disabled?: boolean;
   /** Extra classes merged onto the root element. */
   class?: string;
 }
 
-const { href, variant = 'primary', type = 'button', class: className } = Astro.props;
+const { href, variant = 'primary', type = 'button', disabled = false, class: className } = Astro.props;
 ---
 
 {
@@ -25,7 +27,7 @@ const { href, variant = 'primary', type = 'button', class: className } = Astro.p
       <slot />
     </a>
   ) : (
-    <button type={type} class:list={['btn', `btn-${variant}`, className]}>
+    <button type={type} disabled={disabled} class:list={['btn', `btn-${variant}`, className]}>
       <slot />
     </button>
   )

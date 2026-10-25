@@ -17,7 +17,7 @@ const { Content } = await render(project);
 ---
 
 <BaseLayout title={`${project.data.title} — Project releases`} description={project.data.description}>
-  <main id="main" class="container" tabindex="-1">
+  <main id="main" class="container project-detail" tabindex="-1">
     <article class="project-post">
       <header class="project-header">
         <a href="/projects/releases" class="back-link">← all releases</a>
@@ -59,20 +59,3 @@ const { Content } = await render(project);
     </article>
   </main>
 </BaseLayout>
-
-<style>
-  .project-title {
-    margin-bottom: var(--kds-space-2);
-    color: var(--kds-text-primary);
-    font-size: var(--kds-heading-48);
-    line-height: var(--kds-lh-heading-48);
-    letter-spacing: -0.02em;
-  }
-
-  .project-description {
-    margin-bottom: var(--kds-space-6);
-    color: var(--kds-text-muted);
-    font-size: var(--kds-title-20);
-    line-height: var(--kds-lh-title-20);
-  }
-</style>

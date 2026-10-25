@@ -1,25 +1,24 @@
 ---
-title: "Nord palette refresh: every pair re-tested for AA"
-description: "Semantic color roles were re-mapped across dark and light Nord primitives, and all text/background pairs now clear WCAG AA with headroom."
+title: "Nord palette refresh: key text colors checked for AA"
+description: "Semantic color roles were re-mapped across dark and light Nord primitives, with key text and status pairs measured against their surfaces."
 pubDate: 2026-09-28
 category: announcement
 tags: [color, accessibility, tokens]
 ---
 
-The color layer of the KOLINN Design System got a full audit this month. Every
-semantic role — surfaces, text, actions, status — was re-tested against its
-background in **both** themes, and a handful of Nord primitives were re-mapped
-so no pair sits on the AA boundary.
+The color layer of the KOLINN Design System had its key foreground and status
+roles checked against canvas and raised surfaces in **both** themes. A few
+primitives were adjusted where small text missed the 4.5:1 WCAG AA contrast
+threshold.
 
 ## What changed
 
-- `--kds-accent-subtitle` now resolves to `frost-0`, which holds ≥ 4.5:1 on
-  raised surfaces in light mode (previously 4.3:1 — a fail we'd rather not
-  ship).
+- `--kds-accent-subtitle` now resolves to `frost-0` (`#356c6a` in light mode),
+  measuring 4.92:1 on raised surfaces (previously 4.04:1).
 - Action hover/active states were pushed one primitive darker in light mode,
   keeping the pressed feedback visible without touching hue.
-- Status colors gained dedicated light-mode variants (aurora at ~60%
-  lightness) instead of reusing the dark palette values.
+- Light success text and dark error text were adjusted to meet 4.5:1 on both
+  canvas and raised surfaces.
 
 ```css
 /* tokens/semantic.css — roles never hardcode hex values */

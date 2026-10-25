@@ -113,6 +113,15 @@ deploy dry-run (122 assets), and `git diff --check` pass.
 **Acceptance:** No keyboard traps or inaccessible control states remain in
 tested flows; contrast results are measured and recorded; reduced motion stays
 usable.
+**Status:** Keyboard-flow fixes and contrast measurements recorded on
+2026-10-26. The mobile dialog (focus wrap, Escape, restore, accordion state,
+and breakpoint change), desktop disclosures/search, theme toggle, search
+announcements, contact validation, FAQ disclosure, and reduced-motion styling
+were exercised in the local production preview. Static output checks cover
+control names/relationships and no-JavaScript navigation/form fallbacks.
+Measured token ratios are in [docs/ACCESSIBILITY.md](./ACCESSIBILITY.md). The
+user reports that manual screen-reader testing passed. This does not constitute
+a claim of WCAG conformance.
 
 ## Phase 4 — Design system and visual consistency
 
@@ -129,6 +138,19 @@ usable.
 
 **Acceptance:** Page families share consistent layout and interaction styling;
 no horizontal overflow at tested widths; screenshot differences are intentional.
+**Status:** Complete. Project archives and Support/Documentation pages now
+share responsive card treatments; project detail pages share a constrained
+content width, responsive title sizing, and image sizing; and section spacing
+adapts to viewport width. Fixed long About-manifest values overflowing on
+mobile and removed doubled spacing before the Support cards. Rendered checks
+covered 15 representative routes at 390px (light and dark), 768px (dark), and
+1440px (light), with no horizontal overflow. The project detail image
+preserved its 16:9 ratio. Reviewed the live hover, focus, disabled, empty, and
+error states in the browser across the applicable themes; active and reduced
+motion rules remain covered by the shared component and accessibility styles.
+Compared current home renders at mobile, tablet, and desktop sizes with the
+Phase 1 screenshots; observed differences reflect current content and the
+updated shared styling.
 
 ## Phase 5 — Performance and content experience
 

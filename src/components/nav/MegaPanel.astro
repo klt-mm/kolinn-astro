@@ -17,7 +17,7 @@ interface Props {
 const { id, cols = 3, columns } = Astro.props;
 ---
 
-<div class="mega-panel" {id}>
+<div class="mega-panel" {id} aria-hidden="true" inert>
   <div class="container">
     <div class:list={['panel-grid', `cols-${cols}`]}>
       {

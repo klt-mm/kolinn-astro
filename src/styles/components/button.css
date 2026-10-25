@@ -32,3 +32,8 @@
 .btn-primary:active {
     background-color: var(--kds-action-active);
 }
+
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}

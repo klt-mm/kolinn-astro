@@ -15,14 +15,20 @@ interface Props {
 }
 
 const { label, links } = Astro.props;
+const panelId = `mobile-section-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 ---
 
 <div class="mobile-accordion">
-  <button class="mobile-accordion-header" aria-expanded="false">
+  <button
+    type="button"
+    class="mobile-accordion-header"
+    aria-expanded="false"
+    aria-controls={panelId}
+  >
     <span>{label}</span>
     <IconChevron class="chevron" />
   </button>
-  <div class="mobile-accordion-content">
+  <div class="mobile-accordion-content" id={panelId} aria-hidden="true" inert>
     <div class="mobile-accordion-inner">
       <ul>
         {

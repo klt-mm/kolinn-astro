@@ -28,9 +28,10 @@ pnpm run preview
 ```
 
 `pnpm test` runs the focused content helper tests. `pnpm run check:routes`
-requires a current production build; it checks generated pages, local link and
-anchor targets, search-index entries, required routes, image dimensions and
-accessible names. `pnpm run preview` serves the built `dist/` output.
+requires a current production build; it checks generated pages, primary
+headings, control names and relationships, local link and anchor targets,
+search-index entries, required routes, image dimensions and accessible names.
+`pnpm run preview` serves the built `dist/` output.
 
 ## Routes
 

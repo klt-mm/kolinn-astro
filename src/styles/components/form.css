@@ -107,6 +107,11 @@ textarea.field-control {
     color: var(--kds-text-muted);
 }
 
+.form-noscript {
+    color: var(--kds-status-error);
+    margin-bottom: var(--kds-space-2);
+}
+
 .form-status {
     font-family: var(--kds-font-mono);
     font-size: var(--kds-small-14);

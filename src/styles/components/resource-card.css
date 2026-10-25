@@ -1,0 +1,64 @@
+/* Shared card layout for support, documentation, and project resources. */
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--kds-space-4);
+}
+
+.resource-grid > .section-head,
+.resource-grid > .support-note {
+    grid-column: 1 / -1;
+}
+
+.resource-grid > .section-head {
+    margin-bottom: 0;
+}
+
+.resource-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--kds-space-3);
+    min-width: 0;
+    padding: var(--kds-space-4);
+    border: 1px solid var(--kds-border-default);
+    border-radius: var(--kds-radius-md);
+    background: var(--kds-surface-raised);
+    transition:
+        border-color var(--kds-transition-base) var(--kds-transition-timing),
+        transform var(--kds-transition-base) var(--kds-transition-timing),
+        box-shadow var(--kds-transition-base) var(--kds-transition-timing);
+}
+
+.resource-card:focus-within {
+    border-color: var(--kds-action-primary);
+}
+
+.resource-card h3 {
+    color: var(--kds-text-primary);
+    font: 600 var(--kds-title-20)/var(--kds-lh-title-20) var(--kds-font-mono);
+}
+
+.resource-card p {
+    flex: 1;
+    color: var(--kds-text-muted);
+}
+
+.support-note {
+    color: var(--kds-text-muted);
+    font-size: var(--kds-small-14);
+}
+
+@media (hover: hover) {
+    .resource-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--kds-action-primary);
+        box-shadow: var(--kds-shadow-md);
+    }
+}
+
+@media (max-width: 640px) {
+    .resource-card {
+        padding: var(--kds-space-3);
+    }
+}

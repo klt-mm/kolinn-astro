@@ -48,7 +48,6 @@ import MenuCurtain from './nav/MenuCurtain.astro';
 
     // --- MEDIA QUERIES ---
     const desktopMQ = window.matchMedia('(min-width: 769px)');
-    const hoverMQ = window.matchMedia('(hover: hover) and (pointer: fine)');
 
     // --- STATE ---
     let activePanel: HTMLElement | null = null;
@@ -90,7 +89,12 @@ import MenuCurtain from './nav/MenuCurtain.astro';
 
       activePanel = panel;
 
-      panels.forEach((p) => p.classList.toggle('is-active', p === panel));
+      panels.forEach((p) => {
+        const isActive = p === panel;
+        p.classList.toggle('is-active', isActive);
+        p.inert = !isActive;
+        p.setAttribute('aria-hidden', String(!isActive));
+      });
       triggers.forEach((trigger) => {
         const isSource = trigger.dataset.target === targetId;
         trigger.setAttribute('aria-expanded', String(isSource));
@@ -117,6 +121,10 @@ import MenuCurtain from './nav/MenuCurtain.astro';
       }
 
       panels.forEach((p) => p.classList.remove('is-active'));
+      panels.forEach((p) => {
+        p.inert = true;
+        p.setAttribute('aria-hidden', 'true');
+      });
       triggers.forEach((trigger) => {
         trigger.setAttribute('aria-expanded', 'false');
         trigger.classList.remove('is-active');
@@ -147,12 +155,7 @@ import MenuCurtain from './nav/MenuCurtain.astro';
         const targetId = trigger.dataset.target as string;
         const isAlreadyOpen = activePanel && activePanel.id === targetId;
 
-        if (isAlreadyOpen && !hoverMQ.matches) {
-          closeMenu();
-          return;
-        }
-
-        if (isSearchTrigger && isAlreadyOpen) {
+        if (isAlreadyOpen) {
           closeMenu();
           return;
         }
