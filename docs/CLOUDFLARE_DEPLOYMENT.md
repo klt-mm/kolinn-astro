@@ -15,10 +15,11 @@ serves Astro's `dist/` output. The package scripts are:
 - `pnpm run worker:deploy` — upload the built static assets and Worker.
 - `pnpm run check` and `pnpm run check:routes` — run the project checks.
 
-The project pins pnpm to `12.14.0`, requires Node.js `>=22.12.0` (Wrangler's
-runtime requirement), and explicitly approves the `workerd` install script
-needed by Wrangler's local Workers runtime. Keep these settings with the
-lockfile when updating the deployment toolchain.
+The current Cloudflare build environment detects pnpm `9.10.0`. The repository
+uses a single-document pnpm v9 lockfile and a workspace manifest containing
+`packages: []`, both required by that runtime. Node.js must be `>=22.12.0` to
+satisfy Wrangler. Do not regenerate the lockfile with a newer pnpm release if
+it introduces additional YAML documents; verify it with pnpm `9.10.0`.
 
 Build before local Worker preview or direct deployment:
 
@@ -48,7 +49,7 @@ pnpm run worker:deploy
 4. Configure the production branch as `main`, the root directory as `.`, the
    build command as `pnpm run build`, and the deployment command as
    `pnpm run worker:deploy`. Ensure the build environment uses Node.js
-   `>=22.12.0`; the `packageManager` field pins pnpm.
+   `>=22.12.0` and pnpm `9.10.0` (matching Cloudflare's detected toolchain).
 5. Use the repository's pnpm lockfile for package installation. If the setup
    screen requests explicit commands, use `pnpm install --frozen-lockfile`
    followed by the build and deployment commands above.
@@ -93,9 +94,11 @@ After the first deployment:
   exists before `wrangler dev` or `wrangler deploy`.
 - **Build cannot install dependencies:** ensure the GitHub repository contains
   the updated `pnpm-lock.yaml` and `pnpm-workspace.yaml`, uses Node.js
-  `>=22.12.0`, and honors the `packageManager` field. If pnpm reports
-  `ERR_PNPM_IGNORED_BUILDS` for `workerd`, confirm the committed
-  `pnpm-workspace.yaml` includes `workerd: true` under `allowBuilds`.
+  `>=22.12.0`, and uses pnpm `9.10.0`. If pnpm reports `packages field
+  missing or empty`, confirm that the root `pnpm-workspace.yaml` has
+  `packages: []`. If it reports a broken lockfile, confirm that
+  `pnpm-lock.yaml` contains a single YAML document and is generated from the
+  committed manifests.
 - **Worker name already exists:** select a unique name in `wrangler.jsonc` and
   keep the Cloudflare build target in sync.
 - **Routes or 404 differ from local preview:** verify static asset HTML handling

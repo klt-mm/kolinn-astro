@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@12.14.0",
   "description": "KOLINN Astro — a modern, accessible Astro starter for building fast, responsive websites.",
   "scripts": {
     "dev": "astro dev",
