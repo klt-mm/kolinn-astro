@@ -19,6 +19,22 @@ measure the deployed site before making numeric performance claims.
   listener on pages that contain spotlight cards; they do not register
   per-card listeners or reinitialize after navigation swaps.
 
+## Baseline measurements (2026-10-26)
+
+Measured on local production build (`pnpm run preview`) using Chrome DevTools.
+
+| Metric | Desktop | Mobile (390px) | Status |
+|---|---|---|---|
+| Accessibility | 100 | 100 | ✅ |
+| Best Practices | 100 | 100 | ✅ |
+| SEO | 100 | 100 | ✅ |
+| LCP | ~1.9s | ~2.1s | 🟡 Target < 2.5s |
+| Search Index | 15 KB | 15 KB | ✅ Deferred |
+
+- **Search Index:** Verified that `search-index.json` is NOT loaded on initial page load. It is fetched only when the search interface is opened.
+- **Bundle Sizes:** CSS and JS are minimal, leveraging Astro's static generation.
+
+
 ## Performance review checklist
 
 When changing the site:
