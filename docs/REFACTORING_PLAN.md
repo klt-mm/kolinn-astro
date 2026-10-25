@@ -19,6 +19,39 @@ includes Cloudflare Workers Static Assets readiness.
 - Document intentional behavior changes and update the architecture/docs in
   the same phase.
 
+## Current review priorities
+
+Execute these fixes in order; each item targets a reproduced issue from the
+live-site review and is verified before moving on:
+
+1. **P1 — Enforce a CSP compatible with the deployed site.** Remove
+   `unsafe-inline`, generate SHA-256 hashes for emitted inline scripts, style
+   blocks, and Shiki code-block style attributes after Astro builds, allow only
+   the Cloudflare Web Analytics script and beacon endpoints, and disallow
+   inline event-handler attributes.
+   Acceptance: every generated page's inline blocks are authorized by the
+   generated `dist/_headers`; the live page has no CSP violations.
+   **Status:** implemented and verified against the local Workers preview;
+   production verification remains pending deployment.
+2. **P2 — Keep mobile keyboard focus inside the modal navigation.** Put the
+   existing header toggle and menu within one dialog scope, wrap Tab and
+   Shift+Tab across all visible controls in that scope, preserve Escape and
+   focus restoration, and keep the page background inert.
+   Acceptance: the toggle remains the only close control; keyboard focus never
+   escapes the dialog while open. **Status:** implemented and verified in a
+   mobile browser flow.
+3. **P3 — Remove duplicated spotlight listeners.** Replace per-card mouse
+   listeners and `astro:after-swap` reinitialization with one delegated,
+   mouse-only pointer listener for the existing card types.
+   Acceptance: one handler updates spotlights for post, featured, and contact
+   cards, including cards added later, without registering per-card handlers.
+   **Status:** implemented and the homepage spotlight was exercised locally.
+4. **P4 — Make the homepage purpose clear in its primary heading.** Replace
+   the brand-only H1 with a concise description of the site's project, guide,
+   and design-system content.
+   Acceptance: the page has one descriptive H1 and retains the brand in the
+   document title/navigation. **Status:** implemented and route checks pass.
+
 ## Phase 1 — Establish a trustworthy baseline
 
 1. Review the actual `package.json`, source tree, generated routes, and git diff.

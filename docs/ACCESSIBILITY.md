@@ -10,8 +10,9 @@ the implementation; it is not a claim of conformance certification.
 - Interactive controls use native links and buttons, visible focus styling, and
   labels or accessible names.
 - Desktop and mobile navigation expose disclosure state and manage focus during
-  the mobile dialog interaction; Escape closes the dialog and focus returns to
-  its trigger.
+  the mobile dialog interaction. The dialog scope includes its single animated
+  menu toggle; Tab and Shift+Tab remain within that scope, Escape closes the
+  dialog, and focus returns to the toggle.
 - Search results and form feedback use accessible status/label patterns.
 - The global reduced-motion stylesheet reduces animation and transition
   durations and disables selected decorative motion.
@@ -27,8 +28,9 @@ For each behavior or content change:
 
 1. Use keyboard-only navigation to test focus order, visible focus, and
    activation of all controls.
-2. Test mobile navigation open/close, Escape, focus containment/restoration,
-   background inertness, and resizing across the breakpoint.
+2. Test mobile navigation open/close, Tab and Shift+Tab wrapping, Escape, focus
+   containment/restoration, background inertness, and resizing across the
+   breakpoint.
 3. Test search and forms with screen-reader announcements and error states.
 4. Inspect heading order, landmark names, link purpose, image alternatives, and
    accessible names in the rendered page.

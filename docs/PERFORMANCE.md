@@ -15,6 +15,9 @@ measure the deployed site before making numeric performance claims.
 - Search loads a generated JSON index when the search UI is used.
 - Homepage content has modest opacity/transform entrance animations, a loading
   accent, and reduced-motion overrides in `src/styles/a11y.css`.
+- Decorative card spotlights use one delegated, mouse-only `pointermove`
+  listener on pages that contain spotlight cards; they do not register
+  per-card listeners or reinitialize after navigation swaps.
 
 ## Performance review checklist
 

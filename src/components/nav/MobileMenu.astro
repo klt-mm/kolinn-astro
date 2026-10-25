@@ -13,15 +13,7 @@ import { mobileSections } from '../../data/navigation';
 import { site } from '../../config/site';
 ---
 
-<div
-  class="mobile-menu"
-  id="mobileMenu"
-  aria-hidden="true"
-  inert
-  role="dialog"
-  aria-modal="true"
-  aria-label="Mobile navigation"
->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true" inert>
   <div class="mobile-menu-content" id="mobileMenuContent">
     <div class="container">
       <SearchField id="mobileSearchInput" class="mobile-search-field" />
@@ -49,6 +41,8 @@ import { site } from '../../config/site';
   const mobileMenu = document.getElementById('mobileMenu');
   const mobileContent = document.getElementById('mobileMenuContent');
   const globalNav = document.getElementById('globalNav');
+  const mobileNavigation = document.getElementById('mobileNavigation');
+  const menuCurtain = document.getElementById('menuCurtain');
 
   const desktopMQ = window.matchMedia('(min-width: 769px)');
 
@@ -97,18 +91,25 @@ import { site } from '../../config/site';
       mobileMenu!.setAttribute('aria-hidden', String(!open));
 
       if (open) {
+        mobileNavigation?.setAttribute('role', 'dialog');
+        mobileNavigation?.setAttribute('aria-modal', 'true');
+        mobileNavigation?.setAttribute('aria-label', 'Mobile navigation');
+        mobileNavigation?.setAttribute('aria-hidden', 'false');
+
         Array.from(document.body.children).forEach((child) => {
-          if (!(child instanceof HTMLElement) || child === mobileMenu) return;
-          if (child === globalNav) return;
+          if (!(child instanceof HTMLElement)) return;
           const isPageBackground = child.id === 'skip-link' ||
             child.id === 'nav-status' ||
-            child.id === 'menuCurtain' ||
             child.tagName === 'MAIN' ||
             child.classList.contains('site-footer');
           if (!isPageBackground) return;
           backgroundInertState.set(child, child.inert);
           child.inert = true;
         });
+        if (menuCurtain) {
+          backgroundInertState.set(menuCurtain, menuCurtain.inert);
+          menuCurtain.inert = true;
+        }
         const navContent = globalNav!.querySelector<HTMLElement>('.nav-content');
         if (navContent) {
           Array.from(navContent.children).forEach((child) => {
@@ -142,6 +143,11 @@ import { site } from '../../config/site';
           }
         }, 50);
       } else {
+        mobileNavigation?.removeAttribute('role');
+        mobileNavigation?.removeAttribute('aria-modal');
+        mobileNavigation?.removeAttribute('aria-label');
+        mobileNavigation?.removeAttribute('aria-hidden');
+
         backgroundInertState.forEach((wasInert, element) => {
           element.inert = wasInert;
         });
@@ -179,15 +185,17 @@ import { site } from '../../config/site';
 
       if (event.key !== 'Tab' || !mobileMenu) return;
 
+      const focusScope = mobileNavigation ?? mobileMenu;
       const focusable = Array.from(
-        mobileMenu.querySelectorAll<HTMLElement>(
+        focusScope.querySelectorAll<HTMLElement>(
           'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
         )
       ).filter((element) =>
         element.getClientRects().length > 0 &&
-        getComputedStyle(element).visibility !== 'hidden'
+        getComputedStyle(element).visibility !== 'hidden' &&
+        !element.closest('[inert]')
       );
-      const first = mobileToggle;
+      const first = focusable[0] ?? mobileToggle;
       const last = focusable[focusable.length - 1] ?? mobileToggle;
 
       if (event.shiftKey && document.activeElement === first) {

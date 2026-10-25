@@ -85,6 +85,9 @@ After the first deployment:
 4. Inspect response headers on HTML and static assets. Cloudflare may apply
    static header configuration differently from Astro preview; validate
    security headers and caching against the deployed response.
+   The build generates CSP hashes for emitted inline bundles and Shiki styles
+   into `dist/_headers`; verify that the deployed policy permits those exact
+   hashes and Cloudflare Web Analytics without allowing arbitrary inline code.
 5. Recheck navigation, search, dark/light theme, mobile layout, and reduced
    motion in a browser.
 

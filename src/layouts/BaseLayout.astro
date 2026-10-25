@@ -96,16 +96,38 @@ const { title = site.title, description = site.description } = Astro.props;
     <!-- Live region for screen reader announcements -->
     <div id="nav-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
-    <!-- HEADER / NAVIGATION (+ frosted curtain) -->
-    <Header />
+    <div id="mobileNavigation">
+      <!-- HEADER / NAVIGATION (+ frosted curtain) -->
+      <Header />
+
+      <!-- MOBILE MENU -->
+      <MobileMenu />
+    </div>
 
     <!-- MAIN CONTENT -->
     <slot />
 
-    <!-- MOBILE MENU -->
-    <MobileMenu />
-
     <!-- FOOTER -->
     <Footer />
+
+    <script>
+      const spotlightSelector = '.post-card, .featured-card, .contact-card';
+      if (document.querySelector(spotlightSelector)) {
+        document.addEventListener(
+          'pointermove',
+          (event) => {
+            if (event.pointerType !== 'mouse' || !(event.target instanceof Element)) return;
+
+            const card = event.target.closest<HTMLElement>(spotlightSelector);
+            if (!card) return;
+
+            const bounds = card.getBoundingClientRect();
+            card.style.setProperty('--mouse-x', `${event.clientX - bounds.left}px`);
+            card.style.setProperty('--mouse-y', `${event.clientY - bounds.top}px`);
+          },
+          { passive: true }
+        );
+      }
+    </script>
   </body>
 </html>
