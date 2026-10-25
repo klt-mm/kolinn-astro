@@ -15,6 +15,11 @@ serves Astro's `dist/` output. The package scripts are:
 - `pnpm run worker:deploy` — upload the built static assets and Worker.
 - `pnpm run check` and `pnpm run check:routes` — run the project checks.
 
+The project pins pnpm to `12.14.0`, requires Node.js `>=22.12.0` (Wrangler's
+runtime requirement), and explicitly approves the `workerd` install script
+needed by Wrangler's local Workers runtime. Keep these settings with the
+lockfile when updating the deployment toolchain.
+
 Build before local Worker preview or direct deployment:
 
 ```sh
@@ -34,15 +39,16 @@ pnpm run worker:deploy
 
 ## Connect the GitHub repository
 
-1. Push the project and `pnpm-lock.yaml` to the GitHub repository's deployment
-   branch (currently `main`).
+1. Push the project, `pnpm-lock.yaml`, and `pnpm-workspace.yaml` to the GitHub
+   repository's deployment branch (currently `main`).
 2. Sign in to the intended Cloudflare account and open **Workers & Pages**.
 3. Create a Worker application from a Git repository / connect the GitHub
    repository `klt-mm/kolinn-astro`. Authorize Cloudflare to access this
    repository if prompted.
 4. Configure the production branch as `main`, the root directory as `.`, the
    build command as `pnpm run build`, and the deployment command as
-   `pnpm run worker:deploy`.
+   `pnpm run worker:deploy`. Ensure the build environment uses Node.js
+   `>=22.12.0`; the `packageManager` field pins pnpm.
 5. Use the repository's pnpm lockfile for package installation. If the setup
    screen requests explicit commands, use `pnpm install --frozen-lockfile`
    followed by the build and deployment commands above.
@@ -86,8 +92,10 @@ After the first deployment:
 - **No matching asset directory:** run `pnpm run build` and confirm `dist/`
   exists before `wrangler dev` or `wrangler deploy`.
 - **Build cannot install dependencies:** ensure the GitHub repository contains
-  the updated `pnpm-lock.yaml` and uses a supported Node.js version from
-  `package.json`.
+  the updated `pnpm-lock.yaml` and `pnpm-workspace.yaml`, uses Node.js
+  `>=22.12.0`, and honors the `packageManager` field. If pnpm reports
+  `ERR_PNPM_IGNORED_BUILDS` for `workerd`, confirm the committed
+  `pnpm-workspace.yaml` includes `workerd: true` under `allowBuilds`.
 - **Worker name already exists:** select a unique name in `wrangler.jsonc` and
   keep the Cloudflare build target in sync.
 - **Routes or 404 differ from local preview:** verify static asset HTML handling

@@ -1,9 +1,10 @@
 {
-  "name": "kolinn-nav-astro",
+  "name": "kolinn-astro",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "KOLINN_NAV — terminal-inspired mega menu, migrated to a component-based Astro starter on the KOLINN Design System (Nord tokens, Fira typefaces, 8px rhythm).",
+  "packageManager": "pnpm@12.14.0",
+  "description": "KOLINN Astro — a modern, accessible Astro starter for building fast, responsive websites.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -22,7 +23,7 @@
     "astro": "^5.18.2"
   },
   "engines": {
-    "node": "^18.20.8 || ^20.3.0 || >=22.0.0"
+    "node": ">=22.12.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.11",

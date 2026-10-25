@@ -12,8 +12,8 @@ incremental quality and design roadmap.
 
 ## Requirements
 
-- Node.js `^18.20.8 || ^20.3.0 || >=22.0.0`
-- pnpm (the repository includes `pnpm-lock.yaml`)
+- Node.js `>=22.12.0`
+- pnpm `12.14.0` (pinned in `package.json`; the repository includes `pnpm-lock.yaml`)
 
 ## Local development and checks
 
