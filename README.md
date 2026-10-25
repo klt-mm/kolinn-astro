@@ -35,7 +35,7 @@ Astro-5-specific APIs.
 
 ## Project structure
 
-```
+```text
 src/
 ├── config/site.ts            # branding, metadata, CTA, manifest strip
 ├── content.config.ts         # Astro 5 Content Layer: news + guides collections
@@ -71,7 +71,7 @@ tools/parity/                 # migration verification harnesses (see below)
 The token layer is extracted verbatim from the monolith into three files that
 keep the original resolve-chain:
 
-```
+```text
 tokens/primitives.css   Nord hex values, type scale, spacing, radii, motion, shadows
         ↓
 tokens/semantic.css     roles only — surface-raised, text-muted, action-primary…
