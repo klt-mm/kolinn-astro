@@ -6,5 +6,14 @@ import sitemap from '@astrojs/sitemap';
 // behavior layer ships as tiny, dependency-free module scripts per component.
 export default defineConfig({
   site: 'https://kolinn.dev',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => {
+        const { pathname } = new URL(page);
+        const isLegacyProjectRoute =
+          /^\/projects\/[^/]+\/$/.test(pathname) && pathname !== '/projects/releases/';
+        return !['/about/', '/contact/'].includes(pathname) && !isLegacyProjectRoute;
+      },
+    }),
+  ],
 });

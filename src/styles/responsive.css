@@ -1,7 +1,6 @@
 /* =====================================================================
    KOLINN Design System v1.0.0 — RESPONSIVE BREAKPOINTS
    System-level contract between desktop mega menu and mobile sheet.
-   (Original style.css §14 — responsive breakpoints.)
    ===================================================================== */
 
 @media (max-width: 768px) {

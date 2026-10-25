@@ -3,9 +3,11 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import Button from '../../../components/ui/Button.astro';
+import { compareNewestFirst, isPublished } from '../../../utils/content.js';
 import '../../../styles/components/projects.css';
 
-const projects = await getCollection('projects');
+const projects = await getCollection('projects', isPublished);
+projects.sort(compareNewestFirst);
 ---
 
 <BaseLayout

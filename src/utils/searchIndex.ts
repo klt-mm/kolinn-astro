@@ -1,5 +1,6 @@
 import { getCollection } from 'astro:content';
 import { navPanels } from '../data/navigation';
+import { isPublished } from './content.js';
 
 export interface SearchItem {
   title: string;
@@ -10,9 +11,9 @@ export interface SearchItem {
 
 export async function getSearchIndex(): Promise<SearchItem[]> {
   const [news, guides, projects] = await Promise.all([
-    getCollection('news', ({ data }) => !data.draft),
-    getCollection('guides', ({ data }) => !data.draft),
-    getCollection('projects', ({ data }) => !data.draft),
+    getCollection('news', isPublished),
+    getCollection('guides', isPublished),
+    getCollection('projects', isPublished),
   ]);
 
   const items: SearchItem[] = [

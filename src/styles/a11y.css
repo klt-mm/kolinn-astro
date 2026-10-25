@@ -2,7 +2,6 @@
    KOLINN Design System v1.0.0 — ACCESSIBILITY (MOTION COMFORT)
    Imported LAST so `prefers-reduced-motion` overrides every component
    animation defined above it.
-   (Original style.css §15.)
    ===================================================================== */
 
 @media (prefers-reduced-motion: reduce) {

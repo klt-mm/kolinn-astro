@@ -108,14 +108,80 @@ const requiredRoutes = [
   '/search-index.json',
 ];
 
+const sitemapFile = path.join(dist, 'sitemap-0.xml');
+if (!fs.existsSync(sitemapFile)) {
+  failures.push('sitemap-0.xml (sitemap missing)');
+} else {
+  const sitemap = fs.readFileSync(sitemapFile, 'utf8');
+  for (const legacyRoute of ['/about/', '/contact/']) {
+    if (sitemap.includes(`https://kolinn.dev${legacyRoute}`)) {
+      failures.push(`${legacyRoute} (legacy redirect must not appear in sitemap)`);
+    }
+  }
+  for (const entry of fs.readdirSync(path.join(dist, 'projects', 'releases'), { withFileTypes: true })) {
+    if (
+      entry.isDirectory() &&
+      sitemap.includes(`https://kolinn.dev/projects/${entry.name}/`)
+    ) {
+      failures.push(`/projects/${entry.name}/ (legacy project route must not appear in sitemap)`);
+    }
+  }
+}
+
 for (const route of requiredRoutes) {
   if (!outputPath(route)) failures.push(`${route} (required route missing)`);
+}
+
+const searchIndexFile = outputPath('/search-index.json');
+if (searchIndexFile) {
+  const searchItems = JSON.parse(fs.readFileSync(searchIndexFile, 'utf8'));
+  if (!Array.isArray(searchItems)) {
+    failures.push('/search-index.json (expected an array)');
+  } else {
+    const seenHrefs = new Set();
+    for (const [index, item] of searchItems.entries()) {
+      if (
+        typeof item?.title !== 'string' ||
+        typeof item?.description !== 'string' ||
+        typeof item?.href !== 'string' ||
+        (item.content !== undefined && typeof item.content !== 'string')
+      ) {
+        failures.push(`/search-index.json (invalid search item at index ${index})`);
+        continue;
+      }
+
+      if (seenHrefs.has(item.href)) {
+        failures.push(`/search-index.json (duplicate href: ${item.href})`);
+      }
+      seenHrefs.add(item.href);
+
+      const target = new URL(item.href, 'https://site.test');
+      if (target.origin === 'https://site.test' && !outputPath(target.pathname)) {
+        failures.push(`/search-index.json -> ${item.href} (missing file)`);
+      }
+    }
+  }
 }
 
 for (const legacyRoute of ['/about', '/contact']) {
   const redirectFile = outputPath(legacyRoute);
   if (!redirectFile || !fs.readFileSync(redirectFile, 'utf8').includes('/info/')) {
     failures.push(`${legacyRoute} (legacy redirect missing)`);
+  }
+}
+
+const releasesDirectory = path.join(dist, 'projects', 'releases');
+if (fs.existsSync(releasesDirectory)) {
+  for (const entry of fs.readdirSync(releasesDirectory, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+
+    const legacyRoute = `/projects/${entry.name}`;
+    const redirectFile = outputPath(legacyRoute);
+    const redirectHtml = redirectFile && fs.readFileSync(redirectFile, 'utf8');
+    if (!redirectHtml?.includes(`/projects/releases/${entry.name}`) ||
+      !/<meta name="robots" content="noindex">/.test(redirectHtml)) {
+      failures.push(`${legacyRoute} (legacy project route must redirect to its release page)`);
+    }
   }
 }
 

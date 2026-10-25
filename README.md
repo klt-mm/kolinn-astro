@@ -21,13 +21,15 @@ incremental quality and design roadmap.
 pnpm install
 pnpm run dev
 pnpm run check
+pnpm test
 pnpm run build
 pnpm run check:routes
 pnpm run preview
 ```
 
-`pnpm run check:routes` requires a current production build. It checks generated
-pages, local link and anchor targets, required routes, image dimensions and
+`pnpm test` runs the focused content helper tests. `pnpm run check:routes`
+requires a current production build; it checks generated pages, local link and
+anchor targets, search-index entries, required routes, image dimensions and
 accessible names. `pnpm run preview` serves the built `dist/` output.
 
 ## Routes
@@ -49,9 +51,10 @@ accessible names. `pnpm run preview` serves the built `dist/` output.
 └── search/                    client-side search plus browseable links
 ```
 
-`/about` and `/contact` are retained as legacy redirect pages. Search data is
-generated at `/search-index.json`. Static pages and local artwork are served
-from the Astro build output.
+`/about`, `/contact`, and legacy `/projects/:slug` pages are retained as
+redirect pages; project releases use `/projects/releases/:slug` as their
+canonical URL. Search data is generated at `/search-index.json`. Static pages
+and local artwork are served from the Astro build output.
 
 ## Project structure
 
@@ -71,9 +74,14 @@ src/
 │   ├── tokens/                primitive, semantic and theme values
 │   └── components/            global component and page styles
 └── utils/                     content formatting and search-index helpers
+tests/
+└── content.test.mjs           published-content and date-ordering tests
 tools/
-└── check-routes.mjs           generated route and local-link smoke check
-docs/                           architecture, design, a11y, performance and plans
+├── check-routes.mjs           generated route, search-index and local-link checks
+└── generate-csp.mjs           production CSP hash generation
+docs/
+├── baseline/                  dated audit notes and baseline screenshots
+└── ...                        architecture, design, a11y, performance and plans
 ```
 
 ## Content

@@ -3,9 +3,10 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHeader from '../../../components/PageHeader.astro';
 import PostCard from '../../../components/PostCard.astro';
+import { compareNewestFirst, isPublished } from '../../../utils/content.js';
 
-const posts = await getCollection('news', ({ data }) => !data.draft);
-posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const posts = await getCollection('news', isPublished);
+posts.sort(compareNewestFirst);
 ---
 
 <BaseLayout

@@ -1,9 +1,10 @@
 /**
- * Content collections — KOLINN_NAV blog.
+ * Content collections — KOLINN_NAV sample content.
  *
- * Two markdown-backed collections rendered by the blog templates:
+ * Markdown-backed collections rendered by the public page templates:
  *   news   → /blog/news/:slug   (announcements, releases, changelog)
  *   guides → /blog/guides/:slug (how-to documentation, ordered)
+ *   projects → /projects/releases/:slug (project case studies)
  *
  * Astro 5 Content Layer: files live in src/content/<collection>/*.md.
  */

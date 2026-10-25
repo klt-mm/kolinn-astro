@@ -12,8 +12,8 @@ includes Cloudflare Workers Static Assets readiness.
 - Before editing, capture the current generated routes and exercise the
   affected desktop/mobile interaction.
 - For each phase, run the smallest relevant check, then the common gate:
-  `pnpm run check`, `pnpm run build`, `pnpm run check:routes`, and
-  `git diff --check`.
+  `pnpm run check`, `pnpm test`, `pnpm run build`,
+  `pnpm run check:routes`, and `git diff --check`.
 - Keep accessibility, responsive behavior, both themes, and reduced motion in
   each phase's acceptance checks.
 - Document intentional behavior changes and update the architecture/docs in
@@ -31,8 +31,10 @@ live-site review and is verified before moving on:
    inline event-handler attributes.
    Acceptance: every generated page's inline blocks are authorized by the
    generated `dist/_headers`; the live page has no CSP violations.
-   **Status:** implemented and verified against the local Workers preview;
-   production verification remains pending deployment.
+   **Status:** implemented; generated hashes passed build checks, and the
+   deployed homepage returned the restrictive CSP without browser CSP errors
+   on 2026-10-26. The Insights beacon itself was not observed loading during
+   the browser check, so analytics delivery remains unverified.
 2. **P2 — Keep mobile keyboard focus inside the modal navigation.** Put the
    existing header toggle and menu within one dialog scope, wrap Tab and
    Shift+Tab across all visible controls in that scope, preserve Escape and
@@ -64,6 +66,12 @@ live-site review and is verified before moving on:
 
 **Acceptance:** Baseline commands and evidence are reproducible; unverified
 performance or contrast claims are not presented as measured facts.
+**Status:** Baseline run completed on 2026-10-26. The reproducible command,
+route, screenshot, and browser timing evidence is recorded in
+[docs/baseline/PHASE_1_BASELINE.md](./baseline/PHASE_1_BASELINE.md). Lighthouse
+could not run because the shared Chrome DevTools browser profile was already
+locked; no Lighthouse score or contrast-conformance claim is reported. Rerun
+those audits when an isolated browser profile is available.
 
 ## Phase 2 — Build correctness and maintainability
 
@@ -80,6 +88,15 @@ performance or contrast claims are not presented as measured facts.
 
 **Acceptance:** Type checks and production build pass; automated tests cover
 the corrected behavior; public URLs remain stable or have explicit redirects.
+**Status:** Complete. Shared published-entry filtering now excludes drafts
+from project archives and detail routes as well as search; archive ordering is
+deterministic; legacy `/projects/:slug` pages direct visitors to the canonical
+release URLs. Added focused content-helper tests and expanded the generated
+route check to validate search-index shape, uniqueness, targets, and legacy
+project redirects. Updated stale setup/content guidance and removed unused
+parity scripts that depended on unavailable legacy inputs. `pnpm run check`,
+`pnpm test`, `pnpm run build` (29 routes), `pnpm run check:routes`, Wrangler
+deploy dry-run (122 assets), and `git diff --check` pass.
 
 ## Phase 3 — Accessibility and interaction reliability
 

@@ -36,7 +36,8 @@ and CLI scripts are added.
   and page data that is shared across templates.
 - `src/styles/` holds the token layers, global entry point, responsive rules,
   accessibility overrides, and component styles.
-- `src/utils/` contains shared content and search-index helpers.
+- `src/utils/` contains shared published-content/date-ordering and search-index
+  helpers.
 - `tools/check-routes.mjs` checks generated route and link integrity after a
   production build.
 
@@ -58,6 +59,9 @@ The `/blog`, `/blog/news`, `/blog/guides`, and `/projects/releases` routes are
 content archives. `/search-index.json` is generated from public searchable
 content; the search UI uses it client-side and offers browseable links if
 JavaScript is unavailable.
+Legacy `/projects/:slug` pages point to the canonical
+`/projects/releases/:slug` pages; redirect-only routes are excluded from the
+generated sitemap.
 
 ## Styling and behavior boundaries
 

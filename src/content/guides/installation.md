@@ -11,23 +11,23 @@ This guide takes you from an empty directory to a running KOLINN_NAV site.
 
 ## Prerequisites
 
-- **Node.js** `^18.20.8 || ^20.3.0 || >=22.0.0`
-- **npm** 9.6.5+ (pnpm and yarn work too)
+- **Node.js** `>=22.12.0`
+- **pnpm** 9 (use the repository's `pnpm-lock.yaml`)
 
 ## 1 · Get the project
 
 ```bash
-# from the starter root
-npm install
+pnpm install --frozen-lockfile
 ```
 
-That's it — the behavior layer has **zero runtime dependencies**. The only
-packages are Astro itself and the two Fira font sources.
+The site is statically generated, so it has no application runtime dependency.
+Astro, the sitemap integration, and the Fira font packages are used during
+development and build.
 
 ## 2 · Run the dev server
 
 ```bash
-npm run dev
+pnpm run dev
 # → http://localhost:4321
 ```
 
@@ -36,8 +36,8 @@ Hot reload covers templates, styles and the per-component behavior scripts.
 ## 3 · Production build
 
 ```bash
-npm run build     # → dist/
-npm run preview   # serve the built site locally
+pnpm run build     # → dist/
+pnpm run preview   # serve the built site locally
 ```
 
 The build inlines the small behavior modules, bundles one token-driven
@@ -50,7 +50,7 @@ stylesheet, and self-hosts the Fira woff2 files — no third-party requests.
 | `src/styles/tokens/`    | primitives → semantic roles → themes  |
 | `src/styles/components/`| one stylesheet per system component   |
 | `src/data/navigation.ts`| every menu link, in one typed file    |
-| `src/content/`          | markdown for the news + guides blogs  |
+| `src/content/`          | markdown for news, guides, and projects |
 
 ## Verify the install
 

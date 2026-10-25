@@ -1,22 +1,20 @@
 ---
-/**
- * Home — KOLINN_NAV demo page.
- * Mirrors the original index.html main content: hero + featured grid.
- */
+/** Home page with project releases, recent posts, and featured resources. */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/sections/Hero.astro';
 import FeaturedSection from '../components/sections/FeaturedSection.astro';
 import { getCollection } from 'astro:content';
 import Button from '../components/ui/Button.astro';
 import PostCard from '../components/PostCard.astro';
+import { compareNewestFirst, isPublished } from '../utils/content.js';
 
 const [projects, news, guides] = await Promise.all([
-  getCollection('projects', ({ data }) => !data.draft),
-  getCollection('news', ({ data }) => !data.draft),
-  getCollection('guides', ({ data }) => !data.draft),
+  getCollection('projects', isPublished),
+  getCollection('news', isPublished),
+  getCollection('guides', isPublished),
 ]);
 
-projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+projects.sort(compareNewestFirst);
 
 const latestPosts = [
   ...news.map((post) => ({
@@ -32,7 +30,7 @@ const latestPosts = [
     meta: post.data.level,
   })),
 ]
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .sort(compareNewestFirst)
   .slice(0, 3);
 ---
 

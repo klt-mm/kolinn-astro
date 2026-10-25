@@ -10,6 +10,7 @@
     "build": "astro build && node tools/generate-csp.mjs",
     "preview": "astro preview",
     "check": "astro check",
+    "test": "node --test",
     "check:routes": "node tools/check-routes.mjs",
     "worker:dev": "wrangler dev",
     "worker:deploy": "wrangler deploy",
