@@ -11,6 +11,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "check:routes": "node tools/check-routes.mjs",
+    "worker:dev": "wrangler dev",
+    "worker:deploy": "wrangler deploy",
     "astro": "astro"
   },
   "dependencies": {
@@ -24,6 +26,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.11",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "wrangler": "^4.152.0"
   }
 }

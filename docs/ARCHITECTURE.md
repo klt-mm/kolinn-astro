@@ -68,7 +68,8 @@ CSS styles the resulting state classes and attributes.
 
 ## Deployment boundary
 
-The project currently builds static output only. Hosting, custom domains,
-environment bindings, and Worker runtime code are not configured in the
-repository. For a static site, prefer Workers Static Assets rather than adding
-an SSR adapter or backend services without a concrete runtime requirement.
+The project builds static output only and is configured to serve `dist/` via
+Cloudflare Workers Static Assets in `wrangler.jsonc`. It has no Worker request
+handler, custom domain, environment bindings, or account credentials.
+GitHub-based build/deploy setup and post-deployment verification are documented
+in [CLOUDFLARE_DEPLOYMENT.md](./CLOUDFLARE_DEPLOYMENT.md).

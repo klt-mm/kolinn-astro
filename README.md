@@ -1,6 +1,6 @@
-# KOLINN_NAV
+# KOLINN_ASTRO
 
-KOLINN_NAV is a content-driven Astro 5 demo site built around the KOLINN
+KOLINN_ASTRO is a content-driven Astro 5 demo site built around the KOLINN
 Design System. It includes responsive mega-menu navigation, a searchable
 content index, project release examples, support and documentation samples,
 and news and guides. All content and contact details are demonstration data.
@@ -113,11 +113,20 @@ See [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md) and
 
 ## Cloudflare deployment status
 
-The app is a static Astro build and is suited to Cloudflare Workers Static
-Assets. The repository does not yet include a Cloudflare Worker deployment
-configuration. Add that configuration and its local development/deploy scripts
-once the Cloudflare `cf` CLI is available in the development environment; do
-not treat `astro preview` as a Worker runtime test.
+The project is configured for Cloudflare Workers Static Assets using
+[`wrangler.jsonc`](wrangler.jsonc). Connect `klt-mm/kolinn-astro` in the
+Cloudflare dashboard and use `pnpm run build` as the build command and
+`pnpm run worker:deploy` as the deployment command. See
+[docs/CLOUDFLARE_DEPLOYMENT.md](docs/CLOUDFLARE_DEPLOYMENT.md) for local
+testing, GitHub connection steps, and post-deployment verification.
 
-For the complete quality roadmap, including the Cloudflare deployment
-milestone, see [docs/REFACTORING_PLAN.md](docs/REFACTORING_PLAN.md).
+`pnpm run worker:dev` and `pnpm run worker:deploy` serve the existing `dist/`
+build; run `pnpm run build` first. The `astro preview` command is not a Worker
+runtime test.
+
+The Cloudflare account connection, GitHub authorization, initial deployment,
+and optional custom domain still need to be completed in the dashboard. The
+codebase does not contain account credentials or secrets.
+
+For the broader code-quality roadmap, see
+[docs/REFACTORING_PLAN.md](docs/REFACTORING_PLAN.md).

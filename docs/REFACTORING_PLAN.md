@@ -111,7 +111,7 @@ recorded report.
 **Acceptance:** Search and archives behave consistently with content schemas;
 all local links and required routes resolve.
 
-## Phase 7 — Cloudflare Workers Static Assets
+## Phase 7 — Cloudflare Workers Static Assets (repository configured)
 
 1. Confirm the intended Cloudflare account/project name and deployment target.
 2. Use the Cloudflare `cf` CLI workflow for this new project; do not add an SSR
@@ -129,11 +129,15 @@ all local links and required routes resolve.
 environment; static routes and 404 responses behave as expected; no secrets or
 account identifiers are committed.
 
-**Current blocker:** The development environment has neither `cf` nor Wrangler
-available, and its network could not reach Cloudflare's installation/docs
-endpoints. The repository intentionally has no Cloudflare deployment
-configuration yet. Complete this phase when the supported `cf` CLI is
-available; do not claim the Worker deployment is configured before then.
+**Repository work completed:** Added Wrangler as a development dependency,
+`wrangler.jsonc` for the static `dist/` assets, local preview/deploy scripts,
+and [CLOUDFLARE_DEPLOYMENT.md](./CLOUDFLARE_DEPLOYMENT.md).
+
+**Still required outside the repository:** Connect the GitHub repo and
+Cloudflare account in Workers Builds, authorize access, complete the initial
+deployment, then check deployed routes, headers, and optional custom domain.
+Do not claim production deployment until those account-side steps and
+verification are complete.
 
 ## Phase 8 — CI and release hygiene
 
