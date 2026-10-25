@@ -16,7 +16,7 @@ const { Content } = await render(project);
 ---
 
 <BaseLayout title={`${project.data.title} — Projects`} description={project.data.description}>
-  <main id="main" class="container">
+  <main id="main" class="container" tabindex="-1">
     <article class="project-post">
       <header class="project-header">
         <h1 class="project-title">{project.data.title}</h1>
@@ -44,7 +44,15 @@ const { Content } = await render(project);
       </header>
 
       {project.data.image && (
-        <img src={project.data.image} alt={project.data.title} class="project-image" />
+        <img
+          src={project.data.image}
+          alt={`${project.data.title} preview`}
+          class="project-image"
+          loading="lazy"
+          decoding="async"
+          width="1200"
+          height="675"
+        />
       )}
 
       <div class="project-body">

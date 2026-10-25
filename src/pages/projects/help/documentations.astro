@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import Button from '../../../components/ui/Button.astro';
+---
+
+<BaseLayout
+  title="Documentations — KOLINN_NAV"
+  description="Sample documentation for installing, configuring, and using the KOLINN_NAV starter."
+>
+  <main id="main" tabindex="-1">
+    <PageHeader
+      command="$ kolinn docs --help"
+      title="Documentations"
+      copy="A practical starting point for exploring this sample site and its design system."
+    />
+    <section class="page-section" aria-labelledby="docs-sections-title">
+      <div class="container">
+        <h2 class="section-head" id="docs-sections-title">Documentation library</h2>
+        <div class="help-grid">
+          <article class="help-card">
+            <h3>Install the starter</h3>
+            <p>Prepare the local environment, install dependencies, and start the development server.</p>
+            <Button href="/blog/guides/installation" variant="primary">Read installation guide</Button>
+          </article>
+          <article class="help-card">
+            <h3>Build your first page</h3>
+            <p>Learn how layouts, Astro components, and content collections work together.</p>
+            <Button href="/blog/guides/quick-start" variant="primary">Read the quick start</Button>
+          </article>
+          <article class="help-card">
+            <h3>Customize themes</h3>
+            <p>Use semantic design tokens to adjust colors, typography, and spacing.</p>
+            <Button href="/blog/guides/theming-and-tokens" variant="primary">Explore theme tokens</Button>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .help-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--kds-space-4);
+  }
+
+  .help-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--kds-space-3);
+    padding: var(--kds-space-4);
+    border: 1px solid var(--kds-border-default);
+    border-radius: var(--kds-radius-md);
+    background: var(--kds-surface-raised);
+  }
+
+  .help-card h3 {
+    color: var(--kds-text-primary);
+    font: 600 var(--kds-title-20)/var(--kds-lh-title-20) var(--kds-font-mono);
+  }
+
+  .help-card p {
+    flex: 1;
+    color: var(--kds-text-muted);
+  }
+</style>

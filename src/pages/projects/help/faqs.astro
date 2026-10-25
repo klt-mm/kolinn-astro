@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+---
+
+<BaseLayout
+  title="FAQs — KOLINN_NAV"
+  description="Answers to common questions about the KOLINN_NAV sample site and starter."
+>
+  <main id="main" tabindex="-1">
+    <PageHeader
+      command="$ kolinn help --faq"
+      title="Frequently asked questions"
+      copy="Sample answers about running, customizing, and deploying this Astro starter."
+    />
+    <section class="page-section" aria-labelledby="faq-list-title">
+      <div class="container faq-list">
+        <h2 class="section-head" id="faq-list-title">Common questions</h2>
+        <details>
+          <summary>Is the contact form connected to a service?</summary>
+          <p>No. It is a client-side demo and does not send or store submitted information.</p>
+        </details>
+        <details>
+          <summary>How do I run the site locally?</summary>
+          <p>Install the dependencies with pnpm, then run <code>pnpm run dev</code> from the project directory.</p>
+        </details>
+        <details>
+          <summary>Where are the theme colors configured?</summary>
+          <p>Theme primitives and semantic roles live in the CSS files under <code>src/styles/tokens/</code>.</p>
+        </details>
+        <details>
+          <summary>Can I use the sample project content as production data?</summary>
+          <p>The project descriptions and destinations are examples. Replace them with verified project information before publishing.</p>
+        </details>
+        <p class="faq-contact">Need more help? Visit <a href="/info/support">Support</a>.</p>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .faq-list {
+    max-width: 52rem;
+  }
+
+  .faq-list details {
+    border-bottom: 1px solid var(--kds-border-default);
+  }
+
+  .faq-list details:first-of-type {
+    border-top: 1px solid var(--kds-border-default);
+  }
+
+  .faq-list summary {
+    padding: var(--kds-space-3) 0;
+    color: var(--kds-text-primary);
+    cursor: pointer;
+    font-family: var(--kds-font-mono);
+    font-weight: 600;
+  }
+
+  .faq-list details p {
+    padding: 0 0 var(--kds-space-3);
+    color: var(--kds-text-muted);
+  }
+
+  .faq-list code {
+    overflow-wrap: anywhere;
+  }
+
+  .faq-contact {
+    margin-top: var(--kds-space-4);
+  }
+
+  .faq-contact a {
+    color: var(--kds-action-primary);
+  }
+</style>

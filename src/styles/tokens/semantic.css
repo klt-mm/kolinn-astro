@@ -28,7 +28,7 @@
 
     /* Translucent chrome */
     --kds-nav-bg: rgba(236, 239, 244, 0.72);
-    --kds-dropdown-bg: rgba(229, 233, 240, 0.85);
+    --kds-dropdown-bg: #e5e9f0;
     --kds-curtain-bg: rgba(236, 239, 244, 0.45);
     --kds-dropdown-shadow: 0 20px 40px rgba(46, 52, 64, 0.14);
 }

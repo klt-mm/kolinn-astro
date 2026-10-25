@@ -41,6 +41,27 @@ const { title = site.title, description = site.description } = Astro.props;
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        root.classList.add('is-page-loading');
+
+        let timeoutId;
+        const finishLoading = () => {
+          root.classList.remove('is-page-loading');
+          if (timeoutId) window.clearTimeout(timeoutId);
+          window.removeEventListener('load', finishLoading);
+        };
+
+        if (document.readyState === 'complete') {
+          requestAnimationFrame(finishLoading);
+        } else {
+          window.addEventListener('load', finishLoading, { once: true });
+          timeoutId = window.setTimeout(finishLoading, 2500);
+        }
+      })();
+    </script>
+
     <!-- SEO / Canonical -->
     <link rel="canonical" href={Astro.url} />
     <meta property="og:type" content="website" />

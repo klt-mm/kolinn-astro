@@ -6,7 +6,7 @@ tags: ["Engine", "WebGL", "Performance"]
 techStack: ["TypeScript", "WebGL 2.0", "Rust", "WASM"]
 githubUrl: "https://github.com/kolinn/nova-core"
 liveUrl: "https://nova-core.demo"
-image: "https://images.unsplash.com/photo-1635070041078-e363//"
+image: "/images/projects/nova-core.svg"
 ---
 
 ## Overview

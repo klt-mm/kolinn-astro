@@ -8,31 +8,93 @@ import Hero from '../components/sections/Hero.astro';
 import FeaturedSection from '../components/sections/FeaturedSection.astro';
 import { getCollection } from 'astro:content';
 import Button from '../components/ui/Button.astro';
+import PostCard from '../components/PostCard.astro';
 
-const latestProjects = (await getCollection('projects')).slice(0, 3);
+const [projects, news, guides] = await Promise.all([
+  getCollection('projects', ({ data }) => !data.draft),
+  getCollection('news', ({ data }) => !data.draft),
+  getCollection('guides', ({ data }) => !data.draft),
+]);
+
+projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const latestPosts = [
+  ...news.map((post) => ({
+    ...post,
+    href: `/blog/news/${post.id}`,
+    kind: 'news' as const,
+    meta: post.data.category,
+  })),
+  ...guides.map((post) => ({
+    ...post,
+    href: `/blog/guides/${post.id}`,
+    kind: 'guide' as const,
+    meta: post.data.level,
+  })),
+]
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 ---
 
 <BaseLayout>
-  <main id="main" tabindex="-1">
+  <main id="main" class="home-page" tabindex="-1">
     <Hero />
     
     <section class="page-section" id="projects-preview">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-head">Featured Engineering</h2>
-          <p class="section-copy">Recent implementations focusing on performance and design scalability.</p>
+          <h2 class="section-head">Project case studies</h2>
+          <p class="section-copy">
+            Sample releases covering interface systems, infrastructure monitoring, and real-time rendering.
+          </p>
         </div>
         <div class="project-preview-grid">
-          {latestProjects.map(project => (
-            <div class="project-preview-card">
+          {projects.map((project) => (
+            <article class="project-preview-card">
+              {project.data.image && (
+                <img
+                  src={project.data.image}
+                  alt=""
+                  width="1200"
+                  height="675"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+              <p class="project-preview-stack">{project.data.techStack.slice(0, 3).join(' · ')}</p>
               <h3>{project.data.title}</h3>
               <p>{project.data.description}</p>
-              <Button href={`/projects/${project.id}`} variant="primary">View Case Study</Button>
-            </div>
+              <Button href={`/projects/releases/${project.id}`} variant="primary">View case study</Button>
+            </article>
           ))}
         </div>
         <div class="section-footer">
-          <Button href="/projects" variant="primary">Browse All Projects</Button>
+          <Button href="/projects/releases" variant="primary">Browse all releases</Button>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section home-updates" aria-labelledby="home-updates-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-head" id="home-updates-title">Latest from the blog</h2>
+          <p class="section-copy">Release notes and practical guides for the KOLINN_NAV demo.</p>
+        </div>
+        <div class="post-grid">
+          {latestPosts.map((post) => (
+            <PostCard
+              href={post.href}
+              kind={post.kind}
+              meta={post.meta}
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              body={post.body}
+            />
+          ))}
+        </div>
+        <div class="section-footer">
+          <Button href="/blog" variant="primary">Explore news and guides</Button>
         </div>
       </div>
     </section>
@@ -68,31 +130,64 @@ const latestProjects = (await getCollection('projects')).slice(0, 3);
   }
 
   .project-preview-card {
+    min-width: 0;
     background: var(--kds-surface-raised);
     border: 1px solid var(--kds-border-default);
     border-radius: var(--kds-radius-md);
-    padding: var(--kds-space-4);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: var(--kds-space-3);
+  }
+
+  .project-preview-card > :not(img) {
+    margin-inline: var(--kds-space-3);
+  }
+
+  .project-preview-card > img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-bottom: 1px solid var(--kds-border-default);
+  }
+
+  .project-preview-stack {
+    margin-top: var(--kds-space-3);
+    margin-bottom: var(--kds-space-1);
+    color: var(--kds-accent-subtitle);
+    font-family: var(--kds-font-mono);
+    font-size: var(--kds-caption-12);
+    line-height: var(--kds-lh-caption-12);
   }
 
   .project-preview-card h3 {
     font-family: var(--kds-font-mono);
     font-size: var(--kds-title-20);
     color: var(--kds-text-primary);
-    margin: 0;
+    margin-bottom: var(--kds-space-3);
   }
 
-  .project-preview-card p {
+  .project-preview-card > p:not(.project-preview-stack) {
     font-size: var(--kds-small-14);
     line-height: var(--kds-lh-small-14);
     color: var(--kds-text-muted);
-    flex: 1;
+    margin-bottom: var(--kds-space-3);
+  }
+
+  .project-preview-card > .btn {
+    align-self: flex-start;
+    margin-top: auto;
+    margin-bottom: var(--kds-space-3);
   }
 
   .section-footer {
     display: flex;
     justify-content: center;
+    margin-top: var(--kds-space-4);
+  }
+
+  .home-updates {
+    border-top: 1px solid var(--kds-border-default);
   }
 </style>

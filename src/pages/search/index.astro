@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import SearchField from '../../components/ui/SearchField.astro';
+
+const [news, guides, projects] = await Promise.all([
+  getCollection('news', ({ data }) => !data.draft),
+  getCollection('guides', ({ data }) => !data.draft),
+  getCollection('projects', ({ data }) => !data.draft),
+]);
+---
+
+<BaseLayout
+  title="Search — KOLINN_NAV"
+  description="Search site pages, news, guides, and project releases."
+>
+  <main id="main" tabindex="-1">
+    <PageHeader
+      command="$ kolinn search"
+      title="Search"
+      copy="Search pages, news, guides, and project releases."
+    />
+    <section class="page-section" aria-labelledby="search-heading">
+      <div class="container search-page">
+        <h2 id="search-heading" class="sr-only">Search this site</h2>
+        <SearchField id="siteSearchPage" readQuery />
+
+        <noscript>
+          <p class="search-noscript">
+            Live search needs JavaScript. Browse the sample pages and posts below instead.
+          </p>
+        </noscript>
+
+        <div class="search-fallback">
+          <section aria-labelledby="search-news">
+            <h2 id="search-news">News</h2>
+            <ul>
+              {news.map((entry) => (
+                <li><a href={`/blog/news/${entry.id}`}>{entry.data.title}</a></li>
+              ))}
+            </ul>
+          </section>
+          <section aria-labelledby="search-guides">
+            <h2 id="search-guides">Guides</h2>
+            <ul>
+              {guides.map((entry) => (
+                <li><a href={`/blog/guides/${entry.id}`}>{entry.data.title}</a></li>
+              ))}
+            </ul>
+          </section>
+          <section aria-labelledby="search-projects">
+            <h2 id="search-projects">Project releases</h2>
+            <ul>
+              {projects.map((entry) => (
+                <li><a href={`/projects/releases/${entry.id}`}>{entry.data.title}</a></li>
+              ))}
+            </ul>
+          </section>
+          <section aria-labelledby="search-pages">
+            <h2 id="search-pages">Pages</h2>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/projects">Projects</a></li>
+              <li><a href="/projects/help/documentations">Documentations</a></li>
+              <li><a href="/projects/help/faqs">FAQs</a></li>
+              <li><a href="/info/support">Support</a></li>
+              <li><a href="/info/contact">Contact</a></li>
+              <li><a href="/info/about">About</a></li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .search-noscript {
+    margin-bottom: var(--kds-space-4);
+    color: var(--kds-text-muted);
+  }
+</style>

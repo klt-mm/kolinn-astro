@@ -33,7 +33,7 @@ const projects = await getCollection('projects');
                 </div>
               </div>
               <p>{project.data.description}</p>
-              <Button href={`/projects/${project.id}`} variant="primary">View Project</Button>
+              <Button href={`/projects/releases/${project.id}`} variant="primary">View Project</Button>
             </article>
           ))}
         </div>

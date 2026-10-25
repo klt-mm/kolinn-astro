@@ -45,6 +45,8 @@
 @import "./components/page.css";
 @import "./components/post.css";
 @import "./components/form.css";
+@import "./components/home.css";
+@import "./components/loading.css";
 
 @import "./responsive.css";
 @import "./a11y.css";

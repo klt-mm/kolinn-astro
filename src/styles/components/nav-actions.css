@@ -63,18 +63,25 @@
     display: none;
     flex-direction: column;
     justify-content: space-between;
-    width: 24px;
-    height: 18px;
+    align-items: center;
+    width: 44px;
+    height: 44px;
     background: transparent;
     border: none;
+    border-radius: var(--kds-radius-full);
     cursor: pointer;
-    padding: 0;
+    padding: 13px 10px;
     z-index: 10001;
+    transition: background-color var(--kds-transition-base) var(--kds-transition-timing);
+}
+
+.hamburger:hover {
+    background: var(--kds-surface-hover);
 }
 
 .hamburger-line {
     display: block;
-    width: 100%;
+    width: 24px;
     height: 2px;
     background-color: var(--kds-text-body);
     border-radius: 2px;

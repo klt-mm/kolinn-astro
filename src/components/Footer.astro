@@ -1,7 +1,7 @@
 ---
 /**
- * Footer — system footer (role="contentinfo"): brand mark, nav echo
- * and a professional copyright line.
+ * Footer — system footer (role="contentinfo"): brand mark, nav echo,
+ * social links, legal links, and a bottom copyright line.
  */
 import { footerLinks } from '../data/navigation';
 import { site } from '../config/site';
@@ -25,7 +25,13 @@ import { site } from '../config/site';
                 {
                   col.links.map((link) => (
                     <li>
-                      <a href={link.href}>{link.label}</a>
+                      <a
+                        href={link.href}
+                        target={link.external ? '_blank' : undefined}
+                        rel={link.external ? 'noopener noreferrer' : undefined}
+                      >
+                        {link.label}
+                      </a>
                     </li>
                   ))
                 }
@@ -35,8 +41,10 @@ import { site } from '../config/site';
         }
       </div>
     </nav>
-    <div class="footer-copyright">
-      <p>&copy; {new Date().getFullYear()} {site.brand}. All rights reserved.</p>
-    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p class="footer-copyright">
+      &copy; {new Date().getFullYear()} {site.brand}. All rights reserved.
+    </p>
   </div>
 </footer>

@@ -3,12 +3,14 @@
  *
  * The mega menu, search suggestions, mobile accordion and footer are all
  * rendered from these structures — edit content here, not in markup.
- * Mirrors the original index.html exactly (labels, order, hrefs).
+ * Mirrors the public sitemap across the desktop mega menu, mobile
+ * accordion, search suggestions, and footer.
  */
 
 export interface NavLink {
   label: string;
   href: string;
+  external?: boolean;
 }
 
 export interface NavColumn {
@@ -31,131 +33,89 @@ export interface MobileSection {
   links: NavLink[];
 }
 
-const link = (label: string, href = '#'): NavLink => ({ label, href });
+const link = (label: string, href: string): NavLink => ({ label, href });
 
 /* ---------------- Desktop mega-menu panels ---------------- */
 
 export const navPanels: NavPanel[] = [
   {
-    id: 'panel-overview',
-    label: 'Overview',
+    id: 'panel-blog',
+    label: 'Blog',
     cols: 3,
     columns: [
       {
-        title: 'Quick links',
+        title: 'News',
         links: [
-          link('Color tokens', '/blog/guides/theming-and-tokens'),
-          link('Typography ladder', '/blog/guides/theming-and-tokens'),
-          link('Spacing & layout', '/about#manifest'),
-          link('Inspector commands', '/blog/news/inspector-commands-preview'),
+          link('All news', '/blog/news'),
+          link('Inspector commands preview', '/blog/news/inspector-commands-preview'),
+          link('KOLINN_NAV 1.0', '/blog/news/kolinn-nav-1-0'),
+          link('Nord palette refresh', '/blog/news/nord-palette-refresh'),
         ],
       },
       {
-        title: 'Core principles',
+        title: 'Guides',
         links: [
-          link('01 · Terminal at heart', '/about#principles'),
-          link('02 · Rich, not noisy', '/about#principles'),
-          link('03 · Legibility first', '/about#principles'),
-          link('04 · Responsive by default', '/about#principles'),
+          link('All guides', '/blog/guides'),
+          link('Installation', '/blog/guides/installation'),
+          link('Quick start', '/blog/guides/quick-start'),
+          link('Theming & tokens', '/blog/guides/theming-and-tokens'),
         ],
       },
       {
-        title: 'System',
+        title: 'Blog',
         links: [
-          link('Manifest & configuration', '/about#manifest'),
-          link('Projects gallery', '/projects'),
-          link('Inspector commands', '/blog/news/inspector-commands-preview'),
-          link('Changelog — v1.0.0', '/blog/news/kolinn-nav-1-0'),
-          link('Newsroom', '/blog'),
-          link('Contact', '/contact'),
-          link('Privacy Policy', '/legal/privacy-policy'),
+          link('All posts', '/blog'),
         ],
       },
     ],
   },
   {
-    id: 'panel-components',
-    label: 'Components',
+    id: 'panel-projects',
+    label: 'Projects',
     cols: 3,
     columns: [
       {
-        title: 'Inputs & controls',
+        title: 'Releases',
         links: [
-          link('Buttons & triggers'),
-          link('Text controls & fields'),
-          link('Selection controls'),
-          link('Interactive command field'),
+          link('All releases', '/projects/releases'),
+          link('Apex Sentinel', '/projects/releases/apex-sentinel'),
+          link('Lumina UI', '/projects/releases/lumina-ui'),
+          link('Nova Core', '/projects/releases/nova-core'),
         ],
       },
       {
-        title: 'Navigation & wayfinding',
+        title: 'Help',
         links: [
-          link('Structural header'),
-          link('Tabs & breadcrumbs'),
-          link('Pagination & table controls'),
+          link('Documentations', '/projects/help/documentations'),
+          link('FAQs', '/projects/help/faqs'),
         ],
       },
       {
-        title: 'Feedback & data',
+        title: 'Projects',
         links: [
-          link('Tags, badges & indicators'),
-          link('Alerts & status banners'),
-          link('Overlays & tooltips'),
-          link('Data tables'),
-          link('Skeleton loaders'),
+          link('All projects', '/projects'),
         ],
       },
     ],
   },
   {
-    id: 'panel-patterns',
-    label: 'Patterns',
-    cols: 2,
-    columns: [
-      {
-        title: 'Workflows',
-        links: [
-          link('Operations overview'),
-          link('Command → progress → result'),
-          link('Progressive configuration'),
-        ],
-      },
-      {
-        title: 'Composition',
-        links: [
-          link('Three-up content discovery'),
-          link('Theme parity', '/blog/guides/theming-and-tokens'),
-        ],
-      },
-    ],
-  },
-  {
-    id: 'panel-documentation',
-    label: 'Documentation',
+    id: 'panel-info',
+    label: 'Info',
     cols: 3,
     columns: [
       {
-        title: 'Specifications',
+        title: 'Information',
         links: [
-          link('01 · Overview & principles'),
-          link('02 · Color tokens'),
-          link('03 · Typography'),
-          link('04 · Spacing & layout'),
+          link('Support', '/info/support'),
+          link('Contact', '/info/contact'),
+          link('About', '/info/about'),
         ],
       },
       {
-        title: 'Reference',
+        title: 'Help',
         links: [
-          link('05 · Elements & components'),
-          link('06 · Patterns & usage'),
-          link('07 · System manifest'),
-        ],
-      },
-      {
-        title: 'Get started',
-        links: [
-          link('Installation guide', '/blog/guides/installation'),
-          link('Quick start tutorial', '/blog/guides/quick-start'),
+          link('Documentations', '/projects/help/documentations'),
+          link('FAQs', '/projects/help/faqs'),
         ],
       },
     ],
@@ -167,10 +127,10 @@ export const navPanels: NavPanel[] = [
 export const searchSuggestions: NavColumn = {
   title: 'Quick links',
   links: [
-    link('Color tokens', '/blog/guides/theming-and-tokens'),
-    link('Typography ladder', '/blog/guides/theming-and-tokens'),
-    link('Spacing & layout', '/about#manifest'),
-    link('Inspector commands', '/blog/news/inspector-commands-preview'),
+    link('Documentations', '/projects/help/documentations'),
+    link('FAQs', '/projects/help/faqs'),
+    link('Support', '/info/support'),
+    link('Contact', '/info/contact'),
   ],
 };
 
@@ -178,55 +138,46 @@ export const searchSuggestions: NavColumn = {
 
 export const mobileSections: MobileSection[] = [
   {
-    label: 'Overview',
+    label: 'Blog · News',
     links: [
-      link('01 · Terminal at heart', '/about#principles'),
-      link('02 · Rich, not noisy', '/about#principles'),
-      link('03 · Legibility first', '/about#principles'),
-      link('04 · Responsive by default', '/about#principles'),
-      link('Manifest & configuration', '/about#manifest'),
-      link('Inspector commands', '/blog/news/inspector-commands-preview'),
-      link('Changelog — v1.0.0', '/blog/news/kolinn-nav-1-0'),
+      link('All news', '/blog/news'),
+      link('Inspector commands preview', '/blog/news/inspector-commands-preview'),
+      link('KOLINN_NAV 1.0', '/blog/news/kolinn-nav-1-0'),
+      link('Nord palette refresh', '/blog/news/nord-palette-refresh'),
     ],
   },
   {
-    label: 'Components',
+    label: 'Blog · Guides',
     links: [
-      link('Buttons & triggers'),
-      link('Text controls & fields'),
-      link('Selection controls'),
-      link('Interactive command field'),
-      link('Structural header'),
-      link('Tabs & breadcrumbs'),
-      link('Pagination & table controls'),
-      link('Tags, badges & indicators'),
-      link('Alerts & status banners'),
-      link('Overlays & tooltips'),
-      link('Data tables'),
-      link('Skeleton loaders'),
+      link('All guides', '/blog/guides'),
+      link('Installation', '/blog/guides/installation'),
+      link('Quick start', '/blog/guides/quick-start'),
+      link('Theming & tokens', '/blog/guides/theming-and-tokens'),
     ],
   },
   {
-    label: 'Patterns',
+    label: 'Projects · Releases',
     links: [
-      link('Operations overview'),
-      link('Command → progress → result'),
-      link('Progressive configuration'),
-      link('Three-up content discovery'),
-      link('Theme parity', '/blog/guides/theming-and-tokens'),
+      link('All releases', '/projects/releases'),
+      link('Apex Sentinel', '/projects/releases/apex-sentinel'),
+      link('Lumina UI', '/projects/releases/lumina-ui'),
+      link('Nova Core', '/projects/releases/nova-core'),
+      link('All projects', '/projects'),
     ],
   },
   {
-    label: 'Documentation',
+    label: 'Projects · Help',
     links: [
-      link('01 · Overview & principles'),
-      link('02 · Color tokens'),
-      link('03 · Typography'),
-      link('04 · Spacing & layout'),
-      link('05 · Elements & components'),
-      link('06 · Patterns & usage'),
-      link('07 · System manifest'),
-      link('Get started', '/blog/guides/installation'),
+      link('Documentations', '/projects/help/documentations'),
+      link('FAQs', '/projects/help/faqs'),
+    ],
+  },
+  {
+    label: 'Info',
+    links: [
+      link('Support', '/info/support'),
+      link('Contact', '/info/contact'),
+      link('About', '/info/about'),
     ],
   },
 ];
@@ -239,7 +190,21 @@ export const footerLinks: NavColumn[] = [
     links: [
       link('Blog', '/blog'),
       link('Projects', '/projects'),
-      link('Documentations', '/blog/guides'),
+      link('Documentations', '/projects/help/documentations'),
+      link('FAQs', '/projects/help/faqs'),
+      link('Support', '/info/support'),
+    ],
+  },
+  {
+    title: 'Social',
+    links: [
+      { label: 'GitHub', href: 'https://github.com/klt-mm/', external: true },
+      { label: 'CodePen', href: 'https://codepen.io/klt-mm/', external: true },
+      {
+        label: 'HackerRank',
+        href: 'https://hackerrank.com/profile/kyawlinthant_mm/',
+        external: true,
+      },
     ],
   },
   {

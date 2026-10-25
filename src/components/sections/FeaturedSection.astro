@@ -1,6 +1,6 @@
 ---
 /**
- * FeaturedSection — "Uncompromised" three-up content discovery grid
+ * FeaturedSection — product capabilities discovery grid
  * (1 → 2 → 3 columns at 640px / 1024px, featured.css).
  */
 import FeaturedCard from './FeaturedCard.astro';
@@ -8,22 +8,19 @@ import FeaturedCard from './FeaturedCard.astro';
 
 <section class="featured-section" aria-labelledby="featured-title">
   <div class="container">
-    <h2 id="featured-title" class="featured-header">Uncompromised</h2>
+    <h2 id="featured-title" class="featured-header">Explore KOLINN_NAV</h2>
     <div class="featured-grid">
-      <FeaturedCard index="01" title="Performance">
-        Zero dependencies. State is class-driven with exactly one layout read per interaction,
-        a <code>ResizeObserver</code> keeps the flyout height truthful, and item animations
-        stick to <code>transform</code> and <code>opacity</code> for a consistent 60fps.
+      <FeaturedCard index="01" title="Responsive navigation">
+        Browse desktop mega-menu panels or the mobile accordion menu, with keyboard support
+        and clear open and close states.
       </FeaturedCard>
-      <FeaturedCard index="02" title="Accessibility">
-        Nord pairs re-tested for AA, <code>inert</code>-based focus containment, honest ARIA state
-        (<code>aria-expanded</code> / <code>aria-controls</code>), <code>:focus-visible</code> detection,
-        Escape with focus restoration, a skip link, and full <code>prefers-reduced-motion</code> respect.
+      <FeaturedCard index="02" title="Searchable content">
+        Find pages, news, guides, and project releases through the on-demand site search,
+        with a browseable fallback on the search page.
       </FeaturedCard>
-      <FeaturedCard index="03" title="Design engineering">
-        Token-first: Nord primitives resolve through semantic roles, Fira Code prompts and
-        Fira Sans prose sit on an 8px rhythm, and a frosted full-screen curtain spotlights
-        the open flyout.
+      <FeaturedCard index="03" title="Project releases">
+        Read sample case studies for Apex Sentinel, Lumina UI Kit, and Nova Core Engine,
+        with locally hosted preview artwork.
       </FeaturedCard>
     </div>
   </div>

@@ -10,6 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "check:routes": "node tools/check-routes.mjs",
     "astro": "astro"
   },
   "dependencies": {

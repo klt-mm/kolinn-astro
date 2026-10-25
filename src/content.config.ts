@@ -41,7 +41,7 @@ const guides = defineCollection({
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: baseSchema.extend({
-    image: z.string().optional(),
+    image: z.string().startsWith('/').optional(),
     githubUrl: z.string().url().optional(),
     liveUrl: z.string().url().optional(),
     techStack: z.array(z.string()).default([]),

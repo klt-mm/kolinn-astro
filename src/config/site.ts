@@ -7,17 +7,12 @@ export const site = {
   /** Product name rendered in the hero title. */
   name: 'KOLINN_NAV',
   /** <title> for pages that don't override it. */
-  title: 'KOLINN_NAV — terminal-inspired mega menu',
+  title: 'KOLINN_NAV — Projects, guides, and design system',
   /** <meta name="description"> default. */
   description:
-    'A terminal-inspired mega menu built on the KOLINN Design System with Nord tokens, Fira typefaces, and 8px rhythm.',
+    'Explore KOLINN_NAV, an Astro-powered site featuring responsive navigation, project releases, searchable documentation, news, and practical guides.',
   /** Brand shown in the logo + footer. */
   brand: 'KOLINN',
-  /** Author credit under the hero. */
-  author: {
-    name: 'KOLINN',
-    url: 'https://kolinn.dev',
-  },
   /** Primary call-to-action (desktop nav + mobile sheet). */
   cta: {
     label: 'Get started',

@@ -8,24 +8,18 @@ import SearchField from '../ui/SearchField.astro';
 import { searchSuggestions } from '../../data/navigation';
 ---
 
-<div class="mega-panel" id="panel-search" role="search" aria-label="Site search">
+<div class="mega-panel" id="panel-search">
   <div class="container">
     <div class="search-container">
       <SearchField id="desktopSearchInput" />
-      <p class="search-helper">type to search · esc to dismiss</p>
-
-      <div class="search-suggestions">
-        <h3>{searchSuggestions.title}</h3>
+      <nav class="search-suggestions" aria-labelledby="search-suggestions-title">
+        <h2 id="search-suggestions-title">{searchSuggestions.title}</h2>
         <ul>
-          {
-            searchSuggestions.links.map((link) => (
-              <li>
-                <a href={link.href}>{link.label}</a>
-              </li>
-            ))
-          }
+          {searchSuggestions.links.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
         </ul>
-      </div>
+      </nav>
     </div>
   </div>
 </div>

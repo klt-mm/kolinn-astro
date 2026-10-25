@@ -4,20 +4,23 @@
    (Original style.css §7 — mega menu container.)
    ===================================================================== */
 
+.mega-menu-container,
+.mobile-menu {
+    background: var(--kds-dropdown-bg);
+    box-shadow: var(--kds-dropdown-shadow);
+    border-bottom: 1px solid var(--kds-border-default);
+}
+
 .mega-menu-container {
     position: absolute;
     top: var(--kds-nav-height);
     left: 0;
     width: 100%;
-    background: var(--kds-dropdown-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: var(--kds-dropdown-shadow);
-    border-bottom: 1px solid var(--kds-border-default);
     height: 0;
     opacity: 0;
     visibility: hidden;
-    overflow: hidden;
+    /* Clip inactive panels without creating a scroll container that shifts the active one. */
+    overflow: clip;
     transition: height var(--kds-transition-slow) var(--kds-transition-timing),
                 opacity var(--kds-transition-slow) var(--kds-transition-timing),
                 visibility var(--kds-transition-slow) var(--kds-transition-timing);

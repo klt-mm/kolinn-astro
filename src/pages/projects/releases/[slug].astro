@@ -1,0 +1,77 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/components/projects.css';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<BaseLayout title={`${project.data.title} — Project releases`} description={project.data.description}>
+  <main id="main" class="container" tabindex="-1">
+    <article class="project-post">
+      <header class="project-header">
+        <a href="/projects/releases" class="back-link">← all releases</a>
+        <h1 class="project-title">{project.data.title}</h1>
+        <p class="project-description">{project.data.description}</p>
+
+        <div class="project-meta">
+          <div class="tech-stack" aria-label="Technology stack">
+            {project.data.techStack.map((tech) => <span class="tech-badge">{tech}</span>)}
+          </div>
+          {project.data.githubUrl && (
+            <a href={project.data.githubUrl} class="project-link" target="_blank" rel="noopener noreferrer">
+              GitHub
+            </a>
+          )}
+          {project.data.liveUrl && (
+            <a href={project.data.liveUrl} class="project-link" target="_blank" rel="noopener noreferrer">
+              Live demo
+            </a>
+          )}
+        </div>
+      </header>
+
+      {project.data.image && (
+        <img
+          src={project.data.image}
+          alt={`${project.data.title} preview`}
+          class="project-image"
+          loading="lazy"
+          decoding="async"
+          width="1200"
+          height="675"
+        />
+      )}
+
+      <div class="project-body">
+        <Content />
+      </div>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .project-title {
+    margin-bottom: var(--kds-space-2);
+    color: var(--kds-text-primary);
+    font-size: var(--kds-heading-48);
+    line-height: var(--kds-lh-heading-48);
+    letter-spacing: -0.02em;
+  }
+
+  .project-description {
+    margin-bottom: var(--kds-space-6);
+    color: var(--kds-text-muted);
+    font-size: var(--kds-title-20);
+    line-height: var(--kds-lh-title-20);
+  }
+</style>

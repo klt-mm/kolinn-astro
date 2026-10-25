@@ -20,6 +20,14 @@
     transition: background var(--kds-transition-mega) var(--kds-transition-timing);
 }
 
+.global-nav.is-open,
+.global-nav.is-mobile-menu-open {
+    background: var(--kds-dropdown-bg);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    transition: background 0s;
+}
+
 .nav-content {
     height: 100%;
     display: flex;

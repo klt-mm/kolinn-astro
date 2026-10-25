@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ContactForm from '../../components/ContactForm.astro';
+---
+
+<BaseLayout
+  title="Contact — KOLINN"
+  description="Reach out to Kolinn for professional inquiries, collaboration, or feedback."
+>
+  <main id="main" tabindex="-1">
+    <PageHeader
+      command="$ kolinn hail --ops"
+      title="Contact"
+      copy="Questions, feedback, or collaboration requests — transmit a message below or reach out via my professional channels."
+    />
+
+    <section class="page-section" aria-labelledby="contact-form-title">
+      <div class="container">
+        <h2 id="contact-form-title" class="sr-only">Contact form</h2>
+        <div class="contact-grid">
+          <ContactForm />
+
+          <aside class="contact-aside" aria-label="Direct channels">
+            <div class="contact-card">
+              <h2 class="contact-card-head">Email</h2>
+              <a href="mailto:kyawlinthant.mm@gmail.com" class="contact-card-link">kyawlinthant.mm@gmail.com</a>
+              <p>Professional inquiries and collaboration.</p>
+            </div>
+            <div class="contact-card">
+              <h2 class="contact-card-head">Socials</h2>
+              <div class="contact-socials">
+                <a href="https://github.com/klt-mm/" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-link">
+                  <span>GitHub</span>
+                </a>
+                <a href="https://codepen.io/klt-mm/" target="_blank" rel="noopener noreferrer" aria-label="CodePen" class="social-link">
+                  <span>CodePen</span>
+                </a>
+                <a href="https://hackerrank.com/profile/kyawlinthant_mm/" target="_blank" rel="noopener noreferrer" aria-label="HackerRank" class="social-link">
+                  <span>HackerRank</span>
+                </a>
+              </div>
+              <p>Open source and coding challenges.</p>
+            </div>
+            <div class="contact-card">
+              <h2 class="contact-card-head">Working Hours</h2>
+              <div class="working-hours">
+                <time datetime="09:00">09:00</time> <span>→</span> <time datetime="19:00">19:00</time>
+              </div>
+              <p>Daily availability for transmission.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  const initContactSpotlight = () => {
+    const cards = document.querySelectorAll<HTMLElement>('.contact-card');
+    
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e: MouseEvent) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+  };
+
+  initContactSpotlight();
+  document.addEventListener('astro:after-swap', initContactSpotlight);
+</script>

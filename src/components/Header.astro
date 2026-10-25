@@ -158,7 +158,9 @@ import MenuCurtain from './nav/MenuCurtain.astro';
         }
 
         openPanel(targetId);
-        // FIX: Removed auto-focus. User must manually click into search input.
+        if (isSearchTrigger) {
+          window.setTimeout(() => document.getElementById('desktopSearchInput')?.focus(), 50);
+        }
       });
     });
 

@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import Button from '../../../components/ui/Button.astro';
+import '../../../styles/components/projects.css';
+
+const projects = await getCollection('projects');
+---
+
+<BaseLayout
+  title="Project releases — KOLINN_NAV"
+  description="Explore sample project releases and implementation notes."
+>
+  <main id="main" tabindex="-1">
+    <PageHeader
+      command="$ kolinn list --releases"
+      title="Project releases"
+      copy="A sample release archive featuring engineering case studies and implementation notes."
+    />
+    <section class="page-section" aria-labelledby="release-list-title">
+      <div class="container">
+        <h2 class="section-head" id="release-list-title">Release archive</h2>
+        <div class="project-grid">
+          {projects.map((project) => (
+            <article class="project-card">
+              <div class="project-card-header">
+                <h3>{project.data.title}</h3>
+                <span class="tech-badge">{project.data.techStack[0] ?? 'Project'}</span>
+              </div>
+              <p>{project.data.description}</p>
+              <Button href={`/projects/releases/${project.id}`} variant="primary">
+                View release
+              </Button>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--kds-space-4);
+  }
+
+  @media (min-width: 768px) {
+    .project-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kds-space-3);
+    padding: var(--kds-space-4);
+    border: 1px solid var(--kds-border-default);
+    border-radius: var(--kds-radius-md);
+    background: var(--kds-surface-raised);
+  }
+
+  .project-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--kds-space-2);
+  }
+
+  .project-card h3 {
+    color: var(--kds-text-primary);
+    font: 600 var(--kds-title-20)/var(--kds-lh-title-20) var(--kds-font-mono);
+  }
+
+  .project-card p {
+    flex: 1;
+    color: var(--kds-text-muted);
+  }
+</style>

@@ -6,7 +6,7 @@ tags: ["Design System", "React", "Tokens"]
 techStack: ["React", "PostCSS", "TypeScript", "Storybook"]
 githubUrl: "https://github.com/kolinn/lumina-ui"
 liveUrl: "https://lumina-ui.demo"
-image: "https://images.unsplash.com/photo-1586717791820-a9b856c67791"
+image: "/images/projects/lumina-ui.svg"
 ---
 
 ## The Challenge

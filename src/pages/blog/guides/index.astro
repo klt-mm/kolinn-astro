@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import PostCard from '../../../components/PostCard.astro';
+
+const posts = await getCollection('guides', ({ data }) => !data.draft);
+posts.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Guides — KOLINN_NAV"
+  description="Practical setup, usage, and design-system guides for KOLINN_NAV."
+>
+  <main id="main" tabindex="-1">
+    <PageHeader
+      command="$ kolinn docs --list"
+      title="Guides"
+      copy="Step-by-step references for getting started and working with the design system."
+    />
+    <section class="page-section" aria-labelledby="guides-list-title">
+      <div class="container">
+        <h2 class="section-head" id="guides-list-title">All guides</h2>
+        <div class="post-grid">
+          {posts.map((post) => (
+            <PostCard
+              href={`/blog/guides/${post.id}`}
+              kind="guide"
+              meta={post.data.level}
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              body={post.body}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

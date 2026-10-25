@@ -1,8 +1,6 @@
 ---
 /**
- * SearchField — terminal-style command bar (`---
-/**
- prompt + input).
+ * SearchField — terminal-style command bar (`$` prompt + input).
  * Shared by the desktop search panel and the mobile sheet; pass
  * `class="mobile-search-field"` to raise it on the mobile surface.
  */
@@ -11,19 +9,163 @@ interface Props {
   id: string;
   /** Extra classes merged onto the field wrapper. */
   class?: string;
+  /** Read the initial query from the URL on the standalone search page. */
+  readQuery?: boolean;
 }
 
-const { id, class: className } = Astro.props;
+const { id, class: className, readQuery = false } = Astro.props;
 ---
 
-<div class:list={['search-field', className]}>
-  <span class="search-prompt" aria-hidden="true">$</span>
-  <input
-    type="search"
-    {id}
-    class="search-input"
-    placeholder="type to search"
-    aria-label="Search documentation"
-    autocomplete="off"
-  />
+<div class="site-search">
+  <form
+    class:list={['search-field', className]}
+    action="/search/"
+    method="get"
+    role="search"
+    aria-label="Search the site"
+    data-site-search
+    data-read-query={readQuery ? 'true' : undefined}
+  >
+    <span class="search-prompt" aria-hidden="true">$</span>
+    <input
+      type="search"
+      {id}
+      name="q"
+      class="search-input"
+      placeholder="Search pages, news, guides"
+      aria-label="Search pages, news, guides, and projects"
+      aria-controls={`${id}-results`}
+      aria-describedby={`${id}-status`}
+      autocomplete="off"
+    />
+    <button class="search-submit" type="submit" aria-label="Show search results">
+      <span aria-hidden="true">↵</span>
+    </button>
+  </form>
+  <p class="search-helper" id={`${id}-status`} role="status" aria-live="polite">
+    Search pages, news, guides, and project releases.
+  </p>
+  <ul class="search-results" id={`${id}-results`} aria-label="Search results" hidden></ul>
 </div>
+
+<script>
+  interface SearchItem {
+    title: string;
+    description: string;
+    href: string;
+    content?: string;
+  }
+
+  let searchIndexRequest: Promise<SearchItem[]> | undefined;
+
+  const loadSearchIndex = () => {
+    searchIndexRequest ??= fetch('/search-index.json')
+      .then((response) => {
+        if (!response.ok) throw new Error(`Search index request failed (${response.status}).`);
+        return response.json() as Promise<SearchItem[]>;
+      });
+    return searchIndexRequest;
+  };
+
+  document.querySelectorAll<HTMLFormElement>('[data-site-search]').forEach((form) => {
+    const input = form.querySelector<HTMLInputElement>('input[name="q"]');
+    const results = document.getElementById(
+      input?.getAttribute('aria-controls') ?? ''
+    ) as HTMLUListElement | null;
+    const status = document.getElementById(
+      input?.getAttribute('aria-describedby') ?? ''
+    );
+
+    if (!input || !results || !status) return;
+
+    let renderVersion = 0;
+    const renderResults = async () => {
+      const currentRender = ++renderVersion;
+      const query = input.value.trim().toLowerCase();
+      results.replaceChildren();
+
+      if (!query) {
+        results.hidden = true;
+        status.textContent = 'Search pages, news, guides, and project releases.';
+        return;
+      }
+
+      let searchIndex: SearchItem[];
+      try {
+        searchIndex = await loadSearchIndex();
+      } catch (error) {
+        if (currentRender !== renderVersion) return;
+        results.hidden = false;
+        status.textContent = 'Search is temporarily unavailable. You can browse all content on the search page.';
+        console.error('Unable to load the site search index.', error);
+        const listItem = document.createElement('li');
+        const link = document.createElement('a');
+        const title = document.createElement('span');
+        title.className = 'search-result-title';
+        title.textContent = 'Browse all content';
+        link.href = '/search/';
+        link.append(title);
+        listItem.append(link);
+        results.append(listItem);
+        return;
+      }
+
+      if (currentRender !== renderVersion) return;
+
+      const terms = query.split(/\s+/);
+      const matches = searchIndex
+        .map((item) => {
+          const title = item.title.toLowerCase();
+          const description = item.description.toLowerCase();
+          const content = `${title} ${description} ${item.content ?? ''}`.toLowerCase();
+          const matchesAllTerms = terms.every((term) => content.includes(term));
+
+          return {
+            item,
+            matchesAllTerms,
+            score:
+              (title === query ? 100 : 0) +
+              (title.startsWith(query) ? 30 : 0) +
+              (title.includes(query) ? 20 : 0) +
+              terms.filter((term) => title.includes(term)).length * 5,
+          };
+        })
+        .filter((match) => match.matchesAllTerms)
+        .sort((a, b) => b.score - a.score);
+
+      results.hidden = false;
+      if (matches.length === 0) {
+        status.textContent = `No results found for “${input.value.trim()}”.`;
+        return;
+      }
+
+      const visibleMatches = matches.slice(0, 8);
+      status.textContent = matches.length > visibleMatches.length
+        ? `Showing ${visibleMatches.length} of ${matches.length} results.`
+        : `${matches.length} result${matches.length === 1 ? '' : 's'} found.`;
+      visibleMatches.forEach(({ item }) => {
+        const listItem = document.createElement('li');
+        const anchor = document.createElement('a');
+        const title = document.createElement('span');
+        const description = document.createElement('span');
+
+        anchor.href = item.href;
+        title.className = 'search-result-title';
+        title.textContent = item.title;
+        description.className = 'search-result-description';
+        description.textContent = item.description;
+        anchor.append(title, description);
+        listItem.append(anchor);
+        results.append(listItem);
+      });
+    };
+
+    input.addEventListener('input', renderResults);
+
+    if (form.dataset.readQuery === 'true') {
+      input.value = new URLSearchParams(window.location.search).get('q') ?? '';
+      renderResults();
+      if (input.value) input.focus();
+    }
+  });
+</script>

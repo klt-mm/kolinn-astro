@@ -1,35 +1,42 @@
-# Accessibility (a11y)
+# Accessibility
 
-This project is committed to providing an inclusive user experience. Accessibility is integrated into the core design system and component architecture rather than being added as an afterthought.
+Accessibility behavior is implemented in the shared layout, navigation
+components, semantic page templates, and `src/styles/a11y.css`. This describes
+the implementation; it is not a claim of conformance certification.
 
-## Core Implementations
+## Existing support
 
-### 1. Keyboard Navigation
-- **Skip Links**: A `SkipLink.astro` component is provided at the top of every page. This allows keyboard-only users to bypass the navigation and jump directly to the main content (`#main`).
-- **Focus Management**: Semantic focus rings are defined in the design tokens (`--kds-focus-ring`), ensuring that interactive elements have a highly visible indicator when focused.
-- **Logical Tab Order**: Components are structured to ensure a natural and predictable tab order.
+- The shared layout renders a skip link to the page's focusable `#main` landmark.
+- Interactive controls use native links and buttons, visible focus styling, and
+  labels or accessible names.
+- Desktop and mobile navigation expose disclosure state and manage focus during
+  the mobile dialog interaction; Escape closes the dialog and focus returns to
+  its trigger.
+- Search results and form feedback use accessible status/label patterns.
+- The global reduced-motion stylesheet reduces animation and transition
+  durations and disables selected decorative motion.
+- Layouts support light, dark, and system theme selection.
+- The generated route checker tests for a main landmark, duplicate IDs,
+  accessible input/link names, local targets, and image alt/dimension
+  attributes. These static checks do not replace manual assistive-technology
+  testing.
 
-### 2. Motion Comfort
-To support users with vestibular disorders or those who prefer reduced motion, the site implements a global override in `a11y.css`:
+## Review checklist
 
-- **`prefers-reduced-motion`**: When this system setting is detected, all animations and transitions are reduced to `0.01ms`, effectively disabling them.
-- **Animation Kill-switch**: Specific complex animations (like shimmer text or logo cursors) are explicitly disabled to prevent distraction or nausea.
+For each behavior or content change:
 
-### 3. Visual Accessibility
-- **Contrast**: The Nord-based color palette is chosen to maintain high contrast ratios between text and surfaces.
-- **Theme Support**: Full support for Light, Dark, and System (Auto) themes allows users to choose the visual mode that best suits their visual needs.
-- **Responsive Design**: A fluid layout system (using `clamp()` and relative units) ensures the site remains usable across various screen sizes and zoom levels.
+1. Use keyboard-only navigation to test focus order, visible focus, and
+   activation of all controls.
+2. Test mobile navigation open/close, Escape, focus containment/restoration,
+   background inertness, and resizing across the breakpoint.
+3. Test search and forms with screen-reader announcements and error states.
+4. Inspect heading order, landmark names, link purpose, image alternatives, and
+   accessible names in the rendered page.
+5. Test with reduced motion enabled and with both themes active.
+6. Measure foreground/background contrast for each theme; do not assume a
+   palette passes WCAG based on its name.
+7. Include automated checks and manual browser/assistive-technology results in
+   the change report.
 
-### 4. Semantic HTML
-The project prioritizes the use of native HTML5 semantic elements to provide meaning to assistive technologies:
-- `<header>`, `<footer>`, `<main>`, and `<nav>` are used to define page regions.
-- Proper heading hierarchies (`h1` $\rightarrow$ `h6`) are maintained across all content pages.
-- Use of `<button>` for actions and `<a>` for navigation.
-
-## Testing Checklist
-When adding new features, ensure the following:
-- [ ] Can the element be reached and activated via keyboard?
-- [ ] Is the focus state clearly visible?
-- [ ] Does the element have a descriptive `aria-label` if the text is not clear?
-- [ ] Does the design remain functional when animations are disabled?
-- [ ] Is the color contrast sufficient for the primary text roles?
+Run `pnpm run check`, `pnpm run build`, and `pnpm run check:routes` after
+changes. Browser checks should cover both desktop and mobile layouts.

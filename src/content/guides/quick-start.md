@@ -48,7 +48,7 @@ and footer around your `<slot />`.
 ## 3 · Wire actions with Button
 
 ```astro
-<Button href="/contact" variant="primary">Open a ticket</Button>
+<Button href="/info/contact" variant="primary">Open a ticket</Button>
 ```
 
 Pass `href` for a link, omit it for a `<button>`; extra classes merge onto the

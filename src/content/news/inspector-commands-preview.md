@@ -33,4 +33,4 @@ spacing reports have already caught three regressions in internal projects —
 exactly the quiet drift a system needs a linter for.
 
 Feedback threads are open in the community channel. Commands that graduate
-from preview will land in the [system manifest](/about#manifest).
+from preview will land in the [system manifest](/info/about#manifest).

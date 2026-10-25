@@ -6,7 +6,7 @@ tags: ["AI", "Security", "Infrastructure"]
 techStack: ["Python", "PyTorch", "Go", "Kubernetes"]
 githubUrl: "https://github.com/kolinn/apex-sentinel"
 liveUrl: "https://apex-sentinel.demo"
-image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b"
+image: "/images/projects/apex-sentinel.svg"
 ---
 
 ## The Mission

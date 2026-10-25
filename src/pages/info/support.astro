@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Button from '../../components/ui/Button.astro';
+---
+
+<BaseLayout
+  title="Support — KOLINN_NAV"
+  description="Sample support information and self-service help for KOLINN_NAV."
+>
+  <main id="main" tabindex="-1">
+    <PageHeader
+      command="$ kolinn support --status"
+      title="Support"
+      copy="Find a self-service answer or get in touch about this sample site."
+    />
+    <section class="page-section" aria-labelledby="support-options-title">
+      <div class="container support-options">
+        <h2 class="section-head" id="support-options-title">How can we help?</h2>
+        <article class="support-card">
+          <h3>Browse the documentation</h3>
+          <p>Start with setup, page composition, or theme customization guides.</p>
+          <Button href="/projects/help/documentations" variant="primary">Open documentations</Button>
+        </article>
+        <article class="support-card">
+          <h3>Check common questions</h3>
+          <p>Review answers about the demo form, local development, and sample content.</p>
+          <Button href="/projects/help/faqs" variant="primary">Read the FAQs</Button>
+        </article>
+        <article class="support-card">
+          <h3>Contact the site owner</h3>
+          <p>For feedback or collaboration inquiries, use the contact page.</p>
+          <Button href="/info/contact" variant="primary">Go to contact</Button>
+        </article>
+        <p class="support-note">Support details shown here are illustrative sample content.</p>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .support-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--kds-space-4);
+  }
+
+  .support-options .section-head {
+    grid-column: 1 / -1;
+  }
+
+  .support-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--kds-space-3);
+    padding: var(--kds-space-4);
+    border: 1px solid var(--kds-border-default);
+    border-radius: var(--kds-radius-md);
+    background: var(--kds-surface-raised);
+  }
+
+  .support-card h3 {
+    color: var(--kds-text-primary);
+    font: 600 var(--kds-title-20)/var(--kds-lh-title-20) var(--kds-font-mono);
+  }
+
+  .support-card p {
+    flex: 1;
+    color: var(--kds-text-muted);
+  }
+
+  .support-note {
+    grid-column: 1 / -1;
+    color: var(--kds-text-muted);
+    font-size: var(--kds-small-14);
+  }
+</style>

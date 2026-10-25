@@ -1,6 +1,8 @@
 # Design Tokens
 
-The project employs a professional design token system based on the **Nord palette**. This system ensures visual consistency and enables seamless theme switching.
+The site uses a token system based on Nord color primitives. Tokens centralize
+palette, typography, spacing, radii, motion, and semantic roles so components
+can stay consistent across the light and dark themes.
 
 ## Token Hierarchy
 
@@ -17,7 +19,9 @@ Primitives are the "source of truth" for raw values. They are theme-agnostic and
 - **Shadows**: A set of elevation levels from `sm` to `xl`.
 
 ### 2. Semantic Layer (`semantic.css`)
-Semantic tokens map primitives to specific roles. Components **must only** reference semantic tokens. This ensures that when a theme changes, the component doesn't need to know which primitive color is being used.
+Semantic tokens map palette values to roles. Use semantic tokens for component
+colors so components do not depend on a specific theme's palette. Use the
+provided typography, spacing, radius, and motion tokens for those properties.
 
 | Role | Example Token | Intent |
 | :--- | :--- | :--- |
@@ -29,7 +33,9 @@ Semantic tokens map primitives to specific roles. Components **must only** refer
 | **Status** | `--kds-status-error` | Error states, alerts |
 
 ### 3. Themes (`themes.css`)
-Themes are the final layer. They redefine the values of the **Primitives** based on the user's preference or a pinned setting.
+Theme selectors update palette and semantic role values according to the
+user's selected theme. The theme control supports light, dark, and automatic
+system preference.
 
 - **Light Theme**: Uses the standard Nord Light palette.
 - **Dark Theme**: Overrides primitives with darker Nord values.
@@ -39,6 +45,11 @@ Themes are the final layer. They redefine the values of the **Primitives** based
 
 When creating new components:
 1. **Avoid raw hex codes**.
-2. **Do not use Primitives** (e.g., avoid `--kds-polar-0`).
-3. **Use Semantic Tokens** (e.g., use `--kds-surface-canvas`).
+2. **Use semantic color roles** (for example, `--kds-surface-canvas`) rather
+   than palette primitives in component color declarations.
+3. **Use semantic tokens** for component colors (for example,
+   `--kds-surface-canvas`).
 4. For layout and spacing, use the spacing scale (e.g., `padding: var(--kds-space-3)`).
+
+Tokenization does not establish WCAG contrast compliance. Measure actual
+foreground/background pairs in both themes when changing colors.

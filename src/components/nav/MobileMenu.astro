@@ -2,11 +2,9 @@
 /**
  * MobileMenu — full-height navigation sheet (< 769px).
  *
- * inert + aria-hidden at rest. Opening sets inert on the background
- * layer (main, curtain, footer), locks body scroll with scrollbar-width
- * compensation, and the hamburger morphs to an ✕ via aria-expanded.
- * Accordions are single-open; any link click dismisses the sheet and
- * restores focus to the hamburger.
+ * inert + aria-hidden at rest. Opening makes the dialog modal, contains
+ * focus, and locks body scroll. Accordions are single-open; closing
+ * restores focus to the hamburger trigger.
  */
 import SearchField from '../ui/SearchField.astro';
 import MobileAccordion from './MobileAccordion.astro';
@@ -50,15 +48,14 @@ import { site } from '../../config/site';
   const mobileToggle = document.getElementById('mobileMenuToggle');
   const mobileMenu = document.getElementById('mobileMenu');
   const mobileContent = document.getElementById('mobileMenuContent');
-  const mainEl = document.getElementById('main');
-  const menuCurtain = document.getElementById('menuCurtain');
-  const siteFooter = document.querySelector<HTMLElement>('.site-footer');
+  const globalNav = document.getElementById('globalNav');
 
   const desktopMQ = window.matchMedia('(min-width: 769px)');
 
   let isMobileMenuOpen = false;
+  const backgroundInertState = new Map<HTMLElement, boolean>();
 
-  if (mobileToggle && mobileMenu && mobileContent) {
+  if (mobileToggle && mobileMenu && mobileContent && globalNav) {
     /* ---------- 3. MOBILE ACCORDION MENU ---------- */
     const mobileAccordionHeaders = Array.from(
       document.querySelectorAll<HTMLElement>('.mobile-accordion-header')
@@ -95,48 +92,121 @@ import { site } from '../../config/site';
       mobileToggle!.setAttribute('aria-expanded', String(open));
       mobileToggle!.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       mobileMenu!.classList.toggle('is-open', open);
+      globalNav?.classList.toggle('is-mobile-menu-open', open);
       mobileMenu!.inert = !open;
       mobileMenu!.setAttribute('aria-hidden', String(!open));
 
-      const backgroundLayer = [mainEl, menuCurtain, siteFooter].filter(
-        (el): el is HTMLElement => el !== null
-      );
-      backgroundLayer.forEach((el) => {
-        el.inert = open;
-      });
-
       if (open) {
+        Array.from(document.body.children).forEach((child) => {
+          if (!(child instanceof HTMLElement) || child === mobileMenu) return;
+          if (child === globalNav) return;
+          const isPageBackground = child.id === 'skip-link' ||
+            child.id === 'nav-status' ||
+            child.id === 'menuCurtain' ||
+            child.tagName === 'MAIN' ||
+            child.classList.contains('site-footer');
+          if (!isPageBackground) return;
+          backgroundInertState.set(child, child.inert);
+          child.inert = true;
+        });
+        const navContent = globalNav!.querySelector<HTMLElement>('.nav-content');
+        if (navContent) {
+          Array.from(navContent.children).forEach((child) => {
+            if (!(child instanceof HTMLElement)) return;
+            if (!child.contains(mobileToggle)) {
+              backgroundInertState.set(child, child.inert);
+              child.inert = true;
+              return;
+            }
+
+            Array.from(child.children).forEach((action) => {
+              if (!(action instanceof HTMLElement)) return;
+              if (action !== mobileToggle && !action.contains(mobileToggle)) {
+                backgroundInertState.set(action, action.inert);
+                action.inert = true;
+              }
+            });
+          });
+        }
+        Array.from(globalNav!.children).forEach((child) => {
+          if (!(child instanceof HTMLElement) || child === navContent) return;
+          backgroundInertState.set(child, child.inert);
+          child.inert = true;
+        });
         const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
         if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
         document.body.style.overflow = 'hidden';
-        // FIX: Removed auto-focus on mobile search input
+        window.setTimeout(() => {
+          if (isMobileMenuOpen) {
+            document.getElementById('mobileSearchInput')?.focus();
+          }
+        }, 50);
       } else {
+        backgroundInertState.forEach((wasInert, element) => {
+          element.inert = wasInert;
+        });
+        backgroundInertState.clear();
         document.body.style.overflow = '';
         document.body.style.paddingRight = '';
       }
     }
 
-    mobileToggle.addEventListener('click', () => setMobileMenu(!isMobileMenuOpen));
+    const restoreToggleFocus = () => {
+      if (!desktopMQ.matches && !mobileToggle.closest('[inert]')) mobileToggle.focus();
+    };
+
+    mobileToggle.addEventListener('click', () => {
+      const open = !isMobileMenuOpen;
+      setMobileMenu(open);
+      if (!open) restoreToggleFocus();
+    });
 
     mobileContent.addEventListener('click', (event) => {
       const link = (event.target as HTMLElement).closest('a[href]');
       if (!link) return;
       setMobileMenu(false);
-      mobileToggle.focus();
     });
 
     /* ---------- 5. GLOBAL BEHAVIOR (mobile half) ---------- */
     document.addEventListener('keydown', (event) => {
-      if (event.key !== 'Escape') return;
+      if (!isMobileMenuOpen) return;
 
-      if (isMobileMenuOpen) {
+      if (event.key === 'Escape') {
         setMobileMenu(false);
+        restoreToggleFocus();
+        return;
+      }
+
+      if (event.key !== 'Tab' || !mobileMenu) return;
+
+      const focusable = Array.from(
+        mobileMenu.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((element) =>
+        element.getClientRects().length > 0 &&
+        getComputedStyle(element).visibility !== 'hidden'
+      );
+      const first = mobileToggle;
+      const last = focusable[focusable.length - 1] ?? mobileToggle;
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      } else if (!focusable.length && document.activeElement !== mobileToggle) {
+        event.preventDefault();
         mobileToggle.focus();
       }
     });
 
     desktopMQ.addEventListener('change', () => {
-      if (isMobileMenuOpen) setMobileMenu(false);
+      if (isMobileMenuOpen) {
+        setMobileMenu(false);
+        globalNav?.querySelector<HTMLElement>('[data-target]')?.focus();
+      }
     });
   }
 </script>

@@ -27,7 +27,7 @@
     --kds-aurora-purple: #b48ead;
     --kds-on-action: #2e3440;
     --kds-nav-bg: rgba(46, 52, 64, 0.72);
-    --kds-dropdown-bg: rgba(59, 66, 82, 0.85);
+    --kds-dropdown-bg: #3b4252;
     --kds-curtain-bg: rgba(46, 52, 64, 0.55);
     --kds-dropdown-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
@@ -54,7 +54,7 @@
         --kds-aurora-purple: #b48ead;
         --kds-on-action: #2e3440;
         --kds-nav-bg: rgba(46, 52, 64, 0.72);
-        --kds-dropdown-bg: rgba(59, 66, 82, 0.85);
+        --kds-dropdown-bg: #3b4252;
         --kds-curtain-bg: rgba(46, 52, 64, 0.55);
         --kds-dropdown-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
